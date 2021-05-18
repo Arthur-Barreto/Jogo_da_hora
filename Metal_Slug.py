@@ -3,8 +3,10 @@
 import pygame as pg
 import random
 import time
+
 #Init
 pg.init()
+
 #Tela principal
 WIDTH = 800
 HEIGHT = 800
@@ -14,6 +16,7 @@ pg.display.set_caption("Metal Slug Remake")
 #Assets
 assets={} #Dicionario Assets Jogo
 startsc_anim=[] #Lista Animações tela inicial
+
 for i in range (2):
     #Arquivos para animação - 0 a 1
     nome_arquivo = "/Users/antonioamaralegydiomartins/OneDrive - Insper - Institudo de Ensino e Pesquisa/DesSoft/Pygame/Jogo_da_hora/Tela Inicial/TIS{}.png".format(i)
@@ -21,9 +24,11 @@ for i in range (2):
     img = pg.transform.scale (img,(0,0))
     startsc_anim.append(img)
 assets["startsc_anim"]=startsc_anim
-#estrutura de dados
+
+#-----Estrutura de dados
 game = True
 start_screen = True
+
 # == Start Screen ==
 while start_screen:
     for event in pg.event.get():
@@ -36,6 +41,7 @@ while start_screen:
             if event.key == pg.K_RETURN:
                 start_screen=False
         pg.display.update()
+
 # ===== Game Loop =====
 while game:
     #Trata Eventos

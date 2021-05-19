@@ -14,33 +14,26 @@ HEIGHT = 800
 window = pg.display.set_mode ((WIDTH,HEIGHT))
 pg.display.set_caption("Metal Slug Remake")
 
-#Assets
-assets={} #Dicionario Assets Jogo
-startsc_anim=[] #Lista Animações tela inicial
-for i in range (2):
-    #Arquivos para animação - 0 a 1
-    nome_arquivo = "Tela Inicial/TIS{}.png".format(i)
-    img = pg.image.load(nome_arquivo).convert()
-    img = pg.transform.scale (img,(0,0))
-    startsc_anim.append(img)
-assets["startsc_anim"]=startsc_anim
-
 #-----Estrutura de dados
 game = True
 start_screen = True
 
-    
+gif_tela_inical = pg.image.load("Tela Inicial/Gif Tela Inicial.gif").convert_alpha()
+gif_tela_inical_big = pg.transform.scale(gif_tela_inical,(WIDTH,HEIGHT))
+
 # == Start Screen ==
 while start_screen:
     for event in pg.event.get():
         #Carregando imagem
         #Direcionando imagem
-        window.blit(startsc_anim,(0,0))
+        window.blit(gif_tela_inical_big,(0,0))
         #Aperte Enter para começar / Quebrar Looping
         if event.type== pg.KEYDOWN: #Detecta Evento de Apertar
             if event.key == pg.K_RETURN:
                 start_screen=False
         pg.display.update()
+        if event.type == pg.QUIT:
+            game = False
 
 # ===== Game Loop =====
 while game:

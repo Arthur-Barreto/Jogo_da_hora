@@ -34,7 +34,8 @@ while start_screen:
         pg.display.update()
         if event.type == pg.QUIT:
             game = False
-
+#Imagens
+background = pg.image.load("")
 # ===== Game Loop =====
 while game:
     #Trata Eventos
@@ -43,6 +44,7 @@ while game:
             game = False
     #Saidas
     window.fill((255,255,255))
+    window.bli
     #Update
     pg.display.update()
 

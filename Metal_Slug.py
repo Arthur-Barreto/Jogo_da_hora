@@ -19,7 +19,7 @@ startsc_anim=[] #Lista Animações tela inicial
 
 for i in range (2):
     #Arquivos para animação - 0 a 1
-    nome_arquivo = "/Users/antonioamaralegydiomartins/OneDrive - Insper - Institudo de Ensino e Pesquisa/DesSoft/Pygame/Jogo_da_hora/Tela Inicial/TIS{}.png".format(i)
+    nome_arquivo = "Tela Inicial/TIS{0}.png".format(i)
     img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale (img,(0,0))
     startsc_anim.append(img)
@@ -33,9 +33,8 @@ start_screen = True
 while start_screen:
     for event in pg.event.get():
         #Carregando imagem
-        startsc=pg.image.load("/Users/antonioamaralegydiomartins/OneDrive - Insper - Institudo de Ensino e Pesquisa/DesSoft/Pygame/Jogo_da_hora/Tela Inicial/TIS.png")
         #Direcionando imagem
-        window.blit(startsc,(0,0))
+        window.blit(startsc_anim,(0,0))
         #Aperte Enter para começar / Quebrar Looping
         if event.type== pg.KEYDOWN: #Detecta Evento de Apertar
             if event.key == pg.K_RETURN:

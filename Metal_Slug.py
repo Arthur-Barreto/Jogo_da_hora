@@ -27,7 +27,9 @@ assets["startsc_anim"]=startsc_anim
 #-----Estrutura de dados
 game = True
 start_screen = True
-
+#Classes
+class StartScreen(pg.sprite.Sprite):
+    
 # == Start Screen ==
 while start_screen:
     for event in pg.event.get():

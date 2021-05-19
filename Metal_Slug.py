@@ -21,21 +21,24 @@ start_screen = True
 gif_tela_inical = pg.image.load("Tela Inicial/Gif Tela Inicial.gif").convert_alpha()
 gif_tela_inical_big = pg.transform.scale(gif_tela_inical,(WIDTH,HEIGHT))
 
+start_sc=[]
+start_sc.append(pg.image.load("Tela Inicial/TIS0.png").convert())
+start_sc.append(pg.image.load("Tela Inicial/TIS1.png").convert())
 # == Start Screen ==
+i=0
 while start_screen:
+    window.blit(start_sc[i%2],(0,0))
     for event in pg.event.get():
-        #Carregando imagem
-        #Direcionando imagem
-        window.blit(gif_tela_inical_big,(0,0))
         #Aperte Enter para começar / Quebrar Looping
         if event.type== pg.KEYDOWN: #Detecta Evento de Apertar
             if event.key == pg.K_RETURN:
                 start_screen=False
-        pg.display.update()
+        
         if event.type == pg.QUIT:
             game = False
-#Imagens
-background = pg.image.load("")
+    pg.display.update()
+    i+=1
+
 # ===== Game Loop =====
 while game:
     #Trata Eventos
@@ -44,7 +47,6 @@ while game:
             game = False
     #Saidas
     window.fill((255,255,255))
-    window.bli
     #Update
     pg.display.update()
 

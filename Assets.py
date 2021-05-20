@@ -3,8 +3,8 @@ import os
 Start_screen = "startsc_anim"
 
 #Variaveis
-HEIGHT_P= 32
-WIDTH_P= 32
+HEIGHT_P= 38
+WIDTH_P= 29
 
 def load_assets():
     #Definindo Assets

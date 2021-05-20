@@ -26,7 +26,7 @@ def load_assets():
     #Andando Frente
     PF_Anim = []
     for f in range (0,23):
-        nome_arquivo = "Jogador/PlayerWalking/{}".format(f)
+        nome_arquivo = "Jogador/PlayerWalking/{}.png".format(f)
         img= pg.image.load(nome_arquivo).convert()
         img= pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
         PF_Anim.append(img)

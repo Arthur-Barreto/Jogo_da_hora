@@ -47,12 +47,14 @@ while start_screen:
 
 # ===== Game Loop =====
 while game:
+    print("entrei no loop do jogo")
     #Trata Eventos
     for event in pg.event.get():
         if event.type == pg.QUIT:
+            print("estou saindo do jogo")
             game = False
     #Saidas
-    window.fill(ms_settings.bg.color)
+    window.fill(ms_settings.bg_color)
     #Update
     pg.display.update()
 

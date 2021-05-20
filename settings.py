@@ -40,7 +40,6 @@ class Player(pg.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
-    '''
     def shoot(self):
         
         # A nova bala vai ser criada logo acima e no centro horizontal da nave
@@ -48,5 +47,5 @@ class Player(pg.sprite.Sprite):
         self.groups['all_sprites'].add(new_bullet)
         self.groups['all_bullets'].add(new_bullet)
         #self.assets[PEW_SOUND].play()
-    '''
+    
     

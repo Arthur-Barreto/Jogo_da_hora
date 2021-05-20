@@ -8,22 +8,42 @@ from settings import *
 from Assets import*
 
 pg.init()
-# Inicializa o pygame, as configurações e o objeto screen
-ms_settings = Settings()    
-# menu
+ms_settings = Settings()
+# Inicializa o pygame, as configurações e o objeto screen  
 menu = pg.display.set_mode((ms_settings.menu_width, ms_settings.menu_height))
 pg.display.set_caption("Metal Slug Remake")
-assets=load_assets()
+assets = load_assets()
+# Variável para o ajuste de velocidade
+clock = pg.time.Clock()
+# Criando um grupo de meteoros
+all_sprites = pg.sprite.Group()
+#all_meteors = pg.sprite.Group()
+all_bullets = pg.sprite.Group()
+groups = {}
+groups['all_sprites'] = all_sprites
+#groups['all_meteors'] = all_meteors
+groups['all_bullets'] = all_bullets
+
+# Criando o jogador
+player = Player(groups, assets)
+all_sprites.add(player)
+
+DONE = 0
+PLAYING = 1
+EXPLODING = 2
+state = PLAYING
+
+keys_down = {}
+score = 0
+lives = 3
+
+
+
 #-----Estrutura de dados
 game = True
 start_screen = True
-FPS_sc=1
-FPS=10
-#Variavel para Ajuste de velocidade
-clock = pg.time.Clock()
-gif_tela_inical = pg.image.load("Tela Inicial/Gif Tela Inicial.gif").convert_alpha()
-gif_tela_inical_big = pg.transform.scale(gif_tela_inical,(ms_settings.menu_width, ms_settings.menu_height))
-
+FPS_sc = 1
+FPS = 10
 
 # == Start Screen ==
 i=0

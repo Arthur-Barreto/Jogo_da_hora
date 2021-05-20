@@ -11,6 +11,7 @@ pg.init()
 ms_settings = Settings()    
 #Tela principal
 window = pg.display.set_mode((ms_settings.screen_width, ms_settings.screen_height))
+# menu
 menu = pg.display.set_mode((ms_settings.menu_width, ms_settings.menu_height))
 pg.display.set_caption("Metal Slug Remake")
 
@@ -38,7 +39,9 @@ while start_screen:
             if event.key == pg.K_RETURN:
                 start_screen=False
         if event.type == pg.QUIT:
-            game = False
+            # aqui para sair com o x tem que ser start_screen
+            # no lugar de game, agr da ok
+            start_screen = False
     pg.display.update()
     i+=1
 

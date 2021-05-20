@@ -7,7 +7,7 @@ class Settings():
     def __init__(self):
         """ inicializa as configurações do jogo """
         # configurações da tela do jogo
-        self.screen_width = 1200
+        self.screen_width = 1100
         self.screen_height = 800
         #configurações da tela do menu
         self.menu_width = 800

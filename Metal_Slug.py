@@ -9,8 +9,6 @@ from settings import *
 pg.init()
 # Inicializa o pygame, as configurações e o objeto screen
 ms_settings = Settings()    
-#Tela principal
-window = pg.display.set_mode((ms_settings.screen_width, ms_settings.screen_height))
 # menu
 menu = pg.display.set_mode((ms_settings.menu_width, ms_settings.menu_height))
 pg.display.set_caption("Metal Slug Remake")
@@ -32,7 +30,7 @@ start_sc.append(pg.image.load("Tela Inicial/TIS1.png").convert())
 i=0
 while start_screen:
     clock.tick(FPS_sc)
-    window.blit(start_sc[i%2],(0,0))
+    menu.blit(start_sc[i%2],(0,0))
     for event in pg.event.get():
         #Aperte Enter para começar / Quebrar Looping
         if event.type== pg.KEYDOWN: #Detecta Evento de Apertar
@@ -44,14 +42,14 @@ while start_screen:
             start_screen = False
     pg.display.update()
     i+=1
-
+#Tela principal
+window = pg.display.set_mode((ms_settings.screen_width, ms_settings.screen_height))
+pg.display.set_caption("Metal Slug Remake Bom Jogo")
 # ===== Game Loop =====
 while game:
-    print("entrei no loop do jogo")
     #Trata Eventos
     for event in pg.event.get():
         if event.type == pg.QUIT:
-            print("estou saindo do jogo")
             game = False
     #Saidas
     window.fill(ms_settings.bg_color)

@@ -43,6 +43,7 @@ while start_screen:
 window = pg.display.set_mode((ms_settings.screen_width, ms_settings.screen_height))
 pg.display.set_caption("Metal Slug Remake Bom Jogo")
 # ===== Game Loop =====
+i = 0
 while game:
     #Trata Eventos
     for event in pg.event.get():
@@ -50,8 +51,9 @@ while game:
             game = False
     #Saidas
     window.fill(ms_settings.bg_color)
+    window.blit(assets["player"][i%2],(300,200))
     #Update
     pg.display.update()
-
+    i += 1
 #===== Finalização =====
 pg.quit()

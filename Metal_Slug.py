@@ -18,7 +18,7 @@ assets=load_assets()
 game = True
 start_screen = True
 FPS_sc=1
-FPS=30
+FPS=10
 #Variavel para Ajuste de velocidade
 clock = pg.time.Clock()
 gif_tela_inical = pg.image.load("Tela Inicial/Gif Tela Inicial.gif").convert_alpha()
@@ -45,13 +45,14 @@ pg.display.set_caption("Metal Slug Remake Bom Jogo")
 # ===== Game Loop =====
 i = 0
 while game:
+    clock.tick(FPS)
     #Trata Eventos
     for event in pg.event.get():
         if event.type == pg.QUIT:
             game = False
     #Saidas
     window.fill(ms_settings.bg_color)
-    window.blit(assets["player"][i%2],(300,200))
+    window.blit(assets["player"][i%11],(300,200))
     #Update
     pg.display.update()
     i += 1

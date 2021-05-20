@@ -50,8 +50,10 @@ while game:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             game = False
+        if event.type == pg.K_DOWN:
+
     #Saidas
-    window.fill(ms_settings.bg_color)
+    window.blit(assets["background"],(0,0))
     window.blit(assets["player"][i%11],(300,200))
     #Update
     pg.display.update()

@@ -18,7 +18,7 @@ def load_assets():
     #Idle
     PI_Anim = []
     for e in range(0,11):
-        nome_arquiva = "Jogador/PlayerIdle/{}.png".format[e]
+        nome_arquiva = "Jogador/PlayerIdle/{}.png".format(e)
         img = pg.image.load(nome_arquiva).convert()
         img = pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
         PI_Anim.append(img)
@@ -26,7 +26,7 @@ def load_assets():
     #Andando Frente
     PF_Anim = []
     for f in range (0,23):
-        nome_arquivo = "Jogador/PlayerWaling/{}".format(f)
+        nome_arquivo = "Jogador/PlayerWalking/{}".format(f)
         img= pg.image.load(nome_arquivo).convert()
         img= pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
         PF_Anim.append(img)
@@ -42,5 +42,5 @@ def load_assets():
     #Atirando
     PS_Anim = []
     for s in range (0,8):
-        nome_arquivo
+        nome_arquivo = "Jogador/"
     return assets

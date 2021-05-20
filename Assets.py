@@ -51,4 +51,12 @@ def load_assets():
         img= pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
         PS_Anim.append(img)
     assets["player_shoot"] = PS_Anim
-    return assets
+    #Morrendo
+    PD_Anim = []
+    for s in range (1,3):
+        nome_arquivo = "Jogador/Player/Death{}.png".format(s)
+        img= pg.image.load(nome_arquivo).convert_alpha()
+        img= pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
+        PD_Anim.append(img)
+    assets["player_death"] = PD_Anim
+    return assets  #Code em Cima

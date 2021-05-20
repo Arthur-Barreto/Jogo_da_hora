@@ -42,5 +42,9 @@ def load_assets():
     #Atirando
     PS_Anim = []
     for s in range (0,8):
-        nome_arquivo = "Jogador/"
+        nome_arquivo = "Jogador/PlayerShooting/{}.png".format(s)
+        img= pg.image.load(nome_arquivo).convert()
+        img= pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
+        PS_Anim.append(img)
+    assets["player_shoot"] = PS_Anim
     return assets

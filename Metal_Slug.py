@@ -4,14 +4,14 @@ import pygame as pg
 import random
 import time
 from Tela_inicial import start_screen
+from settings import *
 
-#Init
 pg.init()
-
+# Inicializa o pygame, as configurações e o objeto screen
+ms_settings = Settings()    
 #Tela principal
-WIDTH = 800
-HEIGHT = 800
-window = pg.display.set_mode ((WIDTH,HEIGHT))
+window = pg.display.set_mode((ms_settings.screen_width, ms_settings.screen_height))
+menu = pg.display.set_mode((ms_settings.menu_width, ms_settings.menu_height))
 pg.display.set_caption("Metal Slug Remake")
 
 #-----Estrutura de dados
@@ -22,7 +22,7 @@ FPS=30
 #Variavel para Ajuste de velocidade
 clock = pg.time.Clock()
 gif_tela_inical = pg.image.load("Tela Inicial/Gif Tela Inicial.gif").convert_alpha()
-gif_tela_inical_big = pg.transform.scale(gif_tela_inical,(WIDTH,HEIGHT))
+gif_tela_inical_big = pg.transform.scale(gif_tela_inical,(ms_settings.menu_width, ms_settings.menu_height))
 start_sc=[]
 start_sc.append(pg.image.load("Tela Inicial/TIS0.png").convert())
 start_sc.append(pg.image.load("Tela Inicial/TIS1.png").convert())
@@ -49,7 +49,7 @@ while game:
         if event.type == pg.QUIT:
             game = False
     #Saidas
-    window.fill((255,255,255))
+    window.fill(ms_settings.bg.color)
     #Update
     pg.display.update()
 

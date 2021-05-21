@@ -71,6 +71,7 @@ while game:
         if event.type == pg.QUIT:
             game = False
         if event.type == pg.K_DOWN:
+            pass
 
     #Saidas
     window.blit(assets["background"],(0,0))

@@ -32,6 +32,7 @@ class Player(pg.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.centerx = 40
+        self.rect.centery = 250
         self.rect.bottom = 280
         self.speedx = 0
         self.all_sprites = all_sprites
@@ -50,7 +51,7 @@ class Player(pg.sprite.Sprite):
     
     def shoot(self):
         #Gera Bala
-        nova_bala = Bala(self.bala_img,self.rect.centerx,self.rect.bottom)
+        nova_bala = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
         self.all_sprites.add(nova_bala)
         self.all_balas.add(nova_bala)
 
@@ -66,7 +67,7 @@ class Bala(pg.sprite.Sprite):
         #self.rect.centerx = 45
         #self.rect.bottom = 260
         self.rect.centerx = centerx
-        self.rect.bottom = bottom
+        self.rect.bottom = bottom -10
         # a nossa bala corre para a direita, dai tem que ter velocidade
         # no eixo x não no y igual o do ex da nave
         self.speedx = 5
@@ -78,8 +79,6 @@ class Bala(pg.sprite.Sprite):
         self.rect.x += self.speedx
         #Se Bala sair da Tela = KILL
         if self.rect.right > WIDTH:
-            self.kill()
-        if self.rect.left < 0:
             self.kill()
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA

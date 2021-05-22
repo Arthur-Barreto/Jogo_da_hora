@@ -1,19 +1,23 @@
 # ===== Inicialização =====
 # ----- Importa e inicia pacotes
-import pygame
+import pygame as pg
 
-pygame.init()
+pg.init()
 
 # ----- Gera tela principal
 WIDTH = 1100
 HEIGHT = 300
-window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Metal Slug da massa')
+window = pg.display.set_mode((WIDTH, HEIGHT))
+pg.display.set_caption('Metal Slug da massa')
 
 
 # ----- Inicia assets
-image = pygame.image.load('Cenario/Montanha Clean 1100x300.png').convert()
-image = pygame.transform.scale(image, (1100, 300))
+PLAYER_WIDTH = 50
+PLAYER_HEIGHT = 38
+font = pg.font.SysFont(None,48)
+background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
+player_img_walking = pg.image.load("Jogador/PlayerWalking/0.png")
+player_img_walking_ajustado = pg.transform.scale(player_img_walking, (PLAYER_WIDTH,PLAYER_HEIGHT))
 
 # ----- Inicia estruturas de dados
 game = True
@@ -21,19 +25,20 @@ game = True
 # ===== Loop principal =====
 while game:
     # ----- Trata eventos
-    for event in pygame.event.get():
+    for event in pg.event.get():
         # ----- Verifica consequências
-        if event.type == pygame.QUIT:
+        if event.type == pg.QUIT:
             game = False
 
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
-    window.blit(image, (10, 10))
+    window.blit(background, (0,0))
+    window.blit(player_img_walking_ajustado, (300, 200))
 
     # ----- Atualiza estado do jogo
-    pygame.display.update()  # Mostra o novo frame para o jogador
+    pg.display.update()  # Mostra o novo frame para o jogador
 
 # ===== Finalização =====
-pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+pg.quit()  # Função do PyGame que finaliza os recursos utilizados
 
 

@@ -51,7 +51,7 @@ class Player(pg.sprite.Sprite):
     
     def shoot(self):
         #Gera Bala
-        nova_bala = Bala(self.bala_img)
+        nova_bala = Bala(self.bala_img,self.rect.centerx,self.rect.bottom)
         self.all_sprites.add(nova_bala)
         self.all_balas.add(nova_bala)
 
@@ -61,7 +61,9 @@ class Bala(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
-        self.speedx = 10
+        self.rect.centerx = centerx
+        self.rect.bottom = bottom
+        self.speedy = -10
     
     def update(self):
         #Atualiza a posição da Bala
@@ -71,6 +73,7 @@ class Bala(pg.sprite.Sprite):
             self.kill()
         if self.rect.left < 0:
             self.kill()
+
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class soldado(pg.sprite.Sprite):                             
     def __init__(self, img, all_sprites, all_balas, bala_img):

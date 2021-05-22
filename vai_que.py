@@ -71,13 +71,28 @@ class Bala(pg.sprite.Sprite):
             self.kill()
         if self.rect.left < 0:
             self.kill()
+#SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
+class soldado(pg.sprite.Sprite):                             
+    def __init__(self, img, all_sprites, all_balas, bala_img):
+         # construtor da classe mãe (Sprite)
+        pg.sprite.Sprite.__init__(self)
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = 50
+        self.rect.bottom = 255
+        self.speedx = 0
+        self.all_sprites = all_sprites
+        self.all_balas = all_balas 
+        self.bala_img = bala_img
+#Classe pro soldado inimigo em cima
+
+
 
 game = True
-#variável para ajuste de velocidade
+#Ajuste de velocidade
 clock = pg.time.Clock()
 FPS = 60
 
-# ele cria all sprites para os meteoros e usa o jogador nela
 # criei aqui para dar bom
 all_sprites = pg.sprite.Group()
 all_balas = pg.sprite.Group()

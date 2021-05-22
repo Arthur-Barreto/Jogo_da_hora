@@ -14,11 +14,15 @@ pg.display.set_caption('Metal Slug da massa')
 # ----- Inicia assets
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 38
+SNIPER_WIDTH= 63
+SNIPER_HEIGHT= 48
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
 player_img = pg.image.load("Jogador/PlayerWalking/0.png").convert_alpha()
 player_img = pg.transform.scale(player_img, (PLAYER_WIDTH,PLAYER_HEIGHT))
 bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
+sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/2.png").convert_alpha()
+sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
 # erro do tiro parcialmente consertado
 # agora falta ajustar ele para sair da mesma altura da bala
 
@@ -83,18 +87,20 @@ class Bala(pg.sprite.Sprite):
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class soldado(pg.sprite.Sprite):                             
-    def __init__(self, img, all_sprites, all_balas, bala_img):
+    def __init__(self, img, all_sprites, all_balas, bala_img,all_mobs):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.centerx = 50
-        self.rect.bottom = 255
+        self.rect.centerx = 500
+        self.rect.bottom = 280
         self.speedx = 0
         self.all_sprites = all_sprites
         self.all_balas = all_balas 
         self.bala_img = bala_img
-#Classe pro soldado inimigo em cima
+    def update(self):
+        
+
 
 
 
@@ -103,14 +109,17 @@ game = True
 clock = pg.time.Clock()
 FPS = 60
 
-# criei aqui para dar bom
+# Criando Grupos de Sprites
 all_sprites = pg.sprite.Group()
 all_balas = pg.sprite.Group()
+all_mobs = pg.sprite.Group()
 # criando o jogador
-
 player = Player(player_img, all_sprites, all_balas, bala_img)
 all_sprites.add(player)
-
+#Criando Mobs
+mob = soldado(sniper_img, all_sprites, all_balas, bala_img, all_mobs)
+all_sprites.add(mob)
+all_mobs.add(mob)
 
 
 # ===== Loop principal =====

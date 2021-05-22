@@ -87,7 +87,7 @@ class Bala(pg.sprite.Sprite):
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class soldado(pg.sprite.Sprite):                             
-    def __init__(self, img, all_sprites, all_balas, bala_img,all_mobs):
+    def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_mobs):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         self.image = img
@@ -96,10 +96,30 @@ class soldado(pg.sprite.Sprite):
         self.rect.bottom = 280
         self.speedx = 0
         self.all_sprites = all_sprites
-        self.all_balas = all_balas 
+        self.all_balas_mob = all_balas_mob
         self.bala_img = bala_img
+        self.all_mobs = all_mobs
     def update(self):
-        
+        self.rect.x += self.speedx
+    def shoot_m(self):
+        nova_balaa = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
+        self.all_sprites.add(nova_balaa)
+        self.all_balas_mob(nova_balaa)
+
+class Shoot_m(pg.sprite.Sprite):
+    def __init__(self,img,bottom,centerx):
+        #Contrutor da classe mãe(Sprite)
+        pg.sprite.Sprite.__init__(self)
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = centerx
+        self.rect.bottom = bottom - 10
+        self.speedx = -5
+    def update(self):
+        self.rect.x += self.speedx
+        if self.rect.left < WIDTH:
+            self.kill()
+
 
 
 
@@ -112,16 +132,17 @@ FPS = 60
 # Criando Grupos de Sprites
 all_sprites = pg.sprite.Group()
 all_balas = pg.sprite.Group()
+all_balas_mob = pg.sprite.Group()
 all_mobs = pg.sprite.Group()
 # criando o jogador
 player = Player(player_img, all_sprites, all_balas, bala_img)
 all_sprites.add(player)
 #Criando Mobs
-mob = soldado(sniper_img, all_sprites, all_balas, bala_img, all_mobs)
+mob = soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_mobs)
 all_sprites.add(mob)
 all_mobs.add(mob)
 
-
+i=0
 # ===== Loop principal =====
 while game:
     clock.tick(FPS)
@@ -144,6 +165,8 @@ while game:
                 player.speedx-=4
             if event.key == pg.K_a:
                 player.speedx+=4
+        if i%120:
+            mob.shoot_m()
     # --------- Atualiza estado do jogo-------------
     # atualizando a posição do jogador
     all_sprites.update()
@@ -156,7 +179,7 @@ while game:
 
     # ----- Atualiza estado do jogo
     pg.display.update()  # Mostra o novo frame para o jogador
-
+    i+=1
 # ===== Finalização =====
 pg.quit()  # Função do PyGame que finaliza os recursos utilizados
 

@@ -1,11 +1,8 @@
 #Inimigos:
-
-#---TEMOS----
-# Animação Atirando Esquerda e Direita
+#SOLDADO
 
 #---FALTANDO----
-#Animação Morrendo Esquerda e Direita
-#Animação Correndo Esquerda e Direita
+#Animação Correndo Direita
 
 
-#Ultima modify = Inimigos >> Soldado inimigo >> Atirando Direita // Atirando Esquerda
+#Ultima modify = Inimigos 

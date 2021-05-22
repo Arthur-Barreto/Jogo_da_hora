@@ -28,7 +28,7 @@ class Player(pg.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.centerx = 50
-        self.rect.bottom = 250
+        self.rect.bottom = 255
         self.speedx = 0
     
     def update(self):
@@ -41,6 +41,24 @@ class Player(pg.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
+class Bala(pg.sprite.Sprite):
+    def __init__(self,img): 
+        #Construtor da classe mãe (Sprite)
+        pg.sprite.Sprite.__init__(self)
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = 50
+        self.rect.bottom = 250
+        self.rect.speedx = 0
+    
+    def update(self):
+        #Atualiza a posição da Bala
+        self.rect.x += self.speedx
+        #Se Bala sair da Tela = KILL
+        if self.rect.right > WIDTH:
+            self.kill()
+        if self.rect.left < 0:
+            self.kill()
 
 game = True
 #variável para ajuste de velocidade
@@ -62,6 +80,18 @@ while game:
         # ----- Verifica consequências
         if event.type == pg.QUIT:
             game = False
+        # Verifica se apertou alguma tecla
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_d:
+                player.speedx+=4
+            if event.key == pg.K_a:
+                player.speedx-=4
+        #Verifica se Soltou alguma tecla
+        if event.type == pg.KEYUP:
+            if event.key == pg.K_d:
+                player.speedx-=4
+            if event.key == pg.K_a:
+                player.speedx+=4
     # --------- Atualiza estado do jogo-------------
     # atualizando a posição do jogador
     all_sprites.update()

@@ -18,11 +18,10 @@ font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
 player_img = pg.image.load("Jogador/PlayerWalking/0.png").convert_alpha()
 player_img = pg.transform.scale(player_img, (PLAYER_WIDTH,PLAYER_HEIGHT))
+bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
+# erro do tiro parcialmente consertado
+# agora falta ajustar ele para sair da mesma altura da bala
 
-BALA_WIDTH=4
-BALA_HEIGHT=4
-bala_img = pg.image.load("Disparos_Direita/2.png")
-bala_img = pg.transform.scale(bala_img,(BALA_WIDTH,BALA_HEIGHT))
 
 # ----- Inicia estruturas de dados
 # definindo a classe 
@@ -32,8 +31,8 @@ class Player(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.centerx = 50
-        self.rect.bottom = 255
+        self.rect.centerx = 40
+        self.rect.bottom = 280
         self.speedx = 0
         self.all_sprites = all_sprites
         self.all_balas = all_balas 
@@ -56,17 +55,26 @@ class Player(pg.sprite.Sprite):
         self.all_balas.add(nova_bala)
 
 class Bala(pg.sprite.Sprite):
-    def __init__(self,img): 
+    def __init__(self,img, bottom,centerx): 
         #Construtor da classe mãe (Sprite)
+        # se vc é do próximo periodo e está lendo
+        # esse bagui de sprite é coonfuso, olha e faz parecido
+        # e percebe o que muda
         pg.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
+        #self.rect.centerx = 45
+        #self.rect.bottom = 260
         self.rect.centerx = centerx
         self.rect.bottom = bottom
-        self.speedy = -10
+        # a nossa bala corre para a direita, dai tem que ter velocidade
+        # no eixo x não no y igual o do ex da nave
+        self.speedx = 5
+        # como vai para a direita a velocidade é positiva
     
     def update(self):
         #Atualiza a posição da Bala
+        # lembrando que a a bala só se move no eixo x
         self.rect.x += self.speedx
         #Se Bala sair da Tela = KILL
         if self.rect.right > WIDTH:
@@ -100,8 +108,7 @@ FPS = 60
 all_sprites = pg.sprite.Group()
 all_balas = pg.sprite.Group()
 # criando o jogador
-bala = Bala(bala_img)
-all_sprites.add(bala)
+
 player = Player(player_img, all_sprites, all_balas, bala_img)
 all_sprites.add(player)
 

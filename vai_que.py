@@ -81,8 +81,8 @@ for s in range (0,8):
 assets["player_shoot"] = PS_Anim
     #Morrendo
 PD_Anim = []
-for s in range (1,3):
-    nome_arquivo = "Jogador/Player/Death{}.png".format(s)
+for s in range (0,19):
+    nome_arquivo = "Jogador/Player Dead/{}.png".format(s)
     img= pg.image.load(nome_arquivo).convert_alpha()
     img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
     PD_Anim.append(img)
@@ -138,14 +138,14 @@ assets["tiro_player"] = Tiro_Player
 Tiro_S = []
 Tiro_Sniper1 = "2 Tiros/tiro01.wav"
 Tiro_Sniper2 = "Sons/shoot1.wav"
-Tiro_S.append(Tiro_Sniper)
+Tiro_S.append(Tiro_Sniper1)
 Tiro_S.append(Tiro_Sniper2)
 assets["tiro_sniper"] = Tiro_S
 
 # ----- Inicia estruturas de dados
 # definindo a classe 
 class Player(pg.sprite.Sprite):
-    def __init__(self, img, all_sprites, all_balas, bala_img):
+    def __init__(self, img, all_sprites, all_balas, bala_img,all_balar_player):
         # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         self.image = img
@@ -157,6 +157,7 @@ class Player(pg.sprite.Sprite):
         self.all_sprites = all_sprites
         self.all_balas = all_balas 
         self.bala_img = bala_img
+        self.all_balas_player = all_balas_player
     
     def update(self):
         # atualiza a posição do nosso mostro
@@ -173,6 +174,7 @@ class Player(pg.sprite.Sprite):
         nova_bala = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
         self.all_sprites.add(nova_bala)
         self.all_balas.add(nova_bala)
+        self.all_balas_player.add(nova_bala)
 
 class Bala(pg.sprite.Sprite):
     def __init__(self,img, bottom,centerx): 
@@ -198,6 +200,12 @@ class Bala(pg.sprite.Sprite):
         self.rect.x += self.speedx
         #Se Bala sair da Tela = KILL
         if self.rect.right > WIDTH:
+            self.kill()
+        # verifica se houve colisão entre tiro e o soldado inimigo
+        hits = pg.sprite.spritecollide(self,all_mobs,True)
+        for hit in hits:
+            deeth_sound_m.play()
+            mob.kill()
             self.kill()
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
@@ -248,9 +256,10 @@ FPS = 60
 all_sprites = pg.sprite.Group()
 all_balas = pg.sprite.Group()
 all_balas_mob = pg.sprite.Group()
+all_balas_player = pg.sprite.Group()
 all_mobs = pg.sprite.Group()
 # criando o jogador
-player = Player(player_img, all_sprites, all_balas, bala_img)
+player = Player(player_img, all_sprites, all_balas, bala_img,all_balas_player)
 all_sprites.add(player)
 #Criando Mobs
 mob = soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_mobs)
@@ -287,22 +296,17 @@ while game:
     all_sprites.update()
 
     # verifica se houve colisão entre tiro e o soldado inimigo
-    hits = pg.sprite.spritecollide(all_balas,all_mobs,True)
-    if len(hits) > 0:
-        # tocar o som da morte hehehe
-        deeth_sound_m.play()
-        time.sleep(1)
-
+    #hits = pg.sprite.spritecollide(mob,all_balas_player,True)
+    
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))
     # desenhando tudo que ta salvo em sprite
     all_sprites.draw(window)
 
+
     # ----- Atualiza estado do jogo
     pg.display.update()  # Mostra o novo frame para o jogador
     i+=1
 # ===== Finalização =====
 pg.quit()  # Função do PyGame que finaliza os recursos utilizados
-
-

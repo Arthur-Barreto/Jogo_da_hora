@@ -104,8 +104,8 @@ class soldado(pg.sprite.Sprite):
     def shoot_m(self):
         nova_balaa = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
         self.all_sprites.add(nova_balaa)
-        self.all_balas_mob(nova_balaa)
-
+        self.all_balas_mob.add(nova_balaa)
+    
 class Shoot_m(pg.sprite.Sprite):
     def __init__(self,img,bottom,centerx):
         #Contrutor da classe mãe(Sprite)
@@ -159,14 +159,14 @@ while game:
                 player.speedx-=4
             if event.key == pg.K_SPACE:
                 player.shoot()
+            if event.key == pg.K_LSHIFT:
+                mob.shoot_m()
         #Verifica se Soltou alguma tecla
         if event.type == pg.KEYUP:
             if event.key == pg.K_d:
                 player.speedx-=4
             if event.key == pg.K_a:
                 player.speedx+=4
-        if i%120:
-            mob.shoot_m()
     # --------- Atualiza estado do jogo-------------
     # atualizando a posição do jogador
     all_sprites.update()

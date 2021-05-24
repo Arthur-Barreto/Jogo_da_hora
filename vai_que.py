@@ -1,6 +1,7 @@
 # ===== Inicialização =====
 # ----- Importa e inicia pacotes
 import pygame as pg
+import time
 
 pg.init()
 
@@ -21,10 +22,16 @@ background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
 player_img = pg.image.load("Jogador/PlayerWalking/0.png").convert_alpha()
 player_img = pg.transform.scale(player_img, (PLAYER_WIDTH,PLAYER_HEIGHT))
 bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
-sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/2.png").convert_alpha()
+sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/0.png").convert_alpha()
 sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
-# erro do tiro parcialmente consertado
-# agora falta ajustar ele para sair da mesma altura da bala
+
+# carrega os sons do jogo, agr sim papaizinho heheh
+# por enquanto só esses mas jaja tem mais senhoras e senhores
+pg.mixer.music.load("Sons/BGM2.wav")
+pg.mixer.music.set_volume(0.4)
+shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
+shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
+deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
 
 
 # ----- Inicia estruturas de dados
@@ -92,15 +99,18 @@ class soldado(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.centerx = 500
+        self.rect.centerx = 1100
         self.rect.bottom = 280
-        self.speedx = 0
+        self.speedx = -0.05
         self.all_sprites = all_sprites
         self.all_balas_mob = all_balas_mob
         self.bala_img = bala_img
         self.all_mobs = all_mobs
     def update(self):
         self.rect.x += self.speedx
+        # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
+        if self.rect.x <= 700:
+            self.speedx = 0
     def shoot_m(self):
         nova_balaa = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
         self.all_sprites.add(nova_balaa)
@@ -119,9 +129,6 @@ class Shoot_m(pg.sprite.Sprite):
         self.rect.x += self.speedx
         if self.rect.left < WIDTH:
             self.kill()
-
-
-
 
 
 game = True
@@ -170,6 +177,13 @@ while game:
     # --------- Atualiza estado do jogo-------------
     # atualizando a posição do jogador
     all_sprites.update()
+
+    # verifica se houve colisão entre tiro e o soldado inimigo
+    hits = pg.sprite.spritecollide(player,all_balas,True)
+    if len(hits) > 0:
+        # tocar o som da morte hehehe
+        deeth_sound_m.play()
+        time.sleep(1)
 
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca

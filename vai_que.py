@@ -179,7 +179,7 @@ while game:
     all_sprites.update()
 
     # verifica se houve colisão entre tiro e o soldado inimigo
-    hits = pg.sprite.spritecollide(player,all_balas,True)
+    hits = pg.sprite.spritecollide(all_balas,all_mobs,True)
     if len(hits) > 0:
         # tocar o som da morte hehehe
         deeth_sound_m.play()

@@ -33,6 +33,114 @@ shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
 shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
 
+#Definindo Assets
+assets = {}
+
+#=====Telas=====
+#StartScreen
+start_sc = []
+start_sc.append(pg.image.load("Tela Inicial/TIS0.png").convert())
+start_sc.append(pg.image.load("Tela Inicial/TIS1.png").convert())
+assets["startsc_anim"] = start_sc
+#Game Background
+background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
+assets["background"] = background
+
+#====Jogador====
+    #Idle
+PI_Anim = []
+for e in range(0,11):
+    nome_arquiva = "Jogador/PlayerIdle/{}.png".format(e)
+    img = pg.image.load(nome_arquiva).convert_alpha()
+    img = pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PI_Anim.append(img)
+assets["player"] = PI_Anim
+#Andando Frente
+PF_Anim = []
+for f in range (0,23):
+    nome_arquivo = "Jogador/PlayerWalking/{}.png".format(f)
+    img= pg.image.load(nome_arquivo).convert_alpha()
+    img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PF_Anim.append(img)
+assets["player_walk"] = PF_Anim
+    #Pulando
+PJ_Anim = []
+for j in range (0,6):
+    nome_arquivo = "Jogador/PlayerJumpUp/{}.png".format(j)
+    img =pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PJ_Anim.append(img)
+assets["player_jump"] = PJ_Anim
+    #Atirando
+PS_Anim = []
+for s in range (0,8):
+    nome_arquivo = "Jogador/PlayerShooting/{}.png".format(s)
+    img= pg.image.load(nome_arquivo).convert_alpha()
+    img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PS_Anim.append(img)
+assets["player_shoot"] = PS_Anim
+    #Morrendo
+PD_Anim = []
+for s in range (1,3):
+    nome_arquivo = "Jogador/Player/Death{}.png".format(s)
+    img= pg.image.load(nome_arquivo).convert_alpha()
+    img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PD_Anim.append(img)
+assets["player_death"] = PD_Anim
+
+#====Inimigo===
+    #Atirando Direita
+ID = []
+for idd in range (0,5):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Atirando Direita/{}.png".format(idd)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    ID.append(img)
+assets["inim_atirD"] = ID
+    #Atirando Esquerda
+IE = []
+for ie in range (0,5):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Atirando Esquerda/{}.png".format(ie)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    IE.append(img)
+assets["inim_atirE"] = IE
+    #Correndo Esquerda
+CE = []
+for ce in range (1,8):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Correndo Esquerda/{}.png".format(ce)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    CE.append(img)
+assets["inim_corrE"] = CE
+    #Morrendo Direita
+MD = []
+for md in range (0,9):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Morrendo Direita/{}.png".format(md)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    MD.append(img)
+assets["inim_morrD"] = MD
+    #Morrendo Esquerda
+ME = []
+for me in range (0,9):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Morrendo Direita/{}.png".format(me)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    ME.append(img)
+assets["inim_morrE"] = ME
+
+#====Sons====
+    #Tiro Player
+Tiro_Player = "Sons/shoot3.wav"
+assets["tiro_player"] = Tiro_Player
+    #Tiro Sniper
+Tiro_S = []
+Tiro_Sniper1 = "2 Tiros/tiro01.wav"
+Tiro_Sniper2 = "Sons/shoot1.wav"
+Tiro_S.append(Tiro_Sniper)
+Tiro_S.append(Tiro_Sniper2)
+assets["tiro_sniper"] = Tiro_S
 
 # ----- Inicia estruturas de dados
 # definindo a classe 

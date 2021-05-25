@@ -198,7 +198,7 @@ class Bala(pg.sprite.Sprite):
             self.kill()
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
-class soldado(pg.sprite.Sprite):                             
+class Soldado(pg.sprite.Sprite):                             
     def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_mobs):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
@@ -217,7 +217,7 @@ class soldado(pg.sprite.Sprite):
         if self.rect.x <= 700:
             self.speedx = 0
     def shoot_m(self):
-        nova_balaa = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
+        nova_balaa = Shoot_m(self.bala_img,self.rect.bottom,self.rect.centerx)
         self.all_sprites.add(nova_balaa)
         self.all_balas_mob.add(nova_balaa)
     
@@ -228,9 +228,11 @@ class Shoot_m(pg.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.centerx = centerx
-        self.rect.bottom = bottom - 10
-        self.speedx = -5
+        self.rect.bottom = bottom
+        self.speedx = -5 # velocidade fixa para a esquerda
+
     def update(self):
+        # a bala só se move no eixo x, no sentido negativo
         self.rect.x += self.speedx
         if self.rect.left < WIDTH:
             self.kill()
@@ -251,7 +253,7 @@ all_mobs = pg.sprite.Group()
 player = Player(player_img, all_sprites, all_balas, bala_img,all_balas_player)
 all_sprites.add(player)
 #Criando Mobs
-mob = soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_mobs)
+mob = Soldado(sniper_img, all_sprites, all_balas, bala_img, all_balas_mob)
 all_sprites.add(mob)
 all_mobs.add(mob)
 

@@ -4,6 +4,7 @@ import pygame as pg
 import time
 
 pg.init()
+pg.mixer.init()
 
 # ----- Gera tela principal
 WIDTH = 1100
@@ -28,7 +29,7 @@ sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
 # carrega os sons do jogo, agr sim papaizinho heheh
 # por enquanto só esses mas jaja tem mais senhoras e senhores
 pg.mixer.music.load("Sons/BGM2.wav")
-pg.mixer.music.set_volume(0.4)
+pg.mixer.music.set_volume(0.2)
 shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
 shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
@@ -129,18 +130,6 @@ for me in range (0,9):
     img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
     ME.append(img)
 assets["inim_morrE"] = ME
-
-#====Sons====
-    #Tiro Player
-Tiro_Player = "Sons/shoot3.wav"
-assets["tiro_player"] = Tiro_Player
-    #Tiro Sniper
-Tiro_S = []
-Tiro_Sniper1 = "2 Tiros/tiro01.wav"
-Tiro_Sniper2 = "Sons/shoot1.wav"
-Tiro_S.append(Tiro_Sniper1)
-Tiro_S.append(Tiro_Sniper2)
-assets["tiro_sniper"] = Tiro_S
 
 # ----- Inicia estruturas de dados
 # definindo a classe 
@@ -266,8 +255,11 @@ mob = soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_mobs)
 all_sprites.add(mob)
 all_mobs.add(mob)
 
-i=0
+
 # ===== Loop principal =====
+i=0
+# então, faltava só copiar essa linha para funfar a música de fundo
+pg.mixer.music.play(loops=-1)
 while game:
     clock.tick(FPS)
     # ----- Trata eventos

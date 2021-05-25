@@ -209,8 +209,8 @@ class Bala(pg.sprite.Sprite):
             self.kill()
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
-class soldado(pg.sprite.Sprite):                             
-    def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_mobs):
+class Soldado(pg.sprite.Sprite):                             
+    def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_players):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         self.image = img
@@ -221,16 +221,16 @@ class soldado(pg.sprite.Sprite):
         self.all_sprites = all_sprites
         self.all_balas_mob = all_balas_mob
         self.bala_img = bala_img
-        self.all_mobs = all_mobs
+        self.all_players = all_players
     def update(self):
         self.rect.x += self.speedx
         # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
         if self.rect.x <= 700:
             self.speedx = 0
     def shoot_m(self):
-        nova_balaa = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
-        self.all_sprites.add(nova_balaa)
-        self.all_balas_mob.add(nova_balaa)
+        nova_bala = Shoot_m(self.bala_img,self.rect.bottom,self.rect.centerx)
+        self.all_sprites.add(nova_bala)
+        self.all_balas_mob.add(nova_bala)
     
 class Shoot_m(pg.sprite.Sprite):
     def __init__(self,img,bottom,centerx):
@@ -243,9 +243,13 @@ class Shoot_m(pg.sprite.Sprite):
         self.speedx = -5
     def update(self):
         self.rect.x += self.speedx
-        if self.rect.left < WIDTH:
+        if self.rect.left < 0:
             self.kill()
-
+        hits = pg.sprite.spritecollide(self,all_players,True)
+        for hit in hits:
+            deeth_sound_m.play()
+            player.kill()
+            self.kill()
 
 game = True
 #Ajuste de velocidade
@@ -258,11 +262,13 @@ all_balas = pg.sprite.Group()
 all_balas_mob = pg.sprite.Group()
 all_balas_player = pg.sprite.Group()
 all_mobs = pg.sprite.Group()
+all_players = pg.sprite.Group()
 # criando o jogador
 player = Player(player_img, all_sprites, all_balas, bala_img,all_balas_player)
+all_players.add(player)
 all_sprites.add(player)
 #Criando Mobs
-mob = soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_mobs)
+mob = Soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_players)
 all_sprites.add(mob)
 all_mobs.add(mob)
 
@@ -285,6 +291,8 @@ while game:
                 player.shoot()
             if event.key == pg.K_LSHIFT:
                 mob.shoot_m()
+            """if event.key == pg.K_ESCAPE:
+                Adicionar estado de Menu """
         #Verifica se Soltou alguma tecla
         if event.type == pg.KEYUP:
             if event.key == pg.K_d:

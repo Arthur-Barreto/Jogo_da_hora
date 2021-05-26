@@ -135,19 +135,25 @@ assets["inim_morrE"] = ME
 # ----- Inicia estruturas de dados
 # definindo a classe 
 class Player(pg.sprite.Sprite):
-    def __init__(self, img, all_sprites, all_balas, bala_img,all_balar_player):
+    def __init__(self, assets, all_sprites, all_balas, bala_img,all_balar_player):
         # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
-        self.image = img
+        self.idle_anim = assets["player"]
+        self.walk_anim = assets ["player_walk"]
+        self.image = self.idle_anim[0]
         self.rect = self.image.get_rect()
         self.rect.centerx = 40
         self.rect.centery = 250
         self.rect.bottom = 280
         self.speedx = 0
+        self.frame = 0
         self.all_sprites = all_sprites
         self.all_balas = all_balas 
         self.bala_img = bala_img
         self.all_balas_player = all_balas_player
+        self.current_anim = "idle"
+        self.frame_ticks = 100
+        self.last_update = pg.time.get_ticks()
     
     def update(self):
         # atualiza a posição do nosso mostro
@@ -158,7 +164,48 @@ class Player(pg.sprite.Sprite):
             self.rect.right = WIDTH 
         if self.rect.left < 0:
             self.rect.left = 0
+        #Checando estado
+        if self.speedx == 0:
+            self.idle()
+        elif self.speedx != 0:
+            self.walk()
     
+    def idle (self):
+        if self.current_anim != "idle":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "idle"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.idle_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.idle_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+    def walk (self):
+        if self.current_anim != "walk":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "walk"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.walk_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.walk_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
     def shoot(self):
         #Gera Bala
         nova_bala = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
@@ -258,7 +305,7 @@ all_balas_player = pg.sprite.Group()
 all_mobs = pg.sprite.Group()
 all_players = pg.sprite.Group()
 # criando o jogador
-player = Player(player_img, all_sprites, all_balas, bala_img,all_balas_player)
+player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player)
 all_players.add(player)
 all_sprites.add(player)
 #Criando Mobs

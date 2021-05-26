@@ -21,7 +21,7 @@ SNIPER_HEIGHT= 48
 #Defini tamanho da Tile
 TILE_SIZE = 25
 #Defini Aceleração gravitacional
-GRAVITY = 1.5
+GRAVITY = 2.5
 #Defini Velocidade do Pulo
 JUMP_SIZE = TILE_SIZE
 #Defini a velocidade X
@@ -46,6 +46,7 @@ MAP1 = [
     [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
     [BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK]
 ]
+
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
 player_img = pg.image.load("Jogador/PlayerWalking/0.png").convert_alpha()
@@ -74,7 +75,7 @@ assets["startsc_anim"] = start_sc
 #Game Background
 background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
 assets["background"] = background
-tile_img = pg.image.load("Cenario/Destroços.png").convert_alpha()
+tile_img = pg.image.load("Imagem 50x50/0.png").convert()
 #====Jogador====
     #Idle
 
@@ -165,11 +166,10 @@ STILL = 0
 JUMPING = 1
 FALLING = 2
 
-# ---
 # ----- Inicia estruturas de dados
 # definindo a classe 
 class Player(pg.sprite.Sprite):
-    def _init_(self, assets, all_sprites, all_balas, bala_img,all_balar_player,row,column,blocks):
+    def __init__(self, assets, all_sprites, all_balas, bala_img,all_balar_player,row,column,blocks):
         # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #Carregando Assets de animações
@@ -258,6 +258,7 @@ class Player(pg.sprite.Sprite):
                 self.state = JUMPING
                 self.jump()
 
+
     def idle (self):
         if self.current_anim != "idle":
                 self.last_update = pg.time.get_ticks()
@@ -322,9 +323,9 @@ class Player(pg.sprite.Sprite):
 
 class Tile (pg.sprite.Sprite):
     #Construtor da classe
-    def _init_ (self,title_img,row,column):
+    def __init__ (self,title_img,row,column):
         #Construtor da classe Sprite
-        pg.sprite.Sprite._init_(self)
+        pg.sprite.Sprite.__init__(self)
         #Defini IMG
         img = tile_img
         #Transforma o Tamanho do Tile

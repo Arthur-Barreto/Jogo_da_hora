@@ -18,6 +18,34 @@ PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 38
 SNIPER_WIDTH= 63
 SNIPER_HEIGHT= 48
+#Defini tamanho da Tile
+TILE_SIZE = 25
+#Defini Aceleração gravitacional
+GRAVITY = 1.5
+#Defini Velocidade do Pulo
+JUMP_SIZE = TILE_SIZE
+#Defini a velocidade X
+SPEED_X =5 
+
+#Defini Tipos de Tiles
+BLOCK = 0
+EMPTY = -1
+
+#Mapas
+MAP1 = [
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK]
+]
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
 player_img = pg.image.load("Jogador/PlayerWalking/0.png").convert_alpha()
@@ -46,7 +74,7 @@ assets["startsc_anim"] = start_sc
 #Game Background
 background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
 assets["background"] = background
-
+tile_img = pg.image.load("Cenario/Destroços.png").convert_alpha()
 #====Jogador====
     #Idle
 
@@ -132,47 +160,103 @@ for me in range (0,9):
     ME.append(img)
 assets["inim_morrE"] = ME
 
+#Estados do personagem
+STILL = 0
+JUMPING = 1
+FALLING = 2
+
+# ---
 # ----- Inicia estruturas de dados
 # definindo a classe 
 class Player(pg.sprite.Sprite):
-    def __init__(self, assets, all_sprites, all_balas, bala_img,all_balar_player):
+    def _init_(self, assets, all_sprites, all_balas, bala_img,all_balar_player,row,column,blocks):
         # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
+        #Carregando Assets de animações
         self.idle_anim = assets["player"]
         self.walk_anim = assets ["player_walk"]
         self.jump_anim = assets ["player_jump"]
+        #Definindo imagem
         self.image = self.idle_anim[0]
+        #Criando Retangulo
         self.rect = self.image.get_rect()
+        #Definindo posicionamento
         self.rect.centerx = 40
         self.rect.centery = 250
         self.rect.bottom = 280
+        #Definindo velocidades
         self.speedx = 0
         self.speedy = 0
+        #Definindo Frame
         self.frame = 0
+        #Chamando Groups necessarios
         self.all_sprites = all_sprites
         self.all_balas = all_balas 
         self.bala_img = bala_img
         self.all_balas_player = all_balas_player
+        #Estado de animação - IDLE
         self.current_anim = "idle"
+        self.state = STILL
+        #Velocidade/Tick de animaçãi
         self.frame_ticks = 100
+        #Atualizar Ticks
         self.last_update = pg.time.get_ticks()
+        #Definindo blocks
+        self.blocks = blocks
+        #definindo colunas
+        #self.rect.x =  column * TILE_SIZE
+        #self.rect.bottom = row * TILE_SIZE
 
     def update(self):
         # atualiza a posição do nosso mostro
-        self.rect.x += self.speedx
+        #Andando em Y
         self.rect.y += self.speedy
+        #Velocidade + gravidade
+        self.speedy += GRAVITY
+        #Atualiza estado para caindo
+        if self.speedy > 0:
+            self.state = FALLING
+        #Chegando colisões
+        colisoes = pg.sprite.spritecollide (self,self.blocks,False)
+        for colisao in colisoes:
+            if self.speedy > 0:
+                self.rect.bottom = colisao.rect.top
+                #Parar de cair - se colidir
+                self.speedy = 0
+                #Altera state
+                self.state = STILL
+            elif self.speedy < 0:
+                self.rect.top = colisao.rect.bottom
+                #Se Colidiu = Para de cair
+                self.speedy = 0
+                #Altera state
+                self.state = STILL
+        #Andando em X
+        self.rect.x += self.speedx
         #manter o nosso lek na tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH 
         if self.rect.left < 0:
             self.rect.left = 0
+        #Checa colisões
+        colisoes = pg.sprite.spritecollide(self,self.blocks,False)
+        for colisao in colisoes:
+            #Indo para a direita
+            if self.speedx > 0:
+                self.rect.right = colisao.rect.left
+            #indo para esquerda
+            elif self.speedx < 0:
+                self.rect.left = colisao.rect.right
         #Checando estado
         if self.speedx == 0:
             self.idle()
         elif self.speedx != 0:
             self.walk()
         if self.speedy > 0:
-            self.jump()
+            if self.state == STILL:
+                self.speedy -=JUMP_SIZE
+                self.state = JUMPING
+                self.jump()
 
     def idle (self):
         if self.current_anim != "idle":
@@ -236,6 +320,23 @@ class Player(pg.sprite.Sprite):
         self.all_balas_player.add(nova_bala)
         shoot_sound.play()
 
+class Tile (pg.sprite.Sprite):
+    #Construtor da classe
+    def _init_ (self,title_img,row,column):
+        #Construtor da classe Sprite
+        pg.sprite.Sprite._init_(self)
+        #Defini IMG
+        img = tile_img
+        #Transforma o Tamanho do Tile
+        img = pg.transform.scale(img,(50,50))
+        #Defini a imagem de Self
+        self.image = img
+        #Cria posicionamnto
+        self.rect = self.image.get_rect()
+        #Posiciona o tile
+        self.rect.x = TILE_SIZE * column
+        self.rect.y = TILE_SIZE * row
+
 class Bala(pg.sprite.Sprite):
     def __init__(self,img, bottom,centerx): 
         #Construtor da classe mãe (Sprite)
@@ -275,7 +376,7 @@ class Soldado(pg.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.centerx = x
-        self.rect.bottom = 280
+        self.rect.bottom = 285
         self.speedx = -0.05
         self.all_sprites = all_sprites
         self.all_balas_mob = all_balas_mob
@@ -326,10 +427,19 @@ all_balas_mob = pg.sprite.Group()
 all_balas_player = pg.sprite.Group()
 all_mobs = pg.sprite.Group()
 all_players = pg.sprite.Group()
+blocks = pg.sprite.Group()
 # criando o jogador
-player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player)
+player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
 all_players.add(player)
 all_sprites.add(player)
+#Criando Tiles de acordo com mapa
+for row in range(len(MAP1)):
+    for column in range(len(MAP1[row])):
+        tile_type = MAP1[row][column]
+        if tile_type == BLOCK:
+            tile = Tile(tile_img,row,column)
+            all_sprites.add(tile)
+            blocks.add(tile)
 #Criando Mobs
 x = 1100
 
@@ -358,7 +468,7 @@ while game:
             if event.key == pg.K_a:
                 player.speedx-=2
             if event.key == pg.K_w:
-                player.speedy-=5
+                player.speedy-=20
             if event.key == pg.K_SPACE:
                 player.shoot()
             if event.key == pg.K_LSHIFT:

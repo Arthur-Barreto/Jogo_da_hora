@@ -21,7 +21,7 @@ SNIPER_HEIGHT= 48
 #Defini tamanho da Tile
 TILE_SIZE = 25
 #Defini Aceleração gravitacional
-GRAVITY = 2.5
+GRAVITY = 1
 #Defini Velocidade do Pulo
 JUMP_SIZE = TILE_SIZE
 #Defini a velocidade X
@@ -58,7 +58,7 @@ sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
 # carrega os sons do jogo, agr sim papaizinho heheh
 # por enquanto só esses mas jaja tem mais senhoras e senhores
 pg.mixer.music.load("Sons/BGM2.wav")
-pg.mixer.music.set_volume(0.1)
+pg.mixer.music.set_volume(0.01)
 shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
 shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
@@ -206,6 +206,7 @@ class Player(pg.sprite.Sprite):
         #Estado de animação - IDLE
         self.current_anim = "idle"
         self.state = STILL
+        self.estado = "alive"
         #Velocidade/Tick de animaçãi
         self.frame_ticks = 100
         #Atualizar Ticks
@@ -346,11 +347,16 @@ class Player(pg.sprite.Sprite):
                 self.rect.center = center
     def shoot(self):
         #Gera Bala
-        nova_bala = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
-        self.all_sprites.add(nova_bala)
-        self.all_balas.add(nova_bala)
-        self.all_balas_player.add(nova_bala)
-        shoot_sound.play()
+        if self.estado == "alive":
+            nova_bala = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
+            self.all_sprites.add(nova_bala)
+            self.all_balas.add(nova_bala)
+            self.all_balas_player.add(nova_bala)
+            shoot_sound.play()
+    
+    def death (self):
+        self.estado = "death"
+        self.kill()
 
 class Tile (pg.sprite.Sprite):
     #Construtor da classe
@@ -441,11 +447,6 @@ class Shoot_m(pg.sprite.Sprite):
         self.rect.x += self.speedx
         if self.rect.left < 0:
             self.kill()
-        hits = pg.sprite.spritecollide(self,all_players,True)
-        for hit in hits:
-            deeth_sound_m.play()
-            player.kill()
-            self.kill()
 
 game = True
 #Ajuste de velocidade
@@ -521,7 +522,10 @@ while game:
 
     # verifica se houve colisão entre tiro e o soldado inimigo
     #hits = pg.sprite.spritecollide(mob,all_balas_player,True)
-    
+    hits = pg.sprite.spritecollide(player,all_balas_mob,True)
+    for hit in hits:
+        deeth_sound_m.play()
+        player.death()
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))

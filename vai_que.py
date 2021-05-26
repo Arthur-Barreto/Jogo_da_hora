@@ -164,6 +164,7 @@ class Player(pg.sprite.Sprite):
         self.all_sprites.add(nova_bala)
         self.all_balas.add(nova_bala)
         self.all_balas_player.add(nova_bala)
+        shoot_sound.play()
 
 class Bala(pg.sprite.Sprite):
     def __init__(self,img, bottom,centerx): 
@@ -220,6 +221,7 @@ class Soldado(pg.sprite.Sprite):
         nova_bala = Shoot_m(self.bala_img,self.rect.bottom,self.rect.centerx)
         self.all_sprites.add(nova_bala)
         self.all_balas_mob.add(nova_bala)
+        shoot_m_sound.play()
     
 class Shoot_m(pg.sprite.Sprite):
     def __init__(self,img,bottom,centerx):

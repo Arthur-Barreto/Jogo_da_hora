@@ -89,11 +89,19 @@ assets["player"] = PI_Anim
 #Andando Frente
 PF_Anim = []
 for f in range (0,15):
-    nome_arquivo = "Jogador/PlayerWalking/{}.png".format(f)
+    nome_arquivo = "Jogador/PlayerWalking/Direita{}.png".format(f)
     img= pg.image.load(nome_arquivo).convert_alpha()
     img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
     PF_Anim.append(img)
 assets["player_walk"] = PF_Anim
+
+PFE_Anim = []
+for f in range (0,15):
+    nome_arquivo = "Jogador/PlayerWalking/Esquerda{}.png".format(f)
+    img= pg.image.load(nome_arquivo).convert_alpha()
+    img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PFE_Anim.append(img)
+assets["player_walke"] = PFE_Anim
     #Pulando
 PJ_Anim = []
 for j in range (0,6):

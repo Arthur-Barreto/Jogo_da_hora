@@ -210,7 +210,24 @@ class Player(pg.sprite.Sprite):
                 self.image = self.walk_anim[self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
-
+    def jump (self):
+        if self.current_anim != "jump":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "jump"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.jump_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.jump_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
     def shoot(self):
         #Gera Bala
         nova_bala = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)

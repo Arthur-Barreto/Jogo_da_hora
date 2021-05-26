@@ -29,7 +29,7 @@ sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
 # carrega os sons do jogo, agr sim papaizinho heheh
 # por enquanto só esses mas jaja tem mais senhoras e senhores
 pg.mixer.music.load("Sons/BGM2.wav")
-pg.mixer.music.set_volume(0.2)
+pg.mixer.music.set_volume(0.1)
 shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
 shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
@@ -49,6 +49,7 @@ assets["background"] = background
 
 #====Jogador====
     #Idle
+
 PI_Anim = []
 for e in range(0,11):
     nome_arquiva = "Jogador/PlayerIdle/{}.png".format(e)
@@ -164,6 +165,7 @@ class Player(pg.sprite.Sprite):
         self.all_sprites.add(nova_bala)
         self.all_balas.add(nova_bala)
         self.all_balas_player.add(nova_bala)
+        shoot_sound.play()
 
 class Bala(pg.sprite.Sprite):
     def __init__(self,img, bottom,centerx): 
@@ -177,7 +179,7 @@ class Bala(pg.sprite.Sprite):
         #self.rect.centerx = 45
         #self.rect.bottom = 260
         self.rect.centerx = centerx
-        self.rect.bottom = bottom -10
+        self.rect.bottom = bottom - 15
         # a nossa bala corre para a direita, dai tem que ter velocidade
         # no eixo x não no y igual o do ex da nave
         self.speedx = 5
@@ -194,32 +196,33 @@ class Bala(pg.sprite.Sprite):
         hits = pg.sprite.spritecollide(self,all_mobs,True)
         for hit in hits:
             deeth_sound_m.play()
-            mob.kill()
             self.kill()
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class Soldado(pg.sprite.Sprite):                             
-    def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_players):
+    def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_players,x):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.centerx = 1100
+        self.rect.centerx = x
         self.rect.bottom = 280
         self.speedx = -0.05
         self.all_sprites = all_sprites
         self.all_balas_mob = all_balas_mob
         self.bala_img = bala_img
         self.all_players = all_players
+        self.refe_pos_ini = x
     def update(self):
         self.rect.x += self.speedx
         # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
-        if self.rect.x <= 700:
+        if self.rect.x <= (self.refe_pos_ini - 350):
             self.speedx = 0
     def shoot_m(self):
         nova_bala = Shoot_m(self.bala_img,self.rect.bottom,self.rect.centerx)
         self.all_sprites.add(nova_bala)
         self.all_balas_mob.add(nova_bala)
+        shoot_m_sound.play()
     
 class Shoot_m(pg.sprite.Sprite):
     def __init__(self,img,bottom,centerx):
@@ -228,7 +231,7 @@ class Shoot_m(pg.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.centerx = centerx
-        self.rect.bottom = bottom
+        self.rect.bottom = bottom - 20
         self.speedx = -5 # velocidade fixa para a esquerda
 
     def update(self):
@@ -259,10 +262,14 @@ player = Player(player_img, all_sprites, all_balas, bala_img,all_balas_player)
 all_players.add(player)
 all_sprites.add(player)
 #Criando Mobs
-mob = Soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_players)
-all_sprites.add(mob)
-all_mobs.add(mob)
+x = 1100
 
+for i in range(4):
+
+    mob = Soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_players,x)
+    all_sprites.add(mob)
+    all_mobs.add(mob)
+    x += 30
 
 # ===== Loop principal =====
 i=0

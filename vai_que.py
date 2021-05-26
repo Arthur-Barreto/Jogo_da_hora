@@ -49,8 +49,8 @@ MAP1 = [
 
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
-player_img = pg.image.load("Jogador/PlayerWalking/0.png").convert_alpha()
-player_img = pg.transform.scale(player_img, (PLAYER_WIDTH,PLAYER_HEIGHT))
+#player_img = pg.image.load("Jogador/PlayerWalking/0.png").convert_alpha()
+#player_img = pg.transform.scale(player_img, (PLAYER_WIDTH,PLAYER_HEIGHT))
 bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
 sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/0.png").convert_alpha()
 sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
@@ -89,7 +89,7 @@ assets["player"] = PI_Anim
 #Andando Frente
 PF_Anim = []
 for f in range (0,15):
-    nome_arquivo = "Jogador/PlayerWalking/Direita{}.png".format(f)
+    nome_arquivo = "Jogador/PlayerWalking/Direita/{}.png".format(f)
     img= pg.image.load(nome_arquivo).convert_alpha()
     img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
     PF_Anim.append(img)
@@ -97,7 +97,7 @@ assets["player_walk"] = PF_Anim
 
 PFE_Anim = []
 for f in range (0,15):
-    nome_arquivo = "Jogador/PlayerWalking/Esquerda{}.png".format(f)
+    nome_arquivo = "Jogador/PlayerWalking/Esquerda/{}.png".format(f)
     img= pg.image.load(nome_arquivo).convert_alpha()
     img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
     PFE_Anim.append(img)
@@ -183,6 +183,7 @@ class Player(pg.sprite.Sprite):
         #Carregando Assets de animações
         self.idle_anim = assets["player"]
         self.walk_anim = assets ["player_walk"]
+        self.walke_anim = assets ["player_walke"]
         self.jump_anim = assets ["player_jump"]
         #Definindo imagem
         self.image = self.idle_anim[0]
@@ -258,8 +259,10 @@ class Player(pg.sprite.Sprite):
         #Checando estado
         if self.speedx == 0:
             self.idle()
-        elif self.speedx != 0:
+        elif self.speedx > 0:
             self.walk()
+        elif self.speedx < 0:
+            self.walke()
         if self.speedy > 0:
             if self.state == STILL:
                 self.speedy -=JUMP_SIZE
@@ -303,6 +306,26 @@ class Player(pg.sprite.Sprite):
                 self.image = self.walk_anim[self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
+
+    def walke (self):
+        if self.current_anim != "walk":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "walk"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.walke_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.walke_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+
     def jump (self):
         if self.current_anim != "jump":
                 self.last_update = pg.time.get_ticks()
@@ -477,7 +500,7 @@ while game:
             if event.key == pg.K_a:
                 player.speedx-=2
             if event.key == pg.K_w:
-                player.speedy-=10
+                player.speedy-=15
             if event.key == pg.K_SPACE:
                 player.shoot()
             if event.key == pg.K_LSHIFT:

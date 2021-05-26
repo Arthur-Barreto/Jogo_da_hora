@@ -21,7 +21,7 @@ SNIPER_HEIGHT= 48
 #Defini tamanho da Tile
 TILE_SIZE = 25
 #Defini Aceleração gravitacional
-GRAVITY = 1.5
+GRAVITY = 2.5
 #Defini Velocidade do Pulo
 JUMP_SIZE = TILE_SIZE
 #Defini a velocidade X
@@ -477,7 +477,7 @@ while game:
             if event.key == pg.K_a:
                 player.speedx-=2
             if event.key == pg.K_w:
-                player.speedy-=10
+                player.speedy-=20
             if event.key == pg.K_SPACE:
                 player.shoot()
             if event.key == pg.K_LSHIFT:

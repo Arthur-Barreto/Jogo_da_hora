@@ -59,7 +59,7 @@ for e in range(0,11):
 assets["player"] = PI_Anim
 #Andando Frente
 PF_Anim = []
-for f in range (0,23):
+for f in range (0,15):
     nome_arquivo = "Jogador/PlayerWalking/{}.png".format(f)
     img= pg.image.load(nome_arquivo).convert_alpha()
     img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
@@ -140,12 +140,14 @@ class Player(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self)
         self.idle_anim = assets["player"]
         self.walk_anim = assets ["player_walk"]
+        self.jump_anim = assets ["player_jump"]
         self.image = self.idle_anim[0]
         self.rect = self.image.get_rect()
         self.rect.centerx = 40
         self.rect.centery = 250
         self.rect.bottom = 280
         self.speedx = 0
+        self.speedy = 0
         self.frame = 0
         self.all_sprites = all_sprites
         self.all_balas = all_balas 
@@ -154,11 +156,11 @@ class Player(pg.sprite.Sprite):
         self.current_anim = "idle"
         self.frame_ticks = 100
         self.last_update = pg.time.get_ticks()
-    
+
     def update(self):
         # atualiza a posição do nosso mostro
         self.rect.x += self.speedx
-
+        self.rect.y += self.speedy
         #manter o nosso lek na tela
         if self.rect.right > WIDTH:
             self.rect.right = WIDTH 
@@ -169,7 +171,9 @@ class Player(pg.sprite.Sprite):
             self.idle()
         elif self.speedx != 0:
             self.walk()
-    
+        if self.speedy > 0:
+            self.jump()
+
     def idle (self):
         if self.current_anim != "idle":
                 self.last_update = pg.time.get_ticks()
@@ -206,6 +210,7 @@ class Player(pg.sprite.Sprite):
                 self.image = self.walk_anim[self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
+
     def shoot(self):
         #Gera Bala
         nova_bala = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
@@ -332,9 +337,11 @@ while game:
         # Verifica se apertou alguma tecla
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_d:
-                player.speedx+=4
+                player.speedx+=2
             if event.key == pg.K_a:
-                player.speedx-=4
+                player.speedx-=2
+            if event.key == pg.K_w:
+                player.speedy-=5
             if event.key == pg.K_SPACE:
                 player.shoot()
             if event.key == pg.K_LSHIFT:
@@ -344,9 +351,11 @@ while game:
         #Verifica se Soltou alguma tecla
         if event.type == pg.KEYUP:
             if event.key == pg.K_d:
-                player.speedx-=4
+                player.speedx-=2
             if event.key == pg.K_a:
-                player.speedx+=4
+                player.speedx+=2
+            if event.key == pg.K_w:
+                player.speedy+=5
     # --------- Atualiza estado do jogo-------------
     # atualizando a posição do jogador
     all_sprites.update()

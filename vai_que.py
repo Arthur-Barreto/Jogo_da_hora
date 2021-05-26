@@ -177,7 +177,7 @@ class Bala(pg.sprite.Sprite):
         #self.rect.centerx = 45
         #self.rect.bottom = 260
         self.rect.centerx = centerx
-        self.rect.bottom = bottom -10
+        self.rect.bottom = bottom - 15
         # a nossa bala corre para a direita, dai tem que ter velocidade
         # no eixo x não no y igual o do ex da nave
         self.speedx = 5
@@ -228,7 +228,7 @@ class Shoot_m(pg.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.centerx = centerx
-        self.rect.bottom = bottom
+        self.rect.bottom = bottom - 20
         self.speedx = -5 # velocidade fixa para a esquerda
 
     def update(self):

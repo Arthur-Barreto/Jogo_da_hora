@@ -75,7 +75,7 @@ assets["startsc_anim"] = start_sc
 #Game Background
 background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
 assets["background"] = background
-tile_img = pg.image.load("Imagem 50x50/0.png").convert()
+tile_img = pg.image.load("Imagem 50x50/0.png").convert_alpha()
 #====Jogador====
     #Idle
 

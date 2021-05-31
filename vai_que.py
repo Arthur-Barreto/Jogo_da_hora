@@ -18,8 +18,8 @@ PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 38
 SNIPER_WIDTH= 63
 SNIPER_HEIGHT= 48
-VIDA_WIDTH = 24
-VIDA_HEIGHT = 22
+VIDA_WIDTH = 48
+VIDA_HEIGHT = 44
 PLATAFORMA_WIDTH = 200
 PLATAFORMA_HEIGHT = 50
 #Defini tamanho da Tile
@@ -495,8 +495,8 @@ class Coracoes(pg.sprite.Sprite):
         self.pouca = stat_vida[2]
         self.image = self.cheia
         self.rect = self.image.get_rect()
-        self.rect.centerx = 120
-        self.rect.bottom = 25
+        self.rect.centerx = 60
+        self.rect.bottom = 75
         self.all_sprites = all_sprites
         self.current_anim = "cheio"
     
@@ -548,8 +548,8 @@ all_sprites.add(coracao)
 game = Game()
 #Adicionar Plataformas
 if game.state == "fase 1":
-    lista_centerx = [1000,800]
-    lista_bottom = [300,400]
+    lista_centerx = [960,800]
+    lista_bottom = [213,238]
     for e in range(0,2):
         plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
         all_sprites.add(plataforma)

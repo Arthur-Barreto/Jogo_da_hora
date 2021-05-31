@@ -28,7 +28,8 @@ GRAVITY = 1
 JUMP_SIZE = TILE_SIZE
 #Defini a velocidade X
 SPEED_X =5 
-
+#Vidas
+lifes = 3
 #Defini Tipos de Tiles
 BLOCK = 0
 EMPTY = -1
@@ -178,9 +179,8 @@ meia_vida = pg.image.load("Vida/metade Vida.png").convert_alpha()
 meia_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
 pouca_vida = pg.image.load("Vida/pouca_Vida.png").convert_alpha()
 pouca_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
-assets=["stat_vida"] = vida
-assets=["stat_vida"] = meia_vida
-assets=["stat_vida"] = pouca_vida
+vida_lista = [vida,meia_vida,pouca_vida]
+assets["stat_vida"] = vida_lista
 
 #Estados do personagem
 STILL = 0
@@ -545,10 +545,12 @@ while game:
         player.kill()
         for bala in all_balas_mob:
             bala.kill()
-        player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
-        all_players.add(player)
-        all_sprites.add(player)
-        
+        if lifes > 0:
+            player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
+            all_players.add(player)
+            all_sprites.add(player)
+        lifes -= 1
+
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))

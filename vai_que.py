@@ -178,7 +178,7 @@ vida = pg.transform.scale (vida,(VIDA_WIDTH,VIDA_HEIGHT))
 meia_vida = pg.image.load("Vida/metade Vida.png").convert_alpha()
 meia_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
 pouca_vida = pg.image.load("Vida/pouca Vida.png").convert_alpha()
-pouca_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
+pouca_vida = pg.transform.scale (pouca_vida,(VIDA_WIDTH,VIDA_HEIGHT))
 vida_lista = [vida,meia_vida,pouca_vida]
 assets["stat_vida"] = vida_lista
 
@@ -462,7 +462,31 @@ class Shoot_m(pg.sprite.Sprite):
         if self.rect.left < 0:
             self.kill()
 
+class Coracoes(pg.sprite.Sprite):
+    def __init__ (self, img, all_sprites):
+        #Construtor da classe mãe(Sprite)
+        pg.sprite.Sprite.__init__(self)
+        stat_vida = assets["stat_vida"] 
+        self.cheia = stat_vida[0]
+        self.meia = stat_vida[1]
+        self.pouca = stat_vida[2]
+        self.image = self.cheia
+        self.rect = self.image.get_rect()
+        self.rect.centerx = 120
+        self.rect.bottom = 25
+        self.all_sprites = all_sprites
+        self.current_anim = "cheio"
+    
+    def dois(self):
+        self.current_anim = "meio"
+        self.image = self.meia
+    
+    def um (self):
+        self.current_anim = "um"
+        self.image = self.pouca
+
 game = True
+
 #Ajuste de velocidade
 clock = pg.time.Clock()
 FPS = 60
@@ -479,6 +503,8 @@ blocks = pg.sprite.Group()
 player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
 all_players.add(player)
 all_sprites.add(player)
+coracao =  Coracoes(assets["stat_vida"], all_sprites)
+all_sprites.add(coracao)
 #Criando Tiles de acordo com mapa
 for row in range(len(MAP1)):
     for column in range(len(MAP1[row])):
@@ -487,6 +513,7 @@ for row in range(len(MAP1)):
             tile = Tile(tile_img,row,column)
             all_sprites.add(tile)
             blocks.add(tile)
+
 #Criando Mobs
 x = 1100
 
@@ -547,7 +574,11 @@ while game:
         if lifes <=0:
             player.death()
         lifes -= 1
-
+    
+    if lifes == 1:
+        coracao.dois()
+    if lifes == 0:
+        coracao.um()
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))

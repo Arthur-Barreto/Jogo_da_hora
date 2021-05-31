@@ -527,10 +527,15 @@ while game:
     hits = pg.sprite.groupcollide(all_mobs,all_balas_player,True,True)
 
     hits = pg.sprite.spritecollide(player,all_balas_mob,True)
-    for hit in hits:
+    if len(hits) > 0:
         deeth_sound_m.play()
-        player.death()
         player.kill()
+        for bala in all_balas_mob:
+            bala.kill()
+        player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
+        all_players.add(player)
+        all_sprites.add(player)
+
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))

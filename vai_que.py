@@ -401,11 +401,12 @@ class Bala(pg.sprite.Sprite):
         if self.rect.right > WIDTH:
             self.kill()
         # verifica se houve colisão entre tiro e o soldado inimigo
+        '''
         hits = pg.sprite.spritecollide(self,all_mobs,True)
         for hit in hits:
             deeth_sound_m.play()
             self.kill()
-
+        '''
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class Soldado(pg.sprite.Sprite):                             
     def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_players,x):
@@ -505,7 +506,8 @@ while game:
             if event.key == pg.K_SPACE:
                 player.shoot()
             if event.key == pg.K_LSHIFT:
-                mob.shoot_m()
+                for s in all_mobs:
+                    s.shoot_m()
             """if event.key == pg.K_ESCAPE:
                 Adicionar estado de Menu """
         #Verifica se Soltou alguma tecla
@@ -521,11 +523,14 @@ while game:
     all_sprites.update()
 
     # verifica se houve colisão entre tiro e o soldado inimigo
-    #hits = pg.sprite.spritecollide(mob,all_balas_player,True)
+
+    hits = pg.sprite.groupcollide(all_mobs,all_balas_player,True,True)
+
     hits = pg.sprite.spritecollide(player,all_balas_mob,True)
     for hit in hits:
         deeth_sound_m.play()
         player.death()
+        player.kill()
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))

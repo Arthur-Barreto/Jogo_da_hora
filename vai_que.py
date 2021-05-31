@@ -29,7 +29,7 @@ JUMP_SIZE = TILE_SIZE
 #Defini a velocidade X
 SPEED_X =5 
 #Vidas
-lifes = 3
+lifes = 2
 #Defini Tipos de Tiles
 BLOCK = 0
 EMPTY = -1
@@ -177,7 +177,7 @@ vida = pg.image.load("Vida/Vida.png").convert_alpha()
 vida = pg.transform.scale (vida,(VIDA_WIDTH,VIDA_HEIGHT))
 meia_vida = pg.image.load("Vida/metade Vida.png").convert_alpha()
 meia_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
-pouca_vida = pg.image.load("Vida/pouca_Vida.png").convert_alpha()
+pouca_vida = pg.image.load("Vida/pouca Vida.png").convert_alpha()
 pouca_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
 vida_lista = [vida,meia_vida,pouca_vida]
 assets["stat_vida"] = vida_lista
@@ -542,13 +542,10 @@ while game:
     hits = pg.sprite.spritecollide(player,all_balas_mob,True)
     if len(hits) > 0:
         deeth_sound_m.play()
-        player.kill()
         for bala in all_balas_mob:
             bala.kill()
-        if lifes > 0:
-            player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
-            all_players.add(player)
-            all_sprites.add(player)
+        if lifes <=0:
+            player.death()
         lifes -= 1
 
     # ----- Gera saídas

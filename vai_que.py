@@ -18,6 +18,8 @@ PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 38
 SNIPER_WIDTH= 63
 SNIPER_HEIGHT= 48
+VIDA_WIDTH = 24
+VIDA_HEIGHT = 22
 #Defini tamanho da Tile
 TILE_SIZE = 25
 #Defini Aceleração gravitacional
@@ -169,6 +171,17 @@ for me in range (0,9):
     ME.append(img)
 assets["inim_morrE"] = ME
 
+#====Vida====
+vida = pg.image.load("Vida/Vida.png").convert_alpha()
+vida = pg.transform.scale (vida,(VIDA_WIDTH,VIDA_HEIGHT))
+meia_vida = pg.image.load("Vida/metade Vida.png").convert_alpha()
+meia_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
+pouca_vida = pg.image.load("Vida/pouca_Vida.png").convert_alpha()
+pouca_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
+assets=["stat_vida"] = vida
+assets=["stat_vida"] = meia_vida
+assets=["stat_vida"] = pouca_vida
+
 #Estados do personagem
 STILL = 0
 JUMPING = 1
@@ -312,7 +325,7 @@ class Player(pg.sprite.Sprite):
         if self.current_anim != "walk":
                 self.last_update = pg.time.get_ticks()
                 self.frame = 0
-        self.current_anim = "walk"
+        self.current_anim = "walke"
         now = pg.time.get_ticks()
         elapsed_ticks = now - self.last_update
         if elapsed_ticks > self.frame_ticks:
@@ -346,14 +359,14 @@ class Player(pg.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.center = center
     def shoot(self):
-        #Gera Bala
+        #Gera Bala para direita
         if self.estado == "alive":
             nova_bala = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
             self.all_sprites.add(nova_bala)
             self.all_balas.add(nova_bala)
             self.all_balas_player.add(nova_bala)
             shoot_sound.play()
-    
+
     def death (self):
         self.estado = "death"
         self.kill()
@@ -535,7 +548,7 @@ while game:
         player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
         all_players.add(player)
         all_sprites.add(player)
-
+        
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))

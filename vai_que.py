@@ -20,8 +20,8 @@ SNIPER_WIDTH= 63
 SNIPER_HEIGHT= 48
 VIDA_WIDTH = 24
 VIDA_HEIGHT = 22
-PLATAFORMA_WIDTH = 100
-PLATAFORMA_HEIGHT = 25
+PLATAFORMA_WIDTH = 200
+PLATAFORMA_HEIGHT = 50
 #Defini tamanho da Tile
 TILE_SIZE = 25
 #Defini Aceleração gravitacional
@@ -33,6 +33,7 @@ SPEED_X =5
 #Vidas
 lifes = 2
 #Defini Tipos de Tiles
+PLATAFORMA = 0
 BLOCK = 0
 EMPTY = -1
 
@@ -45,8 +46,8 @@ MAP1 = [
     [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
     [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
     [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
-    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,BLOCK,BLOCK,BLOCK,BLOCK,EMPTY,EMPTY],
-    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,BLOCK,BLOCK,BLOCK,BLOCK,EMPTY,EMPTY,EMPTY,EMPTY],
+    [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,BLOCK,BLOCK,BLOCK,BLOCK,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
     [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
     [EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY],
     [BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK,BLOCK]
@@ -332,7 +333,7 @@ class Player(pg.sprite.Sprite):
         if self.current_anim != "walk":
                 self.last_update = pg.time.get_ticks()
                 self.frame = 0
-        self.current_anim = "walke"
+        self.current_anim = "walk"
         now = pg.time.get_ticks()
         elapsed_ticks = now - self.last_update
         if elapsed_ticks > self.frame_ticks:
@@ -380,13 +381,13 @@ class Player(pg.sprite.Sprite):
 
 class Tile (pg.sprite.Sprite):
     #Construtor da classe
-    def __init__ (self,title_img,row,column):
+    def __init__ (self,title_img,row,column,width,height):
         #Construtor da classe Sprite
         pg.sprite.Sprite.__init__(self)
         #Defini IMG
         img = tile_img
         #Transforma o Tamanho do Tile
-        img = pg.transform.scale(img,(50,50))
+        img = pg.transform.scale(img,(width,height))
         #Defini a imagem de Self
         self.image = img
         #Cria posicionamnto
@@ -492,6 +493,21 @@ class Coracoes(pg.sprite.Sprite):
         self.current_anim = "um"
         self.image = self.pouca
 
+class Plataforma(pg.sprite.Sprite):
+    def __init__(self,img,all_sprites,centerx,bottom):
+        #Construtor da classe mãe(Sprite)
+        pg.sprite.Sprite.__init__(self)
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = centerx #1000
+        self.rect.bottom = bottom #201
+        self.all_sprites = all_sprites
+        
+
+class Game(pg.sprite.Sprite):
+    def __init__ (self):
+        #Construtor da classe mãe(Sprite)
+        self.state = "fase 1"
 game = True
 
 #Ajuste de velocidade
@@ -510,17 +526,28 @@ blocks = pg.sprite.Group()
 player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
 all_players.add(player)
 all_sprites.add(player)
+#Criando Mostrador de Corações
 coracao =  Coracoes(assets["stat_vida"], all_sprites)
 all_sprites.add(coracao)
+#Criando Class Game
+game = Game()
+#Adicionar Plataformas
+if game.state == "fase 1":
+    lista_centerx = [1000,800]
+    lista_bottom = [201,100]
+    for e in range(0,2):
+        plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
+        all_sprites.add(plataforma)
+
+
 #Criando Tiles de acordo com mapa
 for row in range(len(MAP1)):
     for column in range(len(MAP1[row])):
         tile_type = MAP1[row][column]
         if tile_type == BLOCK:
-            tile = Tile(tile_img,row,column)
+            tile = Tile(tile_img,row,column,50,50)
             all_sprites.add(tile)
             blocks.add(tile)
-
 #Criando Mobs
 x = 1100
 

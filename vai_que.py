@@ -528,6 +528,7 @@ for i in range(4):
 i=0
 # então, faltava só copiar essa linha para funfar a música de fundo
 pg.mixer.music.play(loops=-1)
+last_update = pg.time.get_ticks()
 while game:
     clock.tick(FPS)
     # ----- Trata eventos
@@ -545,9 +546,7 @@ while game:
                 player.speedy-=15
             if event.key == pg.K_SPACE:
                 player.shoot()
-            if event.key == pg.K_LSHIFT:
-                for s in all_mobs:
-                    s.shoot_m()
+            #if event.key == pg.K_LSHIFT: 
             """if event.key == pg.K_ESCAPE:
                 Adicionar estado de Menu """
         #Verifica se Soltou alguma tecla
@@ -558,6 +557,11 @@ while game:
                 player.speedx+=2
             if event.key == pg.K_w:
                 player.speedy+=5
+    for s in all_mobs:
+        now = pg.time.get_ticks()
+        if now - last_update > 1000 and s.rect.x - player.rect.x > 200:
+            s.shoot_m()
+            last_update = pg.time.get_ticks()
     # --------- Atualiza estado do jogo-------------
     # atualizando a posição do jogador
     all_sprites.update()

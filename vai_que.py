@@ -93,6 +93,7 @@ assets["startsc_anim"] = start_sc
 #Game Background
 background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
 assets["background"] = background
+segunda_tela=pg.image.load("Cenario/waterfall0.png").convert()
 tile_img = pg.image.load("Imagem 50x50/0.png").convert_alpha()
 #====Jogador====
     #Idle
@@ -517,6 +518,9 @@ class Plataforma(pg.sprite.Sprite):
         self.rect.centerx = centerx #1000
         self.rect.bottom = bottom #201
         self.all_sprites = all_sprites
+
+    def remover(self):
+        self.kill()
         
 
 class Game(pg.sprite.Sprite):
@@ -553,6 +557,9 @@ if game.state == "fase 1":
     for e in range(0,2):
         plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
         all_sprites.add(plataforma)
+if game.state != "fase 1":
+    plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
+    plataforma.remover()
 
 
 #Criando Tiles de acordo com mapa
@@ -595,9 +602,7 @@ while game:
                     player.speedy -= 15
             if event.key == pg.K_SPACE:
                 player.shoot()
-            #if event.key == pg.K_LSHIFT: 
-            """if event.key == pg.K_ESCAPE:
-                Adicionar estado de Menu """
+
         #Verifica se Soltou alguma tecla
         if event.type == pg.KEYUP:
             if event.key == pg.K_d:
@@ -635,6 +640,7 @@ while game:
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(background, (0,0))
+
     # desenhando tudo que ta salvo em sprite
     all_sprites.draw(window)
 

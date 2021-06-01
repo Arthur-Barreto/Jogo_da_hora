@@ -76,7 +76,7 @@ sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
 # carrega os sons do jogo, agr sim papaizinho heheh
 # por enquanto só esses mas jaja tem mais senhoras e senhores
 pg.mixer.music.load("Sons/BGM2.wav")
-pg.mixer.music.set_volume(0.01)
+pg.mixer.music.set_volume(0.1)
 shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
 shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
@@ -548,7 +548,7 @@ all_sprites.add(coracao)
 game = Game()
 #Adicionar Plataformas
 if game.state == "fase 1":
-    lista_centerx = [960,800]
+    lista_centerx = [965,800]
     lista_bottom = [213,238]
     for e in range(0,2):
         plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
@@ -591,7 +591,8 @@ while game:
             if event.key == pg.K_a:
                 player.speedx-=2
             if event.key == pg.K_w:
-                player.speedy-=15
+                if player.speedy <= 1:
+                    player.speedy -= 15
             if event.key == pg.K_SPACE:
                 player.shoot()
             #if event.key == pg.K_LSHIFT: 

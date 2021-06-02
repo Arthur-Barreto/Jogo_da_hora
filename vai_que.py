@@ -627,6 +627,7 @@ class Soldado(pg.sprite.Sprite):
         self.frame_ticks = 100
         #Atualizar Ticks
         self.last_update = pg.time.get_ticks()
+        self.last_shoot = pg.time.get_ticks()
         #Defindo blocks
         self.blocks = blocks
 
@@ -663,6 +664,7 @@ class Soldado(pg.sprite.Sprite):
                 self.rect.center = center
     
     def atirando(self):
+        
         if self.current_anim != "atirando":
             self.last_update = pg.time.get_ticks()
             self.frame = 0
@@ -682,11 +684,13 @@ class Soldado(pg.sprite.Sprite):
                 self.rect.center = center
     
     def shoot_m(self):
+        
         if self.current_anim != "walk":
             nova_bala = Shoot_m(self.bala_img,self.rect.bottom,self.rect.centerx)
             self.all_sprites.add(nova_bala)
             self.all_balas_mob.add(nova_bala)
             shoot_m_sound.play()
+            self.last_shoot = pg.time.get_ticks()
     
 class Shoot_m(pg.sprite.Sprite):
     def __init__(self,img,bottom,centerx):
@@ -697,6 +701,7 @@ class Shoot_m(pg.sprite.Sprite):
         self.rect.centerx = centerx
         self.rect.bottom = bottom - 20
         self.speedx = -5 # velocidade fixa para a esquerda
+        
 
     def update(self):
         # a bala só se move no eixo x, no sentido negativo
@@ -836,7 +841,8 @@ while game:
                 player.speedy+=5
     for s in all_mobs:
         now = pg.time.get_ticks()
-        if now - last_update > 1000 and s.rect.x - player.rect.x > 200:
+        
+        if now - s.last_shoot > 1000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 200:
             s.shoot_m()
             last_update = pg.time.get_ticks()
     # --------- Atualiza estado do jogo-------------

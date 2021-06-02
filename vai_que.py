@@ -446,13 +446,13 @@ class Bala(pg.sprite.Sprite):
         '''
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class Soldado(pg.sprite.Sprite):                             
-    def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_players,x):
+    def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_players,x,bottom):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.centerx = x
-        self.rect.bottom = 285
+        self.rect.centerx = x 
+        self.rect.bottom = bottom
         self.speedx = -0.05
         self.all_sprites = all_sprites
         self.all_balas_mob = all_balas_mob
@@ -462,7 +462,7 @@ class Soldado(pg.sprite.Sprite):
     def update(self):
         self.rect.x += self.speedx
         # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
-        if self.rect.x <= (self.refe_pos_ini - 350):
+        if self.rect.x <= (self.refe_pos_ini - 80):
             self.speedx = 0
     def shoot_m(self):
         nova_bala = Shoot_m(self.bala_img,self.rect.bottom,self.rect.centerx)
@@ -571,14 +571,19 @@ for row in range(len(MAP1)):
             all_sprites.add(tile)
             blocks.add(tile)
 #Criando Mobs
-x = 1100
 
-for i in range(4):
-    mob = Soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_players,x)
+# primeiro for para os monstros de cima
+grupo1_sol = [[600,285],[800,285],[1000,285]]
+# segundo para os lek de baixo, é nois papaizinho
+grupo2_sol = [[965,188],[800,213]]
+for i in range(0,3):
+    mob = Soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],grupo1_sol[i][1])
     all_sprites.add(mob)
     all_mobs.add(mob)
-    x += 30
-
+for i in range(0,2):
+    mob = Soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][1])
+    all_sprites.add(mob)
+    all_mobs.add(mob)
 # ===== Loop principal =====
 i=0
 # então, faltava só copiar essa linha para funfar a música de fundo

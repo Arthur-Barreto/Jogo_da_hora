@@ -684,30 +684,62 @@ class Soldado(pg.sprite.Sprite):
                 self.rect.center = center
     
     def shoot_m(self):
-        
         if self.current_anim != "walk":
-            nova_bala = Shoot_m(self.bala_img,self.rect.bottom,self.rect.centerx)
+            nova_bala = Shoot_m(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
             self.all_sprites.add(nova_bala)
             self.all_balas_mob.add(nova_bala)
             shoot_m_sound.play()
             self.last_shoot = pg.time.get_ticks()
     
 class Shoot_m(pg.sprite.Sprite):
-    def __init__(self,img,bottom,centerx):
+    def __init__(self,assets,img,bottom,centerx):
         #Contrutor da classe mãe(Sprite)
         pg.sprite.Sprite.__init__(self)
+        #Carregando Assets de animação
+        self.shoot = assets["disparo_esquerda"]
+        #Definindo Imagem
         self.image = img
+        #Defindo Retangulo
         self.rect = self.image.get_rect()
+        #Definindo Posicionalmento
         self.rect.centerx = centerx
         self.rect.bottom = bottom - 20
+        #Definod velocidades
         self.speedx = -5 # velocidade fixa para a esquerda
-        
+        #Definindo Frame
+        self.frame = 0
+        #Estado de animação - Nulo
+        self.current_anim = "nulo"
+        #Velocidade/Tick de animação
+        self.frame_ticks = 100
+        #Atualizar
+        self.last_update = pg.time.get_ticks()
+
+    def tiro(self):
+        if self.current_anim != "tiro":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "tiro"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.shoot):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.shoot[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
 
     def update(self):
         # a bala só se move no eixo x, no sentido negativo
         self.rect.x += self.speedx
         if self.rect.left < 0:
             self.kill()
+        self.tiro()
 
 class Coracoes(pg.sprite.Sprite):
     def __init__ (self, img, all_sprites):

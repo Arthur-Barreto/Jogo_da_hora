@@ -14,14 +14,21 @@ pg.display.set_caption('Metal Slug da massa')
 
 
 # ----- Inicia assets
+#Dimensões Jogador
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 38
+#Dimensões Sniper
 SNIPER_WIDTH= 63
 SNIPER_HEIGHT= 48
+#Dimensões Vida
 VIDA_WIDTH = 48
 VIDA_HEIGHT = 44
+#Dimensões Plataforma
 PLATAFORMA_WIDTH = 200
 PLATAFORMA_HEIGHT = 50
+#Dimensões Bala
+BALA_WIDTH = 12
+BALA_HEIGHT = 10
 #Defini tamanho da Tile
 TILE_SIZE = 12.5
 #Defini Aceleração gravitacional
@@ -187,6 +194,15 @@ for me in range (0,9):
     img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
     ME.append(img)
 assets["inim_morrE"] = ME
+    #Disparos a esquerda
+DE = []
+for de in range (1,10):
+    nome_arquivo = "Disparos_Esquerda/{}.png".format(de)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(BALA_WIDTH,BALA_HEIGHT))
+    DE.append(img)
+assets["disparo_esquerda"] = DE
+
 
 #====Vida====
 vida = pg.image.load("Vida/Vida.png").convert_alpha()
@@ -242,7 +258,7 @@ class Player(pg.sprite.Sprite):
         self.current_anim = "idle"
         self.state = STILL
         self.estado = "alive"
-        #Velocidade/Tick de animaçãi
+        #Velocidade/Tick de animação
         self.frame_ticks = 100
         #Atualizar Ticks
         self.last_update = pg.time.get_ticks()
@@ -446,29 +462,97 @@ class Bala(pg.sprite.Sprite):
         '''
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class Soldado(pg.sprite.Sprite):                             
-    def __init__(self, img, all_sprites, all_balas_mob, bala_img,all_players,x):
+    def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
+        #Carregando assets de animação
+        self.corre_esque = assets["inim_corrE"]
+        self.atirE = assets["inim_atirE"]
+        self.dispE = assets ["disparo_esquerda"]
+        #Definind Imagem
         self.image = img
         self.rect = self.image.get_rect()
+        #Definindo posicionamento
         self.rect.centerx = x
         self.rect.bottom = 285
-        self.speedx = -0.05
+        #Definindo Velocidades
+        self.speedx = -0.2
+        #Definindo Frame
+        self.frame = 0
+        #Chamando Groups necessarios
         self.all_sprites = all_sprites
         self.all_balas_mob = all_balas_mob
         self.bala_img = bala_img
         self.all_players = all_players
         self.refe_pos_ini = x
+        #Estado de animação - Idle
+        self.current_anim = "idle"
+        self.state = STILL
+        self.estado = "alive"
+        #Velocidade/Tick de animação
+        self.frame_ticks = 100
+        #Atualizar Ticks
+        self.last_update = pg.time.get_ticks()
+        #Defindo blocks
+        self.blocks = blocks
+
     def update(self):
+        #Atualizando posição do Soldado
+        #Andando em X
         self.rect.x += self.speedx
         # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
         if self.rect.x <= (self.refe_pos_ini - 350):
             self.speedx = 0
+        #Checando estado
+        if self.speedx < 0:
+            self.walk()
+        if self.speedx == 0:
+            self.atirando()
+
+    def walk(self):
+        if self.current_anim != "walk":
+            self.last_update = pg.time.get_ticks()
+            self.frame = 0
+        self.current_anim = "walk"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.corre_esque):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.corre_esque[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+    
+    def atirando(self):
+        if self.current_anim != "atirando":
+            self.last_update = pg.time.get_ticks()
+            self.frame = 0
+        self.current_anim = "atirando"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.atirE):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.atirE[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+    
     def shoot_m(self):
-        nova_bala = Shoot_m(self.bala_img,self.rect.bottom,self.rect.centerx)
-        self.all_sprites.add(nova_bala)
-        self.all_balas_mob.add(nova_bala)
-        shoot_m_sound.play()
+        if self.current_anim != "walk":
+            nova_bala = Shoot_m(self.bala_img,self.rect.bottom,self.rect.centerx)
+            self.all_sprites.add(nova_bala)
+            self.all_balas_mob.add(nova_bala)
+            shoot_m_sound.play()
     
 class Shoot_m(pg.sprite.Sprite):
     def __init__(self,img,bottom,centerx):
@@ -574,7 +658,7 @@ for row in range(len(MAP1)):
 x = 1100
 
 for i in range(4):
-    mob = Soldado(sniper_img, all_sprites, all_balas_mob, bala_img, all_players,x)
+    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,x)
     all_sprites.add(mob)
     all_mobs.add(mob)
     x += 30

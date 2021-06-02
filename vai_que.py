@@ -83,7 +83,7 @@ sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
 # carrega os sons do jogo, agr sim papaizinho heheh
 # por enquanto só esses mas jaja tem mais senhoras e senhores
 pg.mixer.music.load("Sons/BGM2.wav")
-pg.mixer.music.set_volume(0.1)
+pg.mixer.music.set_volume(0.05)
 shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
 shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
@@ -596,7 +596,7 @@ class BalaE(pg.sprite.Sprite):
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class Soldado(pg.sprite.Sprite):                             
-    def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,bottom):
+    def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,ini,bottom):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #Carregando assets de animação
@@ -607,7 +607,7 @@ class Soldado(pg.sprite.Sprite):
         self.image = img
         self.rect = self.image.get_rect()
         #Definindo posicionamento
-        self.rect.centerx = x
+        self.rect.centerx = ini
         self.rect.bottom = bottom
         #Definindo Velocidades
         self.speedx = -0.05
@@ -832,17 +832,17 @@ grupo1_sol = [[600,285],[800,285],[1000,285]]
 # segundo para os lek de baixo, é nois papaizinho
 grupo2_sol = [[965,188],[800,213]]
 for i in range(0,3):
-    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],grupo1_sol[i][1])
+    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1])
     all_sprites.add(mob)
     all_mobs.add(mob)
 for i in range(0,2):
-    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][1])
+    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1])
     all_sprites.add(mob)
     all_mobs.add(mob)
 # ===== Loop principal =====
 i=0
 # então, faltava só copiar essa linha para funfar a música de fundo
-pg.mixer.music.play(loops=-1)
+# pg.mixer.music.play(loops=-1)
 last_update = pg.time.get_ticks()
 while game:
     clock.tick(FPS)

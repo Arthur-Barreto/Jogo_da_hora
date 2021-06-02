@@ -874,7 +874,7 @@ while game:
     for s in all_mobs:
         now = pg.time.get_ticks()
         
-        if now - s.last_shoot > 1000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400:
+        if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400:
             s.shoot_m()
             last_update = pg.time.get_ticks()
     # --------- Atualiza estado do jogo-------------

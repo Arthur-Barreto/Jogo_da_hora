@@ -219,6 +219,24 @@ plataforma = pg.image.load("plataformas/plataforma 1.png").convert_alpha()
 plataforma = pg.transform.scale(plataforma,(PLATAFORMA_WIDTH,PLATAFORMA_HEIGHT))
 assets["plataforma"] = plataforma
 
+#====Tiros====
+    #Tiro para Direita
+TD = []
+for td in range(1,10):
+    nome_arquivo = "Disparos_Direita/{}.png".format(td)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(BALA_WIDTH,BALA_HEIGHT))
+    TD.append(img)
+assets["tiro_direta"] = TD
+    #Tiro para Esquerda
+TE = []
+for te in range(1,10):
+    nome_arquivo = "Disparos_Esquerda/{}.png".format(te)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(BALA_WIDTH,BALA_HEIGHT))
+    TE.append(img)
+assets["tiro_esquerda"] = TE
+
 #Estados do personagem
 STILL = 0
 JUMPING = 1
@@ -235,6 +253,7 @@ class Player(pg.sprite.Sprite):
         self.walk_anim = assets ["player_walk"]
         self.walke_anim = assets ["player_walke"]
         self.jump_anim = assets ["player_jump"]
+        self.shoot_anim = assets ["player_shoot"]
         #Definindo imagem
         self.image = self.idle_anim[0]
         self.mask = pg.mask.from_surface(self.image)
@@ -360,10 +379,10 @@ class Player(pg.sprite.Sprite):
                 self.rect.center = center
 
     def walke (self):
-        if self.current_anim != "walk":
+        if self.current_anim != "walke":
                 self.last_update = pg.time.get_ticks()
                 self.frame = 0
-        self.current_anim = "walk"
+        self.current_anim = "walke"
         now = pg.time.get_ticks()
         elapsed_ticks = now - self.last_update
         if elapsed_ticks > self.frame_ticks:
@@ -396,14 +415,40 @@ class Player(pg.sprite.Sprite):
                 self.image = self.jump_anim[self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
+    def atirando_direita(self):
+        if self.current_anim != "shoot_d":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "shoot_d"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.shoot_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.shoot_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
     def shoot(self):
         #Gera Bala para direita
         if self.estado == "alive":
-            nova_bala = Bala(self.bala_img,self.rect.bottom,self.rect.centerx)
-            self.all_sprites.add(nova_bala)
-            self.all_balas.add(nova_bala)
-            self.all_balas_player.add(nova_bala)
-            shoot_sound.play()
+            if self.current_anim != "walke":
+                self.atirando_direita()
+                nova_bala = Bala(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
+                self.all_sprites.add(nova_bala)
+                self.all_balas.add(nova_bala)
+                self.all_balas_player.add(nova_bala)
+                shoot_sound.play()
+            else:
+                nova_bala = BalaE(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
+                self.all_sprites.add(nova_bala)
+                self.all_balas.add(nova_bala)
+                self.all_balas_player.add(nova_bala)
+                shoot_sound.play()
 
     def death (self):
         self.estado = "death"
@@ -428,38 +473,127 @@ class Tile (pg.sprite.Sprite):
         self.rect.y = TILE_SIZE * row
 
 class Bala(pg.sprite.Sprite):
-    def __init__(self,img, bottom,centerx): 
+    def __init__(self,assets,img, bottom,centerx): 
         #Construtor da classe mãe (Sprite)
         # se vc é do próximo periodo e está lendo
         # esse bagui de sprite é coonfuso, olha e faz parecido
         # e percebe o que muda
         pg.sprite.Sprite.__init__(self)
+        #Carregando Assets de animações
+        self.shootd_anim = assets ["tiro_direta"]
+        #Definindo Imagem
         self.image = img
         self.mask = pg.mask.from_surface(self.image)
+        #Definindo retangulo
         self.rect = self.image.get_rect()
+        #Definindo posicionamento
         #self.rect.centerx = 45
         #self.rect.bottom = 260
         self.rect.centerx = centerx
         self.rect.bottom = bottom - 15
         # a nossa bala corre para a direita, dai tem que ter velocidade
         # no eixo x não no y igual o do ex da nave
+        #Definindo velocidade
         self.speedx = 5
         # como vai para a direita a velocidade é positiva
+        #Definindo frame
+        self.frame = 0
+        #Estado de animação - Nulo
+        self.current_anim = "nulo"
+        #Velocidade/Tick de animação
+        self.frame_ticks = 100
+        #Atualizar ticks
+        self.last_update = pg.time.get_ticks()
+
+    
+    def tiro_direita(self):
+        if self.current_anim != "tiro_direita":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "tiro_direita"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.shootd_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.shootd_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
     
     def update(self):
-        #Atualiza a posição da Bala
-        # lembrando que a a bala só se move no eixo x
+        #Atualiza movimento bala
         self.rect.x += self.speedx
         #Se Bala sair da Tela = KILL
         if self.rect.right > WIDTH:
             self.kill()
-        # verifica se houve colisão entre tiro e o soldado inimigo
-        '''
-        hits = pg.sprite.spritecollide(self,all_mobs,True)
-        for hit in hits:
-            deeth_sound_m.play()
+        self.tiro_direita()
+            
+class BalaE(pg.sprite.Sprite):
+    def __init__(self,assets,img, bottom,centerx): 
+        #Construtor da classe mãe (Sprite)
+        # se vc é do próximo periodo e está lendo
+        # esse bagui de sprite é coonfuso, olha e faz parecido
+        # e percebe o que muda
+        pg.sprite.Sprite.__init__(self)
+        #Carregando Assets de animações
+        self.shoote_anim = assets ["tiro_esquerda"]
+        #Definindo Imagem
+        self.image = img
+        self.mask = pg.mask.from_surface(self.image)
+        #Definindo retangulo
+        self.rect = self.image.get_rect()
+        #Definindo posicionamento
+        #self.rect.centerx = 45
+        #self.rect.bottom = 260
+        self.rect.centerx = centerx -5
+        self.rect.bottom = bottom - 15
+        # a nossa bala corre para a direita, dai tem que ter velocidade
+        # no eixo x não no y igual o do ex da nave
+        #Definindo velocidade
+        self.speedx = -5
+        # como vai para a direita a velocidade é positiva
+        #Definindo frame
+        self.frame = 0
+        #Estado de animação - Nulo
+        self.current_anim = "nulo"
+        #Velocidade/Tick de animação
+        self.frame_ticks = 100
+        #Atualizar ticks
+        self.last_update = pg.time.get_ticks()
+
+    def tiro_esquerda(self):
+        if self.current_anim != "tiro_esquerda":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "tiro_esquerda"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.shoote_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.shoote_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+    
+    def update(self):
+        #Atualiza movimento bala
+        self.rect.x += self.speedx
+        #Se Bala sair da Tela = KILL
+        if self.rect.right > WIDTH:
             self.kill()
-        '''
+        self.tiro_esquerda()
+
+
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class Soldado(pg.sprite.Sprite):                             
     def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,bottom):

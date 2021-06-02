@@ -1,62 +1,154 @@
 import pygame as pg
 import os
-Start_screen = "startsc_anim"
+from Config import *
 
-#Variaveis
-HEIGHT_P= 52
-WIDTH_P= 40
+# vamos carregar todas as animações aqui
 
-def load_assets():
-    #Definindo Assets
-    assets={}
-    #====Telas====
-    #StartScreen
-    start_sc=[]
-    start_sc.append(pg.image.load("Tela Inicial/TIS0.png").convert())
-    start_sc.append(pg.image.load("Tela Inicial/TIS1.png").convert())
-    assets["startsc_anim"] = start_sc
-    #Game Background
-    background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
-    assets["background"] = background
-    #====Jogador====
+#Definindo Assets
+assets = {}
+
+#=====Telas=====
+#StartScreen
+start_sc = []
+start_sc.append(pg.image.load("Tela Inicial/TIS0.png").convert())
+start_sc.append(pg.image.load("Tela Inicial/TIS1.png").convert())
+assets["startsc_anim"] = start_sc
+#Game Background
+background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
+assets["background"] = background
+segunda_tela=pg.image.load("Cenario/waterfall0.png").convert()
+tile_img = pg.image.load("Imagem 50x50/0.png").convert_alpha()
+#====Jogador====
     #Idle
-    PI_Anim = []
-    for e in range(0,11):
-        nome_arquiva = "Jogador/PlayerIdle/{}.png".format(e)
-        img = pg.image.load(nome_arquiva).convert_alpha()
-        img = pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
-        PI_Anim.append(img)
-    assets["player"] = PI_Anim
-    #Andando Frente
-    PF_Anim = []
-    for f in range (0,23):
-        nome_arquivo = "Jogador/PlayerWalking/{}.png".format(f)
-        img= pg.image.load(nome_arquivo).convert_alpha()
-        img= pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
-        PF_Anim.append(img)
-    assets["player_walk"] = PF_Anim
+
+PI_Anim = []
+for e in range(0,11):
+    nome_arquiva = "Jogador/PlayerIdle/{}.png".format(e)
+    img = pg.image.load(nome_arquiva).convert_alpha()
+    img = pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PI_Anim.append(img)
+assets["player"] = PI_Anim
+#Andando Frente
+PF_Anim = []
+for f in range (0,15):
+    nome_arquivo = "Jogador/PlayerWalking/Direita/{}.png".format(f)
+    img= pg.image.load(nome_arquivo).convert_alpha()
+    img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PF_Anim.append(img)
+assets["player_walk"] = PF_Anim
+
+PFE_Anim = []
+for f in range (0,15):
+    nome_arquivo = "Jogador/PlayerWalking/Esquerda/{}.png".format(f)
+    img= pg.image.load(nome_arquivo).convert_alpha()
+    img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PFE_Anim.append(img)
+assets["player_walke"] = PFE_Anim
     #Pulando
-    PJ_Anim = []
-    for j in range (0,6):
-        nome_arquivo = "Jogador/PlayerJumpUp/{}.png".format(j)
-        img =pg.image.load(nome_arquivo).convert_alpha()
-        img = pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
-        PJ_Anim.append(img)
-    assets["player_jump"] = PJ_Anim
+PJ_Anim = []
+for j in range (0,6):
+    nome_arquivo = "Jogador/PlayerJumpUp/{}.png".format(j)
+    img =pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PJ_Anim.append(img)
+assets["player_jump"] = PJ_Anim
     #Atirando
-    PS_Anim = []
-    for s in range (0,8):
-        nome_arquivo = "Jogador/PlayerShooting/{}.png".format(s)
-        img= pg.image.load(nome_arquivo).convert_alpha()
-        img= pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
-        PS_Anim.append(img)
-    assets["player_shoot"] = PS_Anim
+PS_Anim = []
+for s in range (0,8):
+    nome_arquivo = "Jogador/PlayerShooting/{}.png".format(s)
+    img= pg.image.load(nome_arquivo).convert_alpha()
+    img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PS_Anim.append(img)
+assets["player_shoot"] = PS_Anim
     #Morrendo
-    PD_Anim = []
-    for s in range (1,3):
-        nome_arquivo = "Jogador/Player/Death{}.png".format(s)
-        img= pg.image.load(nome_arquivo).convert_alpha()
-        img= pg.transform.scale(img,(WIDTH_P,HEIGHT_P))
-        PD_Anim.append(img)
-    assets["player_death"] = PD_Anim
-    return assets  #Code em Cima
+PD_Anim = []
+for s in range (0,19):
+    nome_arquivo = "Jogador/Player Dead/{}.png".format(s)
+    img= pg.image.load(nome_arquivo).convert_alpha()
+    img= pg.transform.scale(img,(PLAYER_WIDTH,PLAYER_HEIGHT))
+    PD_Anim.append(img)
+assets["player_death"] = PD_Anim
+
+#====Inimigo===
+    #Atirando Direita
+ID = []
+for idd in range (0,5):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Atirando Direita/{}.png".format(idd)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    ID.append(img)
+assets["inim_atirD"] = ID
+    #Atirando Esquerda
+IE = []
+for ie in range (0,5):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Atirando Esquerda/{}.png".format(ie)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    IE.append(img)
+assets["inim_atirE"] = IE
+    #Correndo Esquerda
+CE = []
+for ce in range (1,8):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Correndo Esquerda/{}.png".format(ce)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    CE.append(img)
+assets["inim_corrE"] = CE
+    #Morrendo Direita
+MD = []
+for md in range (0,9):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Morrendo Direita/{}.png".format(md)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    MD.append(img)
+assets["inim_morrD"] = MD
+    #Morrendo Esquerda
+ME = []
+for me in range (0,9):
+    nome_arquivo = "Inimigos/Soldado_inimigo/Morrendo Direita/{}.png".format(me)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
+    ME.append(img)
+assets["inim_morrE"] = ME
+    #Disparos a esquerda
+DE = []
+for de in range (1,10):
+    nome_arquivo = "Disparos_Esquerda/{}.png".format(de)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(BALA_WIDTH,BALA_HEIGHT))
+    DE.append(img)
+assets["disparo_esquerda"] = DE
+
+
+#====Vida====
+vida = pg.image.load("Vida/Vida.png").convert_alpha()
+vida = pg.transform.scale (vida,(VIDA_WIDTH,VIDA_HEIGHT))
+meia_vida = pg.image.load("Vida/metade Vida.png").convert_alpha()
+meia_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
+pouca_vida = pg.image.load("Vida/pouca Vida.png").convert_alpha()
+pouca_vida = pg.transform.scale (pouca_vida,(VIDA_WIDTH,VIDA_HEIGHT))
+vida_lista = [vida,meia_vida,pouca_vida]
+assets["stat_vida"] = vida_lista
+
+#====Plataformas====
+plataforma = pg.image.load("plataformas/plataforma 1.png").convert_alpha()
+plataforma = pg.transform.scale(plataforma,(PLATAFORMA_WIDTH,PLATAFORMA_HEIGHT))
+assets["plataforma"] = plataforma
+
+#====Tiros====
+    #Tiro para Direita
+TD = []
+for td in range(1,10):
+    nome_arquivo = "Disparos_Direita/{}.png".format(td)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(BALA_WIDTH,BALA_HEIGHT))
+    TD.append(img)
+assets["tiro_direta"] = TD
+    #Tiro para Esquerda
+TE = []
+for te in range(1,10):
+    nome_arquivo = "Disparos_Esquerda/{}.png".format(te)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(BALA_WIDTH,BALA_HEIGHT))
+    TE.append(img)
+assets["tiro_esquerda"] = TE

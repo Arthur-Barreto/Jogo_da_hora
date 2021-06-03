@@ -1,9 +1,8 @@
 import pygame as pg
-import os
 from Config import *
 
 # vamos carregar os assestes e os sons do jogo
-
+'''
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
 bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
@@ -17,10 +16,10 @@ pg.mixer.music.set_volume(0.05)
 shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
 shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
-
+'''
 #Definindo Assets
 assets = {}
-
+'''
 #=====Telas=====
 #StartScreen
 start_sc = []
@@ -32,6 +31,7 @@ background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
 assets["background"] = background
 segunda_tela=pg.image.load("Cenario/waterfall0.png").convert()
 tile_img = pg.image.load("Imagem 50x50/0.png").convert_alpha()
+'''
 #====Jogador====
     #Idle
 
@@ -133,7 +133,7 @@ for de in range (1,10):
     DE.append(img)
 assets["disparo_esquerda"] = DE
 
-
+'''
 #====Vida====
 vida = pg.image.load("Vida/Vida.png").convert_alpha()
 vida = pg.transform.scale (vida,(VIDA_WIDTH,VIDA_HEIGHT))
@@ -148,7 +148,7 @@ assets["stat_vida"] = vida_lista
 plataforma = pg.image.load("plataformas/plataforma 1.png").convert_alpha()
 plataforma = pg.transform.scale(plataforma,(PLATAFORMA_WIDTH,PLATAFORMA_HEIGHT))
 assets["plataforma"] = plataforma
-
+'''
 #====Tiros====
     #Tiro para Direita
 TD = []

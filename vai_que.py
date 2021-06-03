@@ -74,8 +74,6 @@ MAP1 = [
 
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
-#player_img = pg.image.load("Jogador/PlayerWalking/0.png").convert_alpha()
-#player_img = pg.transform.scale(player_img, (PLAYER_WIDTH,PLAYER_HEIGHT))
 bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
 sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/0.png").convert_alpha()
 sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
@@ -245,7 +243,7 @@ FALLING = 2
 # ----- Inicia estruturas de dados
 # definindo a classe 
 class Player(pg.sprite.Sprite):
-    def __init__(self, assets, all_sprites, all_balas, bala_img,all_balar_player,row,column,blocks):
+    def __init__(self, assets, all_sprites, all_balas, bala_img,all_balas_player,row,column,blocks):
         # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #Carregando Assets de animações
@@ -842,7 +840,7 @@ for i in range(0,2):
 # ===== Loop principal =====
 i=0
 # então, faltava só copiar essa linha para funfar a música de fundo
-# pg.mixer.music.play(loops=-1)
+pg.mixer.music.play(loops=-1)
 last_update = pg.time.get_ticks()
 while game:
     clock.tick(FPS)

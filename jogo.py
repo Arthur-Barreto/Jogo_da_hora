@@ -1,34 +1,13 @@
 import pygame as pg
+from Config import *
+# iniciando o pyagme e o som do jogo
+pg.init()
+pg.mixer.init()
+window = pg.display.set_mode((WIDTH, HEIGHT))
+
 # importando todos os pacotes de configuração, som, imagem e clases
 from Assets import *
 from sprites import *
-from Config import *
-
-font = pg.font.SysFont(None,48)
-background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
-bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
-sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/0.png").convert_alpha()
-sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
-
-# carrega os sons do jogo, agr sim papaizinho heheh
-# por enquanto só esses mas jaja tem mais senhoras e senhores
-pg.mixer.music.load("Sons/BGM2.wav")
-pg.mixer.music.set_volume(0.05)
-shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
-shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
-deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
-
-#=====Telas=====
-#StartScreen
-start_sc = []
-start_sc.append(pg.image.load("Tela Inicial/TIS0.png").convert())
-start_sc.append(pg.image.load("Tela Inicial/TIS1.png").convert())
-assets["startsc_anim"] = start_sc
-#Game Background
-background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
-assets["background"] = background
-segunda_tela=pg.image.load("Cenario/waterfall0.png").convert()
-tile_img = pg.image.load("Imagem 50x50/0.png").convert_alpha()
 
 #====Vida====
 vida = pg.image.load("Vida/Vida.png").convert_alpha()
@@ -45,11 +24,9 @@ plataforma = pg.image.load("plataformas/plataforma 1.png").convert_alpha()
 plataforma = pg.transform.scale(plataforma,(PLATAFORMA_WIDTH,PLATAFORMA_HEIGHT))
 assets["plataforma"] = plataforma
 
-# iniciando o pyagme e o som do jogo
-pg.init()
-pg.mixer.init()
+
 # gerando a tela principal
-window = pg.display.set_mode((WIDTH, HEIGHT))
+
 pg.display.set_caption('Metal Slug da massa')
 
 # chamando a fuunção clock
@@ -64,7 +41,7 @@ all_mobs = pg.sprite.Group()
 all_players = pg.sprite.Group()
 blocks = pg.sprite.Group()
 # criando o jogador
-player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
+player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks,shoot_sound)
 all_players.add(player)
 all_sprites.add(player)
 #Criando Mostrador de Corações
@@ -99,11 +76,11 @@ grupo1_sol = [[600,285],[800,285],[1000,285]]
 # segundo para os lek de baixo, é nois papaizinho
 grupo2_sol = [[965,188],[800,213]]
 for i in range(0,3):
-    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1])
+    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
     all_sprites.add(mob)
     all_mobs.add(mob)
 for i in range(0,2):
-    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1])
+    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
     all_sprites.add(mob)
     all_mobs.add(mob)
 # ===== Loop principal =====

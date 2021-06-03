@@ -2,7 +2,7 @@ import pygame as pg
 from Config import *
 
 # vamos carregar os assestes e os sons do jogo
-'''
+
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
 bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
@@ -16,10 +16,10 @@ pg.mixer.music.set_volume(0.05)
 shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
 shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
-'''
+
 #Definindo Assets
 assets = {}
-'''
+
 #=====Telas=====
 #StartScreen
 start_sc = []
@@ -31,7 +31,7 @@ background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
 assets["background"] = background
 segunda_tela=pg.image.load("Cenario/waterfall0.png").convert()
 tile_img = pg.image.load("Imagem 50x50/0.png").convert_alpha()
-'''
+
 #====Jogador====
     #Idle
 

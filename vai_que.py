@@ -1,7 +1,6 @@
 # ===== Inicialização =====
 # ----- Importa e inicia pacotes
 import pygame as pg
-import time
 
 pg.init()
 pg.mixer.init()
@@ -243,10 +242,12 @@ FALLING = 2
 # ----- Inicia estruturas de dados
 # definindo a classe 
 class Player(pg.sprite.Sprite):
-    def __init__(self, assets, all_sprites, all_balas, bala_img,all_balas_player,row,column,blocks):
+    def __init__(self, assets, all_sprites, all_balas, bala_img,all_balas_player,row,column,blocks,sound):
         # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #Carregando Assets de animações
+        #essa linha carrega o som na classe
+        self.shoot_sound = sound
         self.idle_anim = assets["player"]
         self.walk_anim = assets ["player_walk"]
         self.walke_anim = assets ["player_walke"]
@@ -440,13 +441,13 @@ class Player(pg.sprite.Sprite):
                 self.all_sprites.add(nova_bala)
                 self.all_balas.add(nova_bala)
                 self.all_balas_player.add(nova_bala)
-                shoot_sound.play()
+                self.shoot_sound.play()
             else:
                 nova_bala = BalaE(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
                 self.all_sprites.add(nova_bala)
                 self.all_balas.add(nova_bala)
                 self.all_balas_player.add(nova_bala)
-                shoot_sound.play()
+                self.shoot_sound.play()
 
     def death (self):
         self.estado = "death"
@@ -594,9 +595,11 @@ class BalaE(pg.sprite.Sprite):
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class Soldado(pg.sprite.Sprite):                             
-    def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,ini,bottom):
+    def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,ini,bottom,sound):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
+        #variavel para o som
+        self.shoot_m_sound = sound
         #Carregando assets de animação
         self.corre_esque = assets["inim_corrE"]
         self.atirE = assets["inim_atirE"]
@@ -686,7 +689,7 @@ class Soldado(pg.sprite.Sprite):
             nova_bala = Shoot_m(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
             self.all_sprites.add(nova_bala)
             self.all_balas_mob.add(nova_bala)
-            shoot_m_sound.play()
+            self.shoot_m_sound.play()
             self.last_shoot = pg.time.get_ticks()
     
 class Shoot_m(pg.sprite.Sprite):
@@ -740,10 +743,9 @@ class Shoot_m(pg.sprite.Sprite):
         self.tiro()
 
 class Coracoes(pg.sprite.Sprite):
-    def __init__ (self, img, all_sprites):
+    def __init__ (self, stat_vida, all_sprites):
         #Construtor da classe mãe(Sprite)
         pg.sprite.Sprite.__init__(self)
-        stat_vida = assets["stat_vida"] 
         self.cheia = stat_vida[0]
         self.meia = stat_vida[1]
         self.pouca = stat_vida[2]
@@ -795,7 +797,7 @@ all_mobs = pg.sprite.Group()
 all_players = pg.sprite.Group()
 blocks = pg.sprite.Group()
 # criando o jogador
-player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks)
+player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks,shoot_sound)
 all_players.add(player)
 all_sprites.add(player)
 #Criando Mostrador de Corações
@@ -830,11 +832,11 @@ grupo1_sol = [[600,285],[800,285],[1000,285]]
 # segundo para os lek de baixo, é nois papaizinho
 grupo2_sol = [[965,188],[800,213]]
 for i in range(0,3):
-    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1])
+    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
     all_sprites.add(mob)
     all_mobs.add(mob)
 for i in range(0,2):
-    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1])
+    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
     all_sprites.add(mob)
     all_mobs.add(mob)
 # ===== Loop principal =====

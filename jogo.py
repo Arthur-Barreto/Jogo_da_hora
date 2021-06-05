@@ -3,26 +3,11 @@ from Config import *
 # iniciando o pyagme e o som do jogo
 pg.init()
 pg.mixer.init()
-window = pg.display.set_mode((WIDTH, HEIGHT))
+window = pg.display.set_mode((SC_WIDTH, SC_HEIGHT))
 
 # importando todos os pacotes de configuração, som, imagem e clases
 from Assets import *
 from sprites import *
-
-#====Vida====
-vida = pg.image.load("Vida/Vida.png").convert_alpha()
-vida = pg.transform.scale (vida,(VIDA_WIDTH,VIDA_HEIGHT))
-meia_vida = pg.image.load("Vida/metade Vida.png").convert_alpha()
-meia_vida = pg.transform.scale (meia_vida,(VIDA_WIDTH,VIDA_HEIGHT))
-pouca_vida = pg.image.load("Vida/pouca Vida.png").convert_alpha()
-pouca_vida = pg.transform.scale (pouca_vida,(VIDA_WIDTH,VIDA_HEIGHT))
-vida_lista = [vida,meia_vida,pouca_vida]
-assets["stat_vida"] = vida_lista
-
-#====Plataformas====
-plataforma = pg.image.load("plataformas/plataforma 1.png").convert_alpha()
-plataforma = pg.transform.scale(plataforma,(PLATAFORMA_WIDTH,PLATAFORMA_HEIGHT))
-assets["plataforma"] = plataforma
 
 
 # gerando a tela principal
@@ -56,9 +41,7 @@ if game.state == "fase 1":
     for e in range(0,2):
         plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
         all_sprites.add(plataforma)
-if game.state != "fase 1":
-    plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
-    plataforma.remover()
+
 
 
 #Criando Tiles de acordo com mapa
@@ -83,11 +66,31 @@ for i in range(0,2):
     mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
     all_sprites.add(mob)
     all_mobs.add(mob)
+
+# == Start Screen ==
+i=0
+FPS_sc = 1
+start_screen = True
+while start_screen:
+    clock.tick(FPS_sc)
+    window.blit(assets["startsc_anim"][i%2],(0,0))
+    for event in pg.event.get():
+        #Aperte Enter para começar / Quebrar Looping
+        if event.type== pg.KEYDOWN: #Detecta Evento de Apertar
+            if event.key == pg.K_RETURN:
+                start_screen=False
+        if event.type == pg.QUIT:
+            start_screen = False
+    pg.display.update()
+    i+=1
+
 # ===== Loop principal =====
 i=0
+score = 0
 # então, faltava só copiar essa linha para funfar a música de fundo
 pg.mixer.music.play(loops=-1)
 last_update = pg.time.get_ticks()
+window = pg.display.set_mode((WIDTH, HEIGHT))
 while game:
     clock.tick(FPS)
     # ----- Trata eventos
@@ -128,6 +131,8 @@ while game:
     # verifica se houve colisão entre tiro e o soldado inimigo
 
     hits = pg.sprite.groupcollide(all_mobs,all_balas_player,True,True, pg.sprite.collide_mask)
+    if len(hits) > 0:
+        score += 1
 
     hits = pg.sprite.spritecollide(player,all_balas_mob,True, pg.sprite.collide_mask)
     if len(hits) > 0:
@@ -142,9 +147,15 @@ while game:
         coracao.dois()
     if lifes == 0:
         coracao.um()
+    if player.rect.x >=1050:
+        score += 1
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
-    window.blit(background, (0,0))
+    window.blit(assets["background"], (0,0))
+    if score > 5:
+        window.blit(assets["background2"],(0,0))
+        player.death()
+        game.state == "fase 2"
 
     # desenhando tudo que ta salvo em sprite
     all_sprites.draw(window)

@@ -140,7 +140,9 @@ assets["stat_vida"] = vida_lista
 plataforma = pg.image.load("plataformas/plataforma 1.png").convert_alpha()
 plataforma = pg.transform.scale(plataforma,(PLATAFORMA_WIDTH,PLATAFORMA_HEIGHT))
 assets["plataforma"] = plataforma
-
+plataforma = pg.image.load("plataformas/plataforma 3.png").convert_alpha()
+plataforma = pg.transform.scale(plataforma,(100,30))
+assets["plataforma2"] = plataforma
 #====Tiros====
     #Tiro para Direita
 TD = []

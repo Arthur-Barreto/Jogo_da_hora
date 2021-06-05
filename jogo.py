@@ -69,7 +69,7 @@ for i in range(0,2):
     all_sprites.add(mob)
     all_mobs.add(mob)
 
-# == Start Screen ==
+"""# == Start Screen ==
 i=0
 FPS_sc = 1
 start_screen = True
@@ -188,7 +188,7 @@ while start_screen:
     pg.display.update()
     i+=1
     if i > 10:
-        start_screen = False
+        start_screen = False"""
 # ==== Dados Fase 2
 # criando o jogador
 player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks,shoot_sound)
@@ -201,10 +201,10 @@ all_sprites.add(coracao)
 game = Game()
 #Adicionar Plataformas
 
-lista_centerx = [550,500]
-lista_bottom = [240,238]
-for e in range(0,2):
-    plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
+lista_centerx = [650,675,540]
+lista_bottom = [228,137,145]
+for e in range(0,3):
+    plataforma = Plataforma((assets["plataforma2"]), all_sprites, lista_centerx[e], lista_bottom[e])
     all_sprites.add(plataforma)
 
 
@@ -222,7 +222,7 @@ for row in range(len(MAP2)):
 # primeiro for para os monstros de cima
 grupo1_sol = [[600,285],[800,285],[1000,285]]
 # segundo para os lek de baixo, é nois papaizinho
-grupo2_sol = [[965,188],[800,213]]
+grupo2_sol = [[965,145],[550,145]]
 for i in range(0,3):
     mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
     all_sprites.add(mob)

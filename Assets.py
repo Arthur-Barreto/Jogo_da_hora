@@ -30,7 +30,9 @@ assets["startsc_anim"] = start_sc
 background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
 assets["background"] = background
 segunda_tela=pg.image.load("Cenario/waterfall0.png").convert()
+assets["background2"] = segunda_tela
 tile_img = pg.image.load("Imagem 50x50/0.png").convert_alpha()
+
 
 #====Jogador====
     #Idle
@@ -133,7 +135,6 @@ for de in range (1,10):
     DE.append(img)
 assets["disparo_esquerda"] = DE
 
-'''
 #====Vida====
 vida = pg.image.load("Vida/Vida.png").convert_alpha()
 vida = pg.transform.scale (vida,(VIDA_WIDTH,VIDA_HEIGHT))
@@ -148,7 +149,7 @@ assets["stat_vida"] = vida_lista
 plataforma = pg.image.load("plataformas/plataforma 1.png").convert_alpha()
 plataforma = pg.transform.scale(plataforma,(PLATAFORMA_WIDTH,PLATAFORMA_HEIGHT))
 assets["plataforma"] = plataforma
-'''
+
 #====Tiros====
     #Tiro para Direita
 TD = []

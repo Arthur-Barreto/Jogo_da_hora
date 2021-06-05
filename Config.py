@@ -2,6 +2,8 @@
 
 WIDTH = 1100
 HEIGHT = 300
+SC_WIDTH = 800
+SC_HEIGHT = 800
 
 #Dimensões Jogador
 PLAYER_WIDTH = 50

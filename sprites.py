@@ -543,3 +543,47 @@ class Game(pg.sprite.Sprite):
     def __init__ (self):
         #Construtor da classe mãe(Sprite)
         self.state = "fase 1"
+
+class Tela_inicial(pg.sprite.Sprite):
+    def __init__(self,assets):
+        #Construtor da classe Mãe (Sprite)
+        pg.sprite.Sprite.__init__(self)
+        #Importando assets
+        self.sc_anim = assets["startsc_anim"]
+        #Defindo Retangulo
+        self.image = img
+        #Definindo Retangulo
+        self.rect = self.image.get_rect()
+        #Definindo posicionamento
+        self.rect.centerx = 0
+        self.rect.bottom = 0
+        #Definindo Frame
+        self.frame = 0
+        #Estado de anmação - Nulo
+        self.current_anim = "nulo"
+        #Velocidade/Tick de animação 
+        self.frame_ticks = 100
+        #Atualizar
+        self.last_update = pg.time.get_ticks()
+    
+    def start(self):
+        if self.current_anim != "running":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "running"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.sc_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.sc_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+    
+    def update(self):
+        self.start()

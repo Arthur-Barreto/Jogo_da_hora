@@ -1,14 +1,15 @@
 import pygame as pg
 from Config import *
+
+
 # iniciando o pyagme e o som do jogo
 pg.init()
 pg.mixer.init()
-window = pg.display.set_mode((SC_WIDTH, SC_HEIGHT))
+window = pg.display.set_mode((800, 800))
 
 # importando todos os pacotes de configuração, som, imagem e clases
 from Assets import *
 from sprites import *
-
 
 # gerando a tela principal
 
@@ -35,12 +36,12 @@ all_sprites.add(coracao)
 #Criando Class Game
 game = Game()
 #Adicionar Plataformas
-if game.state == "fase 1":
-    lista_centerx = [965,800]
-    lista_bottom = [213,238]
-    for e in range(0,2):
-        plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
-        all_sprites.add(plataforma)
+
+lista_centerx = [965,800]
+lista_bottom = [213,238]
+for e in range(0,2):
+    plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
+    all_sprites.add(plataforma)
 
 
 
@@ -84,20 +85,20 @@ while start_screen:
     pg.display.update()
     i+=1
 
-# ===== Loop principal =====
-i=0
+# ===== Loop Fase 1 =====
 score = 0
 # então, faltava só copiar essa linha para funfar a música de fundo
 pg.mixer.music.play(loops=-1)
 last_update = pg.time.get_ticks()
 window = pg.display.set_mode((WIDTH, HEIGHT))
-while game:
+fase1 = True
+while fase1:
     clock.tick(FPS)
     # ----- Trata eventos
     for event in pg.event.get():
         # ----- Verifica consequências
         if event.type == pg.QUIT:
-            game = False
+            fase1 = False
         # Verifica se apertou alguma tecla
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_d:
@@ -147,15 +148,90 @@ while game:
         coracao.dois()
     if lifes == 0:
         coracao.um()
-    if player.rect.x >=1050:
-        score += 1
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(assets["background"], (0,0))
-    if score > 5:
-        window.blit(assets["background2"],(0,0))
-        player.death()
-        game.state == "fase 2"
+    
+    # desenhando tudo que ta salvo em sprite
+    all_sprites.draw(window)
+
+
+    # ----- Atualiza estado do jogo
+    pg.display.update()  # Mostra o novo frame para o jogador
+    if score >= 5 and player.rect.x >= 1050:
+        fase1 = False
+        all_sprites.kill()
+        break
+
+# ===== Loop Fase 1 =====
+score = 0
+# então, faltava só copiar essa linha para funfar a música de fundo
+pg.mixer.music.play(loops=-1) #"""MUSICA TOCARA NO LOOP PRiNCIPAL"""
+last_update = pg.time.get_ticks()
+window = pg.display.set_mode((WIDTH, HEIGHT))
+fase2 = True
+while fase2:
+    clock.tick(FPS)
+    # ----- Trata eventos
+    for event in pg.event.get():
+        # ----- Verifica consequências
+        if event.type == pg.QUIT:
+            fase2 = False
+        # Verifica se apertou alguma tecla
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_d:
+                player.speedx+=2
+            if event.key == pg.K_a:
+                player.speedx-=2
+            if event.key == pg.K_w:
+                if player.speedy <= 1:
+                    player.speedy -= 15
+            if event.key == pg.K_SPACE:
+                player.shoot()
+
+        #Verifica se Soltou alguma tecla
+        if event.type == pg.KEYUP:
+            if event.key == pg.K_d:
+                player.speedx-=2
+            if event.key == pg.K_a:
+                player.speedx+=2
+            if event.key == pg.K_w:
+                player.speedy+=5
+    for s in all_mobs:
+        now = pg.time.get_ticks()
+        
+        if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400:
+            s.shoot_m()
+            last_update = pg.time.get_ticks()
+    # --------- Atualiza estado do jogo-------------
+    # atualizando a posição do jogador
+    all_sprites.update()
+
+    # verifica se houve colisão entre tiro e o soldado inimigo
+
+    hits = pg.sprite.groupcollide(all_mobs,all_balas_player,True,True, pg.sprite.collide_mask)
+    if len(hits) > 0:
+        score += 1
+
+    hits = pg.sprite.spritecollide(player,all_balas_mob,True, pg.sprite.collide_mask)
+    if len(hits) > 0:
+        deeth_sound_m.play()
+        for bala in all_balas_mob:
+            bala.kill()
+        if lifes <=0:
+            player.death()
+        lifes -= 1
+    
+    if lifes == 1:
+        coracao.dois()
+    if lifes == 0:
+        coracao.um()
+    # ----- Gera saídas
+    window.fill((0, 0, 0))  # Preenche com a cor branca
+    window.blit(assets["background2"], (0,0))
+    if score >= 5 and player.rect.x >= 1050:
+        fase2 = False
+        break
 
     # desenhando tudo que ta salvo em sprite
     all_sprites.draw(window)
@@ -163,6 +239,5 @@ while game:
 
     # ----- Atualiza estado do jogo
     pg.display.update()  # Mostra o novo frame para o jogador
-    i+=1
 # ===== Finalização =====
 pg.quit()  # Função do PyGame que finaliza os recursos utilizados

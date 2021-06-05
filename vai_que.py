@@ -782,7 +782,7 @@ class Game(pg.sprite.Sprite):
     def __init__ (self):
         #Construtor da classe mãe(Sprite)
         self.state = "fase 1"
-game = True
+fase1 = True
 
 #Ajuste de velocidade
 clock = pg.time.Clock()
@@ -844,7 +844,7 @@ i=0
 # então, faltava só copiar essa linha para funfar a música de fundo
 pg.mixer.music.play(loops=-1)
 last_update = pg.time.get_ticks()
-while game:
+while fase1:
     clock.tick(FPS)
     # ----- Trata eventos
     for event in pg.event.get():
@@ -909,5 +909,7 @@ while game:
     # ----- Atualiza estado do jogo
     pg.display.update()  # Mostra o novo frame para o jogador
     i+=1
+    if score >=5 and player.rect.x >=1050:
+        fase1 = False
 # ===== Finalização =====
 pg.quit()  # Função do PyGame que finaliza os recursos utilizados

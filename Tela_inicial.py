@@ -3,6 +3,7 @@ import random
 from os import path
 import Assets
 from Config import IMG_DIR,FPS,BLACK
+
 def start_screen(window):
     #Ajuste velocidade
     clock = pg.time.Clock()

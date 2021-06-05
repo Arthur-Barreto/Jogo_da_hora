@@ -1,5 +1,6 @@
 import pygame as pg
 from Config import *
+from Config import SC_HEIGHT,SC_HEIGHT
 
 # vamos carregar os assestes e os sons do jogo
 
@@ -174,8 +175,8 @@ assets["background2"] = segunda_tela
 TM = []
 for tm in range(0,5):
     nome_arquivo = "GameOver/GM {}.png".format(tm)
-    img = pg.image.load()
-    img = pg.transform.scale(img,(SC_WEIGHT,SC_HEIGHT))
+    img = pg.image.load(nome_arquivo)
+    img = pg.transform.scale(img,(800,800))
     TM.append(img)
 assets["tela_morte"] = TM
 

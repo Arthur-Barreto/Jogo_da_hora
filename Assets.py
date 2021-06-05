@@ -20,17 +20,7 @@ deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
 #Definindo Assets
 assets = {}
 
-#=====Telas=====
-#StartScreen
-start_sc = []
-start_sc.append(pg.image.load("Tela Inicial/TIS0.png").convert())
-start_sc.append(pg.image.load("Tela Inicial/TIS1.png").convert())
-assets["startsc_anim"] = start_sc
-#Game Background
-background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
-assets["background"] = background
-segunda_tela=pg.image.load("Cenario/waterfall0.png").convert()
-assets["background2"] = segunda_tela
+
 tile_img = pg.image.load("Imagem 50x50/0.png").convert_alpha()
 
 
@@ -167,3 +157,26 @@ for te in range(1,10):
     img = pg.transform.scale(img,(BALA_WIDTH,BALA_HEIGHT))
     TE.append(img)
 assets["tiro_esquerda"] = TE
+
+#====Tela====   
+    #Tela Inicial
+start_sc = []
+start_sc.append(pg.image.load("Tela Inicial/TIS0.png").convert())
+start_sc.append(pg.image.load("Tela Inicial/TIS1.png").convert())
+assets["startsc_anim"] = start_sc
+    #Game Background
+background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
+assets["background"] = background
+    #Game Background2
+segunda_tela=pg.image.load("Cenario/waterfall0.png").convert()
+assets["background2"] = segunda_tela
+    #Tela Morte
+TM = []
+for tm in range(0,5):
+    nome_arquivo = "GameOver/GM {}.png".format(tm)
+    img = pg.image.load()
+    img = pg.transform.scale(img,(SC_WEIGHT,SC_HEIGHT))
+    TM.append(img)
+assets["tela_morte"] = TM
+
+

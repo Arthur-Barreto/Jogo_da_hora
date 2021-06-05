@@ -179,5 +179,11 @@ for tm in range(0,5):
     img = pg.transform.scale(img,(800,800))
     TM.append(img)
 assets["tela_morte"] = TM
-
-
+    #Loading
+LO = []
+for lo in range(0,12):
+    nome_arquivo = "Tela de Carregamento/{}.png".format(lo)
+    img = pg.image.load(nome_arquivo)
+    img = pg.transform.scale(img,(800,800))
+    LO.append(img)
+assets["loading"] = LO

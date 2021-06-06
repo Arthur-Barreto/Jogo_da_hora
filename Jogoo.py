@@ -32,9 +32,5 @@ while state != QUIT:
     else:
         state = QUIT
     
-
-
-
-
 #===== Finalização =====
 pg.quit()

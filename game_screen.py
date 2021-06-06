@@ -209,7 +209,6 @@ def fase2(window,lifes):
         all_mobs.add(mob)
     #carregando assets
     score = 0
-    i=0
     # então, faltava só copiar essa linha para funfar a música de fundo
     pg.mixer.music.play(loops=-1)
     last_update = pg.time.get_ticks()
@@ -283,7 +282,7 @@ def fase2(window,lifes):
             state = DEATH
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
-        window.blit(assets["background2"][i], (0,0))
+        window.blit(assets["background2"], (0,0))
         #  desenhando tudo que ta salvo em sprite
         all_sprites.draw(window)
         # ----- Atualiza estado do jogo
@@ -300,7 +299,6 @@ def fase2(window,lifes):
             all_mobs.empty()
             all_players.empty()
             blocks.empty()
-        i+=1
     return state
 
 def loading(window,indice):

@@ -36,6 +36,7 @@ coracao =  Coracoes(assets["stat_vida"], all_sprites)
 all_sprites.add(coracao)
 #Criando Class Game
 game = Game()
+morte = False
 #Adicionar Plataformas
 
 lista_centerx = [965,800]
@@ -69,7 +70,7 @@ for i in range(0,2):
     all_sprites.add(mob)
     all_mobs.add(mob)
 
-"""# == Start Screen ==
+# == Start Screen ==
 i=0
 FPS_sc = 1
 start_screen = True
@@ -124,7 +125,7 @@ while fase1:
     for s in all_mobs:
         now = pg.time.get_ticks()
         
-        if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400:
+        if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400 and player.estado != "death":
             s.shoot_m()
             last_update = pg.time.get_ticks()
     # --------- Atualiza estado do jogo-------------
@@ -142,24 +143,29 @@ while fase1:
         deeth_sound_m.play()
         for bala in all_balas_mob:
             bala.kill()
-        if lifes <=0:
-            player.death()
         lifes -= 1
     
     if lifes == 1:
         coracao.dois()
     if lifes == 0:
         coracao.um()
+    if lifes <0:
+            player.death()
+    if player.estado == "death":
+        for bala in all_balas_mob:
+            bala.kill()
+        morte = True
+    if len(all_players) == 0:
+        fase1 = False
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(assets["background"], (0,0))
-    #
     #  desenhando tudo que ta salvo em sprite
     all_sprites.draw(window)
     # ----- Atualiza estado do jogo
     pg.display.update()  # Mostra o novo frame para o jogador
     if score >= 5 and player.rect.x >= 1050:
-        fase1 = False
+        fase2 = False
         player.death()
         player.kill()
         all_sprites.empty()
@@ -170,25 +176,44 @@ while fase1:
         all_players.empty()
         blocks.empty()
 
-# ===== LOADING =====
+# ===== Morte =====
 i=0
 LOADING = 5
-start_screen = True
 window = pg.display.set_mode((800, 800))
-while start_screen:
+while morte:
     clock.tick(LOADING)
     window.blit(assets["loading"][i%2],(0,0))
     for event in pg.event.get():
         #Aperte Enter para começar / Quebrar Looping
         if event.type== pg.KEYDOWN: #Detecta Evento de Apertar
             if event.key == pg.K_RETURN:
-                start_screen=False
+                morte=False
         if event.type == pg.QUIT:
-            start_screen = False
+            morte = False
+    pg.display.update()
+    i+=1
+    if i > 100:
+        morte = False
+
+# ===== LOADING =====
+i=0
+LOADING = 5
+loading = True
+window = pg.display.set_mode((800, 800))
+while loading:
+    clock.tick(LOADING)
+    window.blit(assets["loading"][i%2],(0,0))
+    for event in pg.event.get():
+        #Aperte Enter para começar / Quebrar Looping
+        if event.type== pg.KEYDOWN: #Detecta Evento de Apertar
+            if event.key == pg.K_RETURN:
+                loading=False
+        if event.type == pg.QUIT:
+            loading = False
     pg.display.update()
     i+=1
     if i > 10:
-        start_screen = False"""
+        loading = False
 # ==== Dados Fase 2
 # criando o jogador
 player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks,shoot_sound)
@@ -220,18 +245,18 @@ for row in range(len(MAP2)):
 #Criando Mobs
 
 # primeiro for para os monstros de cima
-grupo1_sol = [[600,285],[800,285],[1000,285]]
+grupo1_sol = [[600,280],[800,280],[1000,280]]
 # segundo para os lek de baixo, é nois papaizinho
-grupo2_sol = [[965,145],[550,145]]
+grupo2_sol = [[540,145],[550,145]]
 for i in range(0,3):
     mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
     all_sprites.add(mob)
     all_mobs.add(mob)
-for i in range(0,2):
-    mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
+for i in range(0,1):
+    mob = SoldadoD(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
     all_sprites.add(mob)
     all_mobs.add(mob)
-
+print (all_mobs)
 # ===== Loop Fase 2 =====
 score = 0
 # então, faltava só copiar essa linha para funfar a música de fundo
@@ -270,7 +295,7 @@ while fase2:
     for s in all_mobs:
         now = pg.time.get_ticks()
         
-        if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400:
+        if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400 and player.estado != "death":
             s.shoot_m()
             last_update = pg.time.get_ticks()
     # --------- Atualiza estado do jogo-------------
@@ -288,18 +313,23 @@ while fase2:
         deeth_sound_m.play()
         for bala in all_balas_mob:
             bala.kill()
-        if lifes <=0:
-            player.death()
         lifes -= 1
     
     if lifes == 1:
         coracao.dois()
     if lifes == 0:
         coracao.um()
+    if lifes <0:
+            player.death()
+    if player.estado == "death":
+        for bala in all_balas_mob:
+            bala.kill()
+        morte = True
+    if len(all_players) == 0:
+        fase2 = False
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(assets["background2"], (0,0))
-    #
     #  desenhando tudo que ta salvo em sprite
     all_sprites.draw(window)
     # ----- Atualiza estado do jogo
@@ -315,6 +345,27 @@ while fase2:
         all_mobs.empty()
         all_players.empty()
         blocks.empty()
+
+
+
+# ===== Morte =====
+i=0
+LOADING = 1
+window = pg.display.set_mode((800, 800))
+while morte:
+    clock.tick(LOADING)
+    window.blit(assets["tela_morte"][i],(0,0))
+    for event in pg.event.get():
+        #Aperte Enter para começar / Quebrar Looping
+        if event.type== pg.KEYDOWN: #Detecta Evento de Apertar
+            if event.key == pg.K_RETURN:
+                morte=False
+        if event.type == pg.QUIT:
+            morte = False
+    pg.display.update()
+    i+=1
+    if i > 100:
+        morte = False
 
 # ===== Finalização =====
 pg.quit()  # Função do PyGame que finaliza os recursos utilizados

@@ -5,6 +5,14 @@ HEIGHT = 300
 SC_WIDTH = 800
 SC_HEIGHT = 800
 
+#Estado para controle de fluxo
+INIT = 0
+FASE1 = "FASE1"
+FASE2 = "FASE2"
+FASE3 = "FASE3"
+LOAD = 3
+DEATH = 4
+QUIT = 5
 #Dimensões Jogador
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 38

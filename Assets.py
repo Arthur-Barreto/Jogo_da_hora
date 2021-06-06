@@ -1,6 +1,6 @@
 import pygame as pg
 from Config import *
-from Config import SC_HEIGHT,SC_HEIGHT
+from Config import SC_HEIGHT,SC_HEIGHT,WIDTH,HEIGHT
 
 # vamos carregar os assestes e os sons do jogo
 
@@ -171,12 +171,17 @@ assets["startsc_anim"] = start_sc
 background=pg.image.load("Cenario/Montanha Clean 1100X300.png").convert()
 assets["background"] = background
     #Game Background2
-segunda_tela=pg.image.load("Cenario/waterfall0.png").convert()
-assets["background2"] = segunda_tela
+WT = []
+for wt in range (0,8):
+    nome_arquivo = "Cenario/waterfall{}.png".format(wt)
+    img = pg.image.load(nome_arquivo).convert()
+    img = pg.transform.scale (img,(WIDTH,HEIGHT))
+    WT.append(img)
+assets["background2"] = WT
     #Tela Morte
 TM = []
 for tm in range(0,5):
-    nome_arquivo = "GameOver/GM {}.png".format(tm)
+    nome_arquivo = "GameOver/GM {}.png".format(tm*2)
     img = pg.image.load(nome_arquivo)
     img = pg.transform.scale(img,(800,800))
     TM.append(img)

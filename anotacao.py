@@ -79,7 +79,7 @@ while fase2:
     for s in all_mobs:
         now = pg.time.get_ticks()
         
-        if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400:
+        if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400 and player.estado != "death":
             s.shoot_m()
             last_update = pg.time.get_ticks()
     # --------- Atualiza estado do jogo-------------
@@ -105,6 +105,8 @@ while fase2:
         coracao.dois()
     if lifes == 0:
         coracao.um()
+    if player.estado == "death":
+        bala.kill()
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
     window.blit(assets["background2"], (0,0))

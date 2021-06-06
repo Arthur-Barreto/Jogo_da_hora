@@ -165,6 +165,9 @@ def fase2(window,lifes):
     all_mobs = pg.sprite.Group()
     all_players = pg.sprite.Group()
     blocks = pg.sprite.Group()
+
+    #Criando Class Game
+    game = Game()
     # criando o jogador
     player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks,shoot_sound)
     all_players.add(player)
@@ -174,37 +177,36 @@ def fase2(window,lifes):
     all_sprites.add(coracao)
     #Criando Class Game
     game = Game()
-    morte = False
     #Adicionar Plataformas
 
-    lista_centerx = [965,800]
-    lista_bottom = [213,238]
-    for e in range(0,2):
-        plataforma = Plataforma((assets["plataforma"]), all_sprites, lista_centerx[e], lista_bottom[e])
+    lista_centerx = [650,675,540]
+    lista_bottom = [228,137,145]
+    for e in range(0,3):
+        plataforma = Plataforma((assets["plataforma2"]), all_sprites, lista_centerx[e], lista_bottom[e])
         all_sprites.add(plataforma)
 
 
 
     #Criando Tiles de acordo com mapa
-    for row in range(len(MAP1)):
-        for column in range(len(MAP1[row])):
-            tile_type = MAP1[row][column]
+    for row in range(len(MAP2)):
+        for column in range(len(MAP2[row])):
+            tile_type = MAP2[row][column]
             if tile_type == BLOCK:
                 tile = Tile(tile_img,row,column)
                 all_sprites.add(tile)
                 blocks.add(tile)
-
     #Criando Mobs
+
     # primeiro for para os monstros de cima
-    grupo1_sol = [[600,285],[800,285],[1000,285]]
+    grupo1_sol = [[600,280],[800,280],[1000,280]]
     # segundo para os lek de baixo, é nois papaizinho
-    grupo2_sol = [[965,188],[800,213]]
+    grupo2_sol = [[540,145],[550,145]]
     for i in range(0,3):
         mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
         all_sprites.add(mob)
         all_mobs.add(mob)
-    for i in range(0,2):
-        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
+    for i in range(0,1):
+        mob = SoldadoD(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
         all_sprites.add(mob)
         all_mobs.add(mob)
     #carregando assets
@@ -282,7 +284,7 @@ def fase2(window,lifes):
             state = DEATH
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
-        window.blit(assets["background2"], (0,0))
+        window.blit(assets["background2"][0], (0,0))
         #  desenhando tudo que ta salvo em sprite
         all_sprites.draw(window)
         # ----- Atualiza estado do jogo

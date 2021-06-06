@@ -282,7 +282,7 @@ def fase2(window,lifes):
             state = DEATH
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
-        window.blit(assets["background2"], (0,0))
+        window.blit(assets["background2"][0], (0,0))
         #  desenhando tudo que ta salvo em sprite
         all_sprites.draw(window)
         # ----- Atualiza estado do jogo

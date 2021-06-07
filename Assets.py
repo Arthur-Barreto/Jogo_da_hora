@@ -199,6 +199,15 @@ for lo in range(0,12):
     img = pg.transform.scale(img,(800,800))
     LO.append(img)
 assets["loading"] = LO
+    #Game Background 3
+GB = []
+for tm in range(0,40):
+    nome_arquivo = "Cenario/boss{}.png".format(GB)
+    img = pg.image.load(nome_arquivo)
+    img = pg.transform.scale(img,(WIDTH,HEIGHT))
+    GB.append(img)
+assets["background3"] = GB
+
 #===== KT-21 =====
     #Parado
 KTP = []
@@ -210,7 +219,7 @@ for ktp in range (0,2):
 assets["kt_parado"] = KTP
     #Atirando
 KTA = []
-for kta in range (0,2):
+for kta in range (0,18):
     nome_arquivo =  "Inimigos/kt-21/Atirando/{}".format(kta)
     img = pg.image.load(nome_arquivo)
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))

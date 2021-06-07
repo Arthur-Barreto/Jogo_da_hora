@@ -561,7 +561,7 @@ def fase3(window,lifes):
             state = DEATH
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
-        window.blit(assets["background2"][i%7], (0,0))
+        window.blit(assets["background3"][i%160], (0,0))
         #  desenhando tudo que ta salvo em sprite
         all_sprites.draw(window)
         # ----- Atualiza estado do jogo
@@ -587,7 +587,7 @@ def fase3(window,lifes):
 
 #===== Loading
     #Função para chamar Tela Loading
-def loading(window,indice):
+def loading(window):
     #Defini Clock
     clock = pg.time.Clock()
     #Adiciona Variavel I
@@ -619,9 +619,42 @@ def loading(window,indice):
             #Atualiza estado de Loading
             loading = False
             #Define estado Universal da proxima fase
-            state = ("FASE{}").format(indice)
-    #Atualiza indice
-    indice +=1
+            state = "FASE2"
+    return state
+
+def loading1(window):
+    #Defini Clock
+    clock = pg.time.Clock()
+    #Adiciona Variavel I
+    i=0
+    #Defini FPS de Loading
+    LOADING = 5
+    #Defini estado da tela de Loading
+    loading = True
+    #Defini Dimensões da WIndow
+    window = pg.display.set_mode((800, 800))
+    #Inicia WHile
+    while loading:
+        #Defini Clock Speed
+        clock.tick(LOADING)
+        #Defini Plano de Fundo
+        window.blit(assets["loading"][i%2],(0,0))
+        #Verifica Eventos
+        for event in pg.event.get():
+            #Aperte Enter para começar / Quebrar Looping
+            if event.type == pg.QUIT:
+                loading = False
+                state = QUIT
+        #Atualiza Display
+        pg.display.update()
+        #Adiciona 1 a I
+        i+=1
+        #Se I for maior que 10, animação de Loading termina
+        if i > 10:
+            #Atualiza estado de Loading
+            loading = False
+            #Define estado Universal da proxima fase
+            state = "FASE3"
     return state
 
 #===== Tela da Morte

@@ -182,7 +182,7 @@ assets["background2"] = WT
 TM = []
 for tm in range(0,5):
     nome_arquivo = "GameOver/GM {}.png".format(tm*2)
-    img = pg.image.load(nome_arquivo)
+    img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(800,800))
     TM.append(img)
 assets["tela_morte"] = TM
@@ -190,16 +190,19 @@ assets["tela_morte"] = TM
 LO = []
 for lo in range(0,12):
     nome_arquivo = "Tela de Carregamento/{}.png".format(lo)
-    img = pg.image.load(nome_arquivo)
+    img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(800,800))
     LO.append(img)
 assets["loading"] = LO
     #Game Background 3
 GB = []
-for tm in range(0,40):
-    nome_arquivo = "Cenario/boss{}.png".format(GB)
-    img = pg.image.load(nome_arquivo)
+for gb in range(0,40):
+    nome_arquivo = "Cenario/boss{}.png".format(gb)
+    img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(WIDTH,HEIGHT))
+    GB.append(img)
+    GB.append(img)
+    GB.append(img)
     GB.append(img)
 assets["background3"] = GB
 
@@ -207,16 +210,16 @@ assets["background3"] = GB
     #Parado
 KTP = []
 for ktp in range (0,2):
-    nome_arquivo =  "Inimigos/kt-21/Parado/{}".format(ktp)
-    img = pg.image.load(nome_arquivo)
+    nome_arquivo =  "Inimigos/kt-21/Parado/Parado-{}.png".format(ktp)
+    img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTP.append(img)
 assets["kt_parado"] = KTP
     #Atirando
 KTA = []
 for kta in range (0,18):
-    nome_arquivo =  "Inimigos/kt-21/Atirando/{}".format(kta)
-    img = pg.image.load(nome_arquivo)
+    nome_arquivo =  "Inimigos/kt-21/Atirando/Atirando-{}.png".format(kta)
+    img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTA.append(img)
 assets["kt_atirando"] = KTA

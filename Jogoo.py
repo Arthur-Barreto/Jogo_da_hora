@@ -9,24 +9,23 @@ window = pg.display.set_mode((800,800))
 pg.display.set_caption("Metal Slug")
 from Assets import font
 from Tela_inicial import start_screen
-from game_screen import fase1,fase2,loading,death_screen
+from game_screen import fase1,fase2,loading,death_screen,loading1,fase3
 lifes = 2
-indice = 2
 #Gera Tela Entrada
-state = INIT
+state = "FASE3"
 while state != QUIT:
     if state == INIT:
         state = start_screen(window)
     elif state == "FASE1":
         state = fase1(window,lifes)
         if state == LOAD:
-            state = loading(window,indice)
+            state = loading(window)
         elif state == DEATH:
             state = death_screen(window)
     elif state == "FASE2":
         state = fase2(window,lifes)
         if state == LOAD:
-            state = loading(window,indice)
+            state = loading1(window)
         elif state == DEATH:
             state = death_screen(window)
     elif state == "FASE3":

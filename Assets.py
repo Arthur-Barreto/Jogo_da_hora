@@ -112,7 +112,7 @@ assets["inim_morrD"] = MD
     #Morrendo Esquerda
 ME = []
 for me in range (0,9):
-    nome_arquivo = "Inimigos/Soldado_inimigo/Morrendo Direita/{}.png".format(me)
+    nome_arquivo = "Inimigos/Soldado_inimigo/Morrendo Esquerda/{}.png".format(me)
     img = pg.image.load(nome_arquivo).convert_alpha()
     img = pg.transform.scale(img,(SNIPER_WIDTH,SNIPER_HEIGHT))
     ME.append(img)

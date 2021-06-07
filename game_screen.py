@@ -329,6 +329,10 @@ def fase2(window,lifes):
 
         #Verifica se houve colisão entre tiro e o soldado inimigo
         hits = pg.sprite.groupcollide(all_mobs,all_balas_player,False,True, pg.sprite.collide_mask)
+        #Se Houve colisões, o Jogador matou um Inimigo = Adiciona 1 Score
+        for hit in hits:
+            # mudar de estado o inimigo
+            hit.death()
         if len(hits) > 0:
             score += 1
 

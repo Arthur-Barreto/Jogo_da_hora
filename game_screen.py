@@ -393,6 +393,198 @@ def fase2(window,lifes):
         i+=1
     return state
 
+def fase3(window,lifes):
+    #chamando a função clock
+    clock = pg.time.Clock()
+
+    # Criando Grupos de Sprites
+    all_sprites = pg.sprite.Group()
+    all_balas = pg.sprite.Group()
+    all_balas_mob = pg.sprite.Group()
+    all_balas_player = pg.sprite.Group()
+    all_mobs = pg.sprite.Group()
+    all_players = pg.sprite.Group()
+    blocks = pg.sprite.Group()
+
+    #Criando Class Game
+    game = Game()
+    # criando o jogador
+    player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks,shoot_sound)
+    all_players.add(player)
+    all_sprites.add(player)
+    #Criando Mostrador de Corações
+    coracao =  Coracoes(assets["stat_vida"], all_sprites)
+    all_sprites.add(coracao)
+    #Criando Class Game
+    game = Game()
+    
+    #Adicionar Plataformas
+    #Criando Listas com posições
+    lista_centerx = [650,675,540]
+    lista_bottom = [228,137,145]
+    #For para Criar plataformas
+    for e in range(0,3):
+        plataforma = Plataforma((assets["plataforma2"]), all_sprites, lista_centerx[e], lista_bottom[e])
+        #Adicionando plataformas Sprite
+        all_sprites.add(plataforma)
+
+    #Criando Tiles de acordo com mapa
+    #Definindo Row
+    for row in range(len(MAP3)):
+        #Definindo Coluna
+        for column in range(len(MAP3[row])):
+            #Carregando MAP2
+            tile_type = MAP3[row][column]
+            #Diferenciando Tile_type
+            if tile_type == BLOCK:
+                tile = Tile(tile_img,row,column)
+                all_sprites.add(tile)
+                blocks.add(tile)
+    
+    #Criando Mobs
+    #Lista para Mobs do Solo
+    grupo1_sol = [[600,280],[800,280],[1000,280]]
+    #Lista para Mobs nas plataformas
+    grupo2_sol = [[540,145],[550,145]]
+    #For para criar Soldados no Chão
+    for i in range(0,3):
+        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
+        all_sprites.add(mob)
+        all_mobs.add(mob)
+    #For para criar Soldados encima da montanha
+    for i in range(0,1):
+        mob = SoldadoD(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
+        all_sprites.add(mob)
+        all_mobs.add(mob)
+
+    #Definindo Score
+    score = 0
+
+    #Acrescentando Loop Música
+    pg.mixer.music.play(loops=-1)
+    #Definindo last_Update
+    last_update = pg.time.get_ticks()
+    #Definindo tamanho de Window, com Width e Height padronizados
+    window = pg.display.set_mode((WIDTH, HEIGHT))
+    #Definindo estado Fase2
+    fase3 = True
+    #Definindo Variavel I
+    i=0
+    #While Fase2
+    while fase3:
+        #Definindo Clock
+        clock.tick(FPS)
+        # ----- Trata eventos
+        for event in pg.event.get():
+            # ----- Verifica consequências
+            if event.type == pg.QUIT:
+                fase3 = False
+                state = QUIT
+            # Verifica se apertou alguma tecla
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_d:
+                    player.speedx+=2
+                if event.key == pg.K_a:
+                    player.speedx-=2
+                if event.key == pg.K_w:
+                    if player.speedy <= 1:
+                        player.speedy -= 15
+                if event.key == pg.K_SPACE:
+                    player.shoot()
+                    score +=5
+
+            #Verifica se Soltou alguma tecla
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_d:
+                    player.speedx-=2
+                    #Player anda para direita
+                if event.key == pg.K_a:
+                    player.speedx+=2
+                    #Player anda para esquerda
+                if event.key == pg.K_w:
+                    #Player pula
+                    player.speedy+=5
+
+        #For para definir mobs dentro do Group Mobs
+        for s in all_mobs:
+            #Definindo Tick (No Agora)
+            now = pg.time.get_ticks()
+            #Adicionando variaveis para os Mobs atirarem, como Tempo, Posicionamento em X e estado do Player
+            if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400 and player.estado != "death":
+                #Chama função dentro da Sprite Soldado
+                s.shoot_m()
+                #Atualiza last_update
+                last_update = pg.time.get_ticks()
+        # --------- Atualiza estado do jogo-------------
+        # atualizando a posição do jogador
+        all_sprites.update()
+
+        #Verifica se houve colisão entre tiro e o soldado inimigo
+        hits = pg.sprite.groupcollide(all_mobs,all_balas_player,False,True, pg.sprite.collide_mask)
+        #Se Houve colisões, o Jogador matou um Inimigo = Adiciona 1 Score
+        for hit in hits:
+            # mudar de estado o inimigo
+            hit.death()
+        if len(hits) > 0:
+            score += 1
+
+        #Verifica se houve colisão entre Tiro dos solados e Player
+        hits = pg.sprite.spritecollide(player,all_balas_mob,True, pg.sprite.collide_mask)
+        if len(hits) > 0:
+            #Play no Som de Dano
+            deeth_sound_m.play()
+            #Deleta todas as Balas
+            for bala in all_balas_mob:
+                bala.kill()
+            #Retira uma Vida
+            lifes -= 1
+
+        #Se Lifes == 1 = Estado animação do Coração muda
+        if lifes == 1:
+            coracao.dois()
+        #Se Lifes == 0 = Estado animação do Coração muda
+        if lifes == 0:
+            coracao.um()
+        #Se Lifes < 0 = Definindo estado do Jogador
+        if lifes <0:
+                player.death()
+                state = DEATH
+        if player.estado == "death":
+            for bala in all_balas_mob:
+                bala.kill()
+            #Reforça Estado de DEATH
+            state = DEATH
+        #Se Não existirem jogadores no Group All_Players
+        if len(all_players) == 0:
+            fase2 = False
+            #Reforça Estado de Death
+            state = DEATH
+        # ----- Gera saídas
+        window.fill((0, 0, 0))  # Preenche com a cor branca
+        window.blit(assets["background2"][i%7], (0,0))
+        #  desenhando tudo que ta salvo em sprite
+        all_sprites.draw(window)
+        # ----- Atualiza estado do jogo
+        pg.display.update()  # Mostra o novo frame para o jogador
+        #Se Score = 5 e Jogador está posicionado em pelo menos X = 1050 esté passa de nivel
+        if score >= 5 and player.rect.x >= 1050:
+            #Defini estado de Fase2 como False
+            fase3 = False
+            #Defini State como END, NOSSA FASE FINAL
+            state = END
+            #Limpando Groups
+            player.death()
+            player.kill()
+            all_sprites.empty()
+            all_balas.empty()
+            all_balas_mob.empty()
+            all_balas_player.empty()
+            all_mobs.empty()
+            all_players.empty()
+            blocks.empty()
+        i+=1
+    return state
+
 #===== Loading
     #Função para chamar Tela Loading
 def loading(window,indice):

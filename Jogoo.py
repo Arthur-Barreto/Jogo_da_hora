@@ -12,7 +12,7 @@ from Tela_inicial import start_screen
 from game_screen import fase1,fase2,loading,death_screen,loading1,fase3
 lifes = 2
 #Gera Tela Entrada
-state = "FASE3"
+state = INIT
 while state != QUIT:
     if state == INIT:
         state = start_screen(window)

@@ -9,7 +9,7 @@ window = pg.display.set_mode((800,800))
 pg.display.set_caption("Metal Slug")
 from Assets import font
 from Tela_inicial import start_screen
-from Game_Screen import fase1,fase2,loading,death_screen
+from game_screen import fase1,fase2,loading,death_screen
 lifes = 2
 indice = 2
 #Gera Tela Entrada

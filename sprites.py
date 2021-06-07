@@ -395,7 +395,7 @@ class Soldado(pg.sprite.Sprite):
         self.corre_esque = assets["inim_corrE"]
         self.atirE = assets["inim_atirE"]
         self.dispE = assets ["disparo_esquerda"]
-        self.death_anim = assets ["inim_morrD"]
+        self.death_anim = assets ["inim_morrE"]
         #Definind Imagem
         self.image = img
         self.rect = self.image.get_rect()
@@ -438,7 +438,6 @@ class Soldado(pg.sprite.Sprite):
             if self.speedx == 0:
                 self.atirando()
         if self.estado == "death":
-            print("morrendo")
             self.morrendo()
 
     def walk(self):
@@ -489,7 +488,6 @@ class Soldado(pg.sprite.Sprite):
             self.last_shoot = pg.time.get_ticks()
 
     def morrendo(self):
-        print("animação")
         if self.current_anim != "morrendo":
                 self.last_update = pg.time.get_ticks()
                 self.frame = 0
@@ -509,7 +507,6 @@ class Soldado(pg.sprite.Sprite):
                 self.rect.center = center
 
     def death (self):
-        print("death")
         self.estado = "death"
         self.current_anim = "morrendo"
 
@@ -522,7 +519,7 @@ class SoldadoD(pg.sprite.Sprite):
         #Carregando assets de animação
         self.atirD = assets["inim_atirD"]
         self.dispD = assets ["tiro_direta"]
-        self.death_anim = assets["inim_morrE"]
+        self.death_anim = assets["inim_morrD"]
         #Definind Imagem
         self.image = img
         self.rect = self.image.get_rect()
@@ -557,6 +554,8 @@ class SoldadoD(pg.sprite.Sprite):
         #Checando estado
         if self.speedx == 0:
             self.atirando()
+        if self.estado == "death":
+            self.morrendo()
     
     def atirando(self):
         
@@ -607,6 +606,10 @@ class SoldadoD(pg.sprite.Sprite):
         if self.current_anim == "morrendo":
             self.kill()
 
+    def death (self):
+        print("death")
+        self.estado = "death"
+        self.current_anim = "morrendo"
 
 class Shoot_m(pg.sprite.Sprite):
     def __init__(self,assets,img,bottom,centerx):

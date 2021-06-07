@@ -273,6 +273,8 @@ def fase2(window,lifes):
     window = pg.display.set_mode((WIDTH, HEIGHT))
     #Definindo estado Fase2
     fase2 = True
+    #Definindo Variavel I
+    i=0
     #While Fase2
     while fase2:
         #Definindo Clock
@@ -360,7 +362,7 @@ def fase2(window,lifes):
             state = DEATH
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
-        window.blit(assets["background2"][0], (0,0))
+        window.blit(assets["background2"][i%7], (0,0))
         #  desenhando tudo que ta salvo em sprite
         all_sprites.draw(window)
         # ----- Atualiza estado do jogo
@@ -381,6 +383,7 @@ def fase2(window,lifes):
             all_mobs.empty()
             all_players.empty()
             blocks.empty()
+        i+=1
     return state
 
 #===== Loading

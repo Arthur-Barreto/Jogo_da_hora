@@ -62,7 +62,7 @@ class Player(pg.sprite.Sprite):
             if self.speedy > 0:
                 self.state = FALLING
             #Chegando colisões
-            colisoes = pg.sprite.spritecollide (self,self.blocks,False)
+            colisoes = pg.sprite.spritecollide(self,self.blocks,False)
             for colisao in colisoes:
                 if self.speedy > 0:
                     self.rect.bottom = colisao.rect.top
@@ -395,6 +395,7 @@ class Soldado(pg.sprite.Sprite):
         self.corre_esque = assets["inim_corrE"]
         self.atirE = assets["inim_atirE"]
         self.dispE = assets ["disparo_esquerda"]
+        self.death_anim = assets ["inim_morrD"]
         #Definind Imagem
         self.image = img
         self.rect = self.image.get_rect()
@@ -424,17 +425,21 @@ class Soldado(pg.sprite.Sprite):
         self.blocks = blocks
 
     def update(self):
-        #Atualizando posição do Soldado
-        #Andando em X
-        self.rect.x += self.speedx
-        # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
-        if self.rect.x <= (self.refe_pos_ini - 80):
-            self.speedx = 0
-        #Checando estado
-        if self.speedx < 0:
-            self.walk()
-        if self.speedx == 0:
-            self.atirando()
+        if self.estado != "death":
+            #Atualizando posição do Soldado
+            #Andando em X
+            self.rect.x += self.speedx
+            # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
+            if self.rect.x <= (self.refe_pos_ini - 80):
+                self.speedx = 0
+            #Checando estado
+            if self.speedx < 0:
+                self.walk()
+            if self.speedx == 0:
+                self.atirando()
+        if self.estado == "death":
+            print("morrendo")
+            self.morrendo()
 
     def walk(self):
         if self.current_anim != "walk":
@@ -474,6 +479,7 @@ class Soldado(pg.sprite.Sprite):
                 self.image = self.atirE[self.frame]
                 self.rect = self.image.get_rect()
                 self.rect.center = center
+
     def shoot_m(self):
         if self.current_anim != "walk":
             nova_bala = Shoot_m(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
@@ -481,6 +487,31 @@ class Soldado(pg.sprite.Sprite):
             self.all_balas_mob.add(nova_bala)
             self.shoot_m_sound.play()
             self.last_shoot = pg.time.get_ticks()
+
+    def morrendo(self):
+        print("animação")
+        if self.current_anim != "morrendo":
+                self.last_update = pg.time.get_ticks()
+                self.frame = 0
+        self.current_anim = "morrendo"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.death_anim):
+                self.kill()
+            else:
+                center = self.rect.center
+                self.image = self.death_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+
+    def death (self):
+        print("death")
+        self.estado = "death"
+        self.current_anim = "morrendo"
 
 class SoldadoD(pg.sprite.Sprite):                             
     def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,ini,bottom,sound):

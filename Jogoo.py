@@ -29,6 +29,12 @@ while state != QUIT:
             state = loading(window,indice)
         elif state == DEATH:
             state = death_screen(window)
+    elif state == "FASE3":
+        state = fase3(window,lifes)
+        if state == END:
+            state = end(window)
+        elif state == DEATH:
+            state = death_screen(window)
     else:
         state = QUIT
 

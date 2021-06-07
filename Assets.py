@@ -10,7 +10,12 @@ bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
 sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/0.png").convert_alpha()
 sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
 
-
+# carrega os sons do jogo, agr sim papaizinho heheh
+# por enquanto só esses mas jaja tem mais senhoras e senhores
+pg.mixer.music.load("Sons/BGM2.wav")
+pg.mixer.music.set_volume(0.05)
+shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
+shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 deeth_sound_m = pg.mixer.Sound("Sons/Death.wav")
 
 #Definindo Assets
@@ -19,16 +24,6 @@ assets = {}
 
 tile_img = pg.image.load("Imagem 50x50/0.png").convert_alpha()
 
-# carrega os sons do jogo, agr sim papaizinho heheh
-# por enquanto só esses mas jaja tem mais senhoras e senhores
-mp = pg.mixer.music.load("Sons/BGM2.wav")
-mp = pg.mixer.music.set_volume(0.05)
-assets["bgm2"] = mp
-mp = pg.mixer.music.load("Sons/Boss.wav")
-mp = pg.mixer.music.set_volume(0.05)
-assets["boss"] = mp
-shoot_sound = pg.mixer.Sound("Sons/Shoot3.wav")
-shoot_m_sound = pg.mixer.Sound("Sons/Shoot1.wav")
 
 #====Jogador====
     #Idle
@@ -199,6 +194,15 @@ for lo in range(0,12):
     img = pg.transform.scale(img,(800,800))
     LO.append(img)
 assets["loading"] = LO
+    #Game Background 3
+GB = []
+for tm in range(0,40):
+    nome_arquivo = "Cenario/boss{}.png".format(GB)
+    img = pg.image.load(nome_arquivo)
+    img = pg.transform.scale(img,(WIDTH,HEIGHT))
+    GB.append(img)
+assets["background3"] = GB
+
 #===== KT-21 =====
     #Parado
 KTP = []
@@ -210,7 +214,7 @@ for ktp in range (0,2):
 assets["kt_parado"] = KTP
     #Atirando
 KTA = []
-for kta in range (0,2):
+for kta in range (0,18):
     nome_arquivo =  "Inimigos/kt-21/Atirando/{}".format(kta)
     img = pg.image.load(nome_arquivo)
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))

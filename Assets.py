@@ -199,3 +199,20 @@ for lo in range(0,12):
     img = pg.transform.scale(img,(800,800))
     LO.append(img)
 assets["loading"] = LO
+#===== KT-21 =====
+    #Parado
+KTP = []
+for ktp in range (0,2):
+    nome_arquivo =  "Inimigos/kt-21/Parado/{}".format(ktp)
+    img = pg.image.load(nome_arquivo)
+    img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
+    KTP.append(img)
+assets["kt_parado"] = KTP
+    #Atirando
+KTA = []
+for kta in range (0,2):
+    nome_arquivo =  "Inimigos/kt-21/Atirando/{}".format(kta)
+    img = pg.image.load(nome_arquivo)
+    img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
+    KTA.append(img)
+assets["kt_atirando"] = KTA

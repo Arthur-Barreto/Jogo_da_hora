@@ -31,6 +31,6 @@ while state != QUIT:
             state = death_screen(window)
     else:
         state = QUIT
-    
+
 #===== Finalização =====
 pg.quit()

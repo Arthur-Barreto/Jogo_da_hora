@@ -177,6 +177,7 @@ for wt in range (0,8):
     img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale (img,(WIDTH,HEIGHT))
     WT.append(img)
+    WT.append(img)
 assets["background2"] = WT
     #Tela Morte
 TM = []
@@ -205,6 +206,10 @@ for gb in range(0,40):
     GB.append(img)
     GB.append(img)
 assets["background3"] = GB
+    #Tela Instruções
+img = pg.image.load("Tela de Instrucoes/instru.png").convert()
+img = pg.transform.scale(img,(800,800))
+assets["info"] = img
 
 #===== KT-21 =====
     #Parado

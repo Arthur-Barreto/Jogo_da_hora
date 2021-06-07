@@ -480,7 +480,7 @@ class Soldado(pg.sprite.Sprite):
                 self.rect.center = center
 
     def shoot_m(self):
-        if self.current_anim != "walk":
+        if self.current_anim != "walk" and self.current_anim != "morrendo":
             nova_bala = Shoot_m(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
             self.all_sprites.add(nova_bala)
             self.all_balas_mob.add(nova_bala)
@@ -589,7 +589,7 @@ class SoldadoD(pg.sprite.Sprite):
             self.last_update = now
             self.frame +=1
             if self.frame == len(self.death_anim):
-                self.frame = 0
+                self.kill()
             else:
                 center = self.rect.center
                 self.image = self.death_anim[self.frame]
@@ -603,11 +603,8 @@ class SoldadoD(pg.sprite.Sprite):
             self.all_balas_mob.add(nova_bala)
             self.shoot_m_sound.play()
             self.last_shoot = pg.time.get_ticks()
-        if self.current_anim == "morrendo":
-            self.kill()
 
     def death (self):
-        print("death")
         self.estado = "death"
         self.current_anim = "morrendo"
 

@@ -228,3 +228,30 @@ for kta in range (0,18):
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTA.append(img)
 assets["kt_atirando"] = KTA
+#Movendo
+KTM = []
+for ktm in range (0,18):
+    nome_arquivo =  "Inimigos/kt-21/Atirando/Atirando-{}.png".format(ktm)
+    img = pg.image.load(nome_arquivo).convert()
+    img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
+    KTM.append(img)
+assets["kt_movendo"] = KTM
+    #Morrendo
+KTMM = []
+for ktmm in range (0,18):
+    nome_arquivo =  "Inimigos/kt-21/Atirando/Atirando-{}.png".format(ktmm)
+    img = pg.image.load(nome_arquivo).convert()
+    img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
+    KTMM.append(img)
+assets["kt_morrendo"] = KTMM
+
+
+#==== Mobs Passivos =====
+    #Elefante
+ELE = []
+for ele in range (1,25):
+    nome_arquivo = "Animais/Elefante/{}.png".format(ele)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(ELE_WIDTH,ELE_HEIGHT))
+    ELE.append(img)
+assets["elefante"] = ELE

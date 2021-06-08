@@ -608,6 +608,7 @@ class SoldadoD(pg.sprite.Sprite):
         self.estado = "death"
         self.current_anim = "morrendo"
 
+
 class Shoot_m(pg.sprite.Sprite):
     def __init__(self,assets,img,bottom,centerx):
         #Contrutor da classe mãe(Sprite)

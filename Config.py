@@ -32,6 +32,9 @@ BALA_HEIGHT = 10
 #Dimensões do KT-21
 KT_WIDTH = 126
 KT_HEIGHT = 96
+#Dimensões Elefante
+ELE_WIDTH = 100
+ELE_HEIGHT =50
 #Defini tamanho da Tile
 TILE_SIZE = 12.5
 #Defini Aceleração gravitacional

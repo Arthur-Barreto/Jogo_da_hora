@@ -418,7 +418,7 @@ def fase3(window,lifes):
     #Criando Class Game
     game = Game()
     
-    #Adicionar Plataformas
+"""    #Adicionar Plataformas
     #Criando Listas com posições
     lista_centerx = [650,675,540]
     lista_bottom = [228,137,145]
@@ -426,7 +426,7 @@ def fase3(window,lifes):
     for e in range(0,3):
         plataforma = Plataforma((assets["plataforma2"]), all_sprites, lista_centerx[e], lista_bottom[e])
         #Adicionando plataformas Sprite
-        all_sprites.add(plataforma)
+        all_sprites.add(plataforma)"""
 
     #Criando Tiles de acordo com mapa
     #Definindo Row
@@ -444,16 +444,9 @@ def fase3(window,lifes):
     #Criando Mobs
     #Lista para Mobs do Solo
     grupo1_sol = [[600,280],[800,280],[1000,280]]
-    #Lista para Mobs nas plataformas
-    grupo2_sol = [[540,145],[550,145]]
     #For para criar Soldados no Chão
     for i in range(0,3):
         mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
-        all_sprites.add(mob)
-        all_mobs.add(mob)
-    #For para criar Soldados encima da montanha
-    for i in range(0,1):
-        mob = SoldadoD(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
         all_sprites.add(mob)
         all_mobs.add(mob)
 

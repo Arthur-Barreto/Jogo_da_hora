@@ -416,20 +416,8 @@ def fase3(window,lifes):
     coracao =  Coracoes(assets["stat_vida"], all_sprites)
     all_sprites.add(coracao)
     #Criando Class Game
-    game = Game()
-    
-"""    #Adicionar Plataformas
-    #Criando Listas com posições
-    lista_centerx = [650,675,540]
-    lista_bottom = [228,137,145]
-    #For para Criar plataformas
-    for e in range(0,3):
-        plataforma = Plataforma((assets["plataforma2"]), all_sprites, lista_centerx[e], lista_bottom[e])
-        #Adicionando plataformas Sprite
-        all_sprites.add(plataforma)"""
+    game = Game()   
 
-    #Criando Tiles de acordo com mapa
-    #Definindo Row
     for row in range(len(MAP3)):
         #Definindo Coluna
         for column in range(len(MAP3[row])):
@@ -463,7 +451,7 @@ def fase3(window,lifes):
     fase3 = True
     #Definindo Variavel I
     i=0
-    #While Fase2
+    #While Fase3
     while fase3:
         #Definindo Clock
         clock.tick(FPS)
@@ -484,7 +472,7 @@ def fase3(window,lifes):
                         player.speedy -= 15
                 if event.key == pg.K_SPACE:
                     player.shoot()
-                    score +=5
+                    #score +=5
 
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:

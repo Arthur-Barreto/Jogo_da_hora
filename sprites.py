@@ -698,7 +698,7 @@ class Kn(pg.sprite.Sprite):
         self.current_anim = "morrendo"
 
 
-class Shot_kn(pg.sprite.Sprite):
+class Shoot_kn(pg.sprite.Sprite):
     def _init_(self,assets,img,bottom,centerx):
         #Construtor da classe mãe (Sprite)
         pg.sprite.Sprite._init_(self)

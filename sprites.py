@@ -549,11 +549,18 @@ class SoldadoD(pg.sprite.Sprite):
         self.blocks = blocks
 
     def update(self):
-        #Atualizando posição do Soldado
-        #Andando em X
-        #Checando estado
-        if self.speedx == 0:
-            self.atirando()
+        if self.estado != "death":
+            #Atualizando posição do Soldado
+            #Andando em X
+            self.rect.x += self.speedx
+            # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
+            if self.rect.x <= (self.refe_pos_ini - 80):
+                self.speedx = 0
+            #Checando estado
+            if self.speedx < 0:
+                self.walk()
+            if self.speedx == 0:
+                self.atirando()
         if self.estado == "death":
             self.morrendo()
     
@@ -609,7 +616,7 @@ class SoldadoD(pg.sprite.Sprite):
         self.current_anim = "morrendo"
 
 class Kn(pg.sprite.Sprite):
-    def _init_(self,assets,sound,centerx,bottom):
+    def _init_(self,assets,sound,centerx,bottom,all_balas_kn,all_sprites):
         #Construtor da classe mãe (Sprite)
         pg.sprite.Sprite._init_(self)
         #Variavel para o Som

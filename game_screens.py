@@ -4,6 +4,7 @@ import pygame as pg
 from Config import *
 from Assets import *
 from sprites import *
+from random import randint
 
 #===== Fase 1
     #Função para Chamar Primeira Fase
@@ -59,17 +60,17 @@ def fase1(window,lifes):
     
     #Criando Mobs
     #Definendo Lista dos Inimigos do Solo
-    grupo1_sol = [[600,285],[800,285],[1000,285]]
+    grupo1_sol = [[1100,285,600,-2],[1100,285,400,-1],[1100,285,200,-0.03]]
     #Definindo Lista dos Inimigos das plataformas
-    grupo2_sol = [[965,188],[800,213]]
+    grupo2_sol = [[965,188],[825,213]]
     #For para criar Mobs no Solo
     for i in range(0,3):
-        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
+        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound,grupo1_sol[i][2],grupo1_sol[i][3])
         all_sprites.add(mob)
         all_mobs.add(mob)
     #For para criar Mobs nas plataformas
     for i in range(0,2):
-        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
+        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound,0,0)
         all_sprites.add(mob)
         all_mobs.add(mob)
 
@@ -253,19 +254,20 @@ def fase2(window,lifes):
     
     #Criando Mobs
     #Lista para Mobs do Solo
-    grupo1_sol = [[600,280],[800,280],[1000,280]]
+    grupo1_sol = [[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)]]
+    grupo3_sol = [[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)]]
     #Lista para Mobs nas plataformas
-    grupo2_sol = [[540,145],[550,145]]
+    grupo2_sol = [[540,145,0,0],[550,145,0,0]]
     #For para criar Soldados no Chão
     for i in range(0,3):
-        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
+        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound,grupo1_sol[i][2],-grupo1_sol[i][3])
         all_sprites.add(mob)
         all_mobs.add(mob)
-    #For para criar Soldados encima da montanha
+    """#For para criar Soldados encima da montanha
     for i in range(0,1):
-        mob = SoldadoD(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo2_sol[i][0],grupo2_sol[i][0],grupo2_sol[i][1],shoot_sound)
+        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound,grupo1_sol[i][2],grupo1_sol[i][3])
         all_sprites.add(mob)
-        all_mobs.add(mob)
+        all_mobs.add(mob)"""
 
     #Definindo Score
     score = 0
@@ -300,8 +302,10 @@ def fase2(window,lifes):
                     if player.speedy <= 1:
                         player.speedy -= 15
                 if event.key == pg.K_SPACE:
-                    player.shoot()
-                    score +=5
+                    now = pg.time.get_ticks()
+                    last_shoot = player.last_shoot
+                    if now - last_shoot > 1000:
+                        player.shoot()
 
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:
@@ -369,6 +373,21 @@ def fase2(window,lifes):
             fase2 = False
             #Reforça Estado de Death
             state = DEATH
+        if score >=3 and score <5 and len(all_mobs) <=1: 
+            for i in range(0,3):
+                mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound,grupo1_sol[i][2],-grupo1_sol[i][3])
+                all_sprites.add(mob)
+                all_mobs.add(mob)
+        if score >=6 and score <8 and len(all_mobs) <=1: 
+            for i in range(0,6):
+                mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo3_sol[i][0],WIDTH,grupo3_sol[i][1],shoot_sound,grupo3_sol[i][2],-grupo3_sol[i][3])
+                all_sprites.add(mob)
+                all_mobs.add(mob)
+        if score >=9 and score <15 and len(all_mobs) <=1: 
+            for i in range(0,3):
+                mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo3_sol[i][0],WIDTH,grupo3_sol[i][1],shoot_sound,grupo3_sol[i][2],-grupo3_sol[i][3])
+                all_sprites.add(mob)
+                all_mobs.add(mob)
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
         window.blit(assets["background2"][i%14], (0,0))
@@ -473,8 +492,10 @@ def fase3(window,lifes):
                     if player.speedy <= 1:
                         player.speedy -= 15
                 if event.key == pg.K_SPACE:
-                    player.shoot()
-                    #score +=5
+                    now = pg.time.get_ticks()
+                    last_shoot = player.last_shoot
+                    if now - last_shoot > 1000:
+                        player.shoot()
 
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:

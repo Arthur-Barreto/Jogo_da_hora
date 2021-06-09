@@ -452,6 +452,11 @@ def fase2(window,lifes):
     return state
 
 def fase3(window,lifes):
+
+    # defininfo o estado do jogo
+
+    jogo = RODANDO
+
     #chamando a função clock
     clock = pg.time.Clock()
 
@@ -530,11 +535,22 @@ def fase3(window,lifes):
                 if event.key == pg.K_w:
                     if player.speedy <= 1:
                         player.speedy -= 15
-                if event.key == pg.K_SPACE:
+                
+                # JOGO PRECISA ESTAR RODANDO, SE NÃO SAI SOM QUANDO PAUSADO
+                if event.key == pg.K_SPACE and jogo == RODANDO:
                     now = pg.time.get_ticks()
                     last_shoot = player.last_shoot
                     if now - last_shoot > 1000:
                         player.shoot()
+                
+                if event.key == pg.K_p:
+                    if jogo != PAUSADO:
+                        pg.mixer.music.pause()
+                        window.blit(pause_img, (0,0))
+                        jogo = PAUSADO
+                    else:
+                        pg.mixer.music.unpause()
+                        jogo = RODANDO
 
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:
@@ -547,6 +563,10 @@ def fase3(window,lifes):
                 if event.key == pg.K_w:
                     #Player pula
                     player.speedy+=5
+
+        if jogo == PAUSADO:
+            pg.display.flip()
+            continue
 
         ## chamando o boss fianl
         # boss final entra

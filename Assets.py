@@ -237,12 +237,14 @@ for ktm in range (0,7):
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTM.append(img)
 assets["kt_movendo"] = KTM
-    #Morrendo
+#Morrendo
 KTMM = []
 for ktmm in range (0,10):
     nome_arquivo =  "Inimigos/kt-21/Morrendo/Morrendo-{}.png".format(ktmm)
     img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
+    KTMM.append(img)
+    KTMM.append(img)
     KTMM.append(img)
 assets["kt_morrendo"] = KTMM
 

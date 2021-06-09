@@ -110,7 +110,7 @@ def fase1(window,lifes):
                 if event.key == pg.K_w:
                     if player.speedy <= 1:
                         player.speedy -= 15
-                if event.key == pg.K_SPACE:
+                if event.key == pg.K_SPACE and jogo == RODANDO:
                     now = pg.time.get_ticks()
                     last_shoot = player.last_shoot
                     if now - last_shoot > 1000:
@@ -224,6 +224,11 @@ def fase1(window,lifes):
 #===== Fase 2
     #Função para chamar Fase 2
 def fase2(window,lifes):
+
+    # definindo o estado do jogo como rodando
+
+    jogo = RODANDO
+
     # chamando a fuunção clock
     clock = pg.time.Clock()
 
@@ -320,11 +325,20 @@ def fase2(window,lifes):
                 if event.key == pg.K_w:
                     if player.speedy <= 1:
                         player.speedy -= 15
-                if event.key == pg.K_SPACE:
+                # PRECISA COLOCAR JOGO RODANDO SE NÃO SAI SOM DO TIRO NO MODO PAUSADO
+                if event.key == pg.K_SPACE and jogo == RODANDO:
                     now = pg.time.get_ticks()
                     last_shoot = player.last_shoot
                     if now - last_shoot > 1000:
                         player.shoot()
+                if event.key == pg.K_p:
+                    if jogo != PAUSADO:
+                        pg.mixer.music.pause()
+                        window.blit(pause_img, (0,0))
+                        jogo = PAUSADO
+                    else:
+                        pg.mixer.music.unpause()
+                        jogo = RODANDO
 
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:
@@ -337,6 +351,10 @@ def fase2(window,lifes):
                 if event.key == pg.K_w:
                     #Player pula
                     player.speedy+=5
+
+        if jogo == PAUSADO:
+            pg.display.flip()
+            continue
 
         #For para definir mobs dentro do Group Mobs
         for s in all_mobs:

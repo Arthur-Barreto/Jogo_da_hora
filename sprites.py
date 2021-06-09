@@ -45,6 +45,7 @@ class Player(pg.sprite.Sprite):
         self.frame_ticks = 100
         #Atualizar Ticks
         self.last_update = pg.time.get_ticks()
+        self.last_shoot = pg.time.get_ticks()
         #Definindo blocks
         self.blocks = blocks
         #definindo colunas
@@ -212,12 +213,14 @@ class Player(pg.sprite.Sprite):
                 self.all_balas.add(nova_bala)
                 self.all_balas_player.add(nova_bala)
                 self.shoot_sound.play()
+                self.last_shoot = pg.time.get_ticks()
             else:
                 nova_bala = BalaE(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
                 self.all_sprites.add(nova_bala)
                 self.all_balas.add(nova_bala)
                 self.all_balas_player.add(nova_bala)
                 self.shoot_sound.play()
+                self.last_shoot = pg.time.get_ticks()
     
     def morrendo(self):
         if self.current_anim != "morrendo":

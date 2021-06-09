@@ -105,8 +105,10 @@ def fase1(window,lifes):
                     if player.speedy <= 1:
                         player.speedy -= 15
                 if event.key == pg.K_SPACE:
-                    player.shoot()
-                    score +=5
+                    now = pg.time.get_ticks()
+                    last_shoot = player.last_shoot
+                    if now - last_shoot > 1000:
+                        player.shoot()
 
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:

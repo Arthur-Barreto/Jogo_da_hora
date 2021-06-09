@@ -459,6 +459,7 @@ def fase3(window,lifes):
                 all_sprites.add(tile)
                 blocks.add(tile)
     
+    grupo3_sol = [[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)]]
     grupo1_sol = [[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)]]
     #For para criar Soldados no Chão
     for i in range(0,3):
@@ -519,7 +520,7 @@ def fase3(window,lifes):
 
         ## chamando o boss fianl
         # boss final entra
-        if len(all_mobs) <=0 and score >=3 and score <4:
+        if len(all_mobs) <=0 and score >=18 and score <32:
             boss = Kn(assets,shoot_sound,WIDTH,280,all_balas_mob,all_sprites,bala_kn,WIDTH)
             all_sprites.add(boss)
             all_mobs.add(boss)
@@ -537,6 +538,16 @@ def fase3(window,lifes):
                     s.shoot_m()
                     #Atualiza last_update
                     last_update = pg.time.get_ticks()
+        if score >=3 and score <8 and len(all_mobs) <=1: 
+            for i in range(0,6):
+                mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo3_sol[i][0],WIDTH,grupo3_sol[i][1],shoot_sound,grupo3_sol[i][2],-grupo3_sol[i][3])
+                all_sprites.add(mob)
+                all_mobs.add(mob)
+        if score >8 and score <16 and len(all_mobs) <=1: 
+            for i in range(0,9):
+                mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo3_sol[i][0],WIDTH,grupo3_sol[i][1],shoot_sound,grupo3_sol[i][2],-grupo3_sol[i][3])
+                all_sprites.add(mob)
+                all_mobs.add(mob)
         if mobs_state == "kn":
             for s in all_mobs:
                 #Definindo Tick (No Agora)
@@ -720,5 +731,39 @@ def death_screen(window):
         #Se I maior que 5 (Diz que se passaram 5 Frames) = Atualiza estado de Morte + State Universal
         if i > 5:
             morte = False
+            state = INIT
+    return state
+
+
+#===== Tela da Vitoria
+def final(window):
+    #Define Variavel de CLock
+    clock = pg.time.Clock()
+    #Define Variavel I
+    i=0
+    #Define FPS de final
+    FINAL = 2
+    #Define Estado de final
+    final = True
+    #Define Dimensões da Window
+    window = pg.display.set_mode((800, 800))
+    #Inicia While
+    while final:
+        #Define a Clock Speed
+        clock.tick(FINAL)
+        #Define o Plano de fundo
+        window.blit(assets["vitoria"][i%3],(0,0))
+        #Verifica eventos
+        for event in pg.event.get():
+            #Aperte Enter para começar / Quebrar Looping
+            if event.type == pg.QUIT:
+                loading = False
+                state = QUIT
+        pg.display.update()
+        #Atualiza Variavel I
+        i+=1
+        #Se I maior que 5 (Diz que se passaram 5 Frames) = Atualiza estado de Morte + State Universal
+        if i >= 12:
+            final = False
             state = INIT
     return state

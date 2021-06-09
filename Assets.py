@@ -211,6 +211,14 @@ assets["background3"] = GB
 img = pg.image.load("Tela de Instrucoes/instru.png").convert()
 img = pg.transform.scale(img,(800,800))
 assets["info"] = img
+    #Tela Final
+VIC = []
+for mn in range(1,4):
+    nome_arquivo = "Tela de vitoria/{}.png".format(mn)
+    img = pg.image.load(nome_arquivo).convert()
+    img = pg.transform.scale(img,(SC_WIDTH,SC_HEIGHT))
+    VIC.append(img)
+assets["vitoria"] = VIC
 
 #===== KT-21 =====
     #Parado
@@ -246,5 +254,5 @@ for ktmm in range (0,10):
     KTMM.append(img)
     KTMM.append(img)
     KTMM.append(img)
-assets["kt_morrendo"] = KTMM
+    assets["kt_morrendo"] = KTMM
 

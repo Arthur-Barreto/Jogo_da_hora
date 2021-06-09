@@ -643,7 +643,7 @@ class Kn(pg.sprite.Sprite):
         self.rect.bottom = 280
         self.rect.x = 1100
         #Definindo velocidades
-        self.speedx = -1
+        self.speedx = -1.5
         #Definindo Frame
         self.frame = 0
         #Estado de animação - Idle
@@ -663,12 +663,12 @@ class Kn(pg.sprite.Sprite):
             self.rect.x += self.speedx
             # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
             print (self.rect.x)
-            if self.rect.x < 500:
+            if self.rect.x < 800:
                 self.speedx = 0
             #Checando estado
             if self.speedx < 0:
                 self.walk()
-            if self.speedx == 0:
+            if self.speedx == 0:    
                 self.atirando()
         if self.estado == "death":
             self.morrendo()

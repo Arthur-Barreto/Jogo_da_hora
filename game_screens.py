@@ -36,8 +36,6 @@ def fase1(window,lifes):
     coracao =  Coracoes(assets["stat_vida"], all_sprites)
     all_sprites.add(coracao)
 
-    #Criando Class Game
-    game = Game()
 
     #Adicionando Plataformas
     #Criando Lista de Posições
@@ -246,8 +244,7 @@ def fase2(window,lifes):
     all_players = pg.sprite.Group()
     blocks = pg.sprite.Group()
 
-    #Criando Class Game
-    game = Game()
+
     # criando o jogador
     player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks,shoot_sound)
     all_players.add(player)
@@ -255,8 +252,7 @@ def fase2(window,lifes):
     #Criando Mostrador de Corações
     coracao =  Coracoes(assets["stat_vida"], all_sprites)
     all_sprites.add(coracao)
-    #Criando Class Game
-    game = Game()
+
     
     #Adicionar Plataformas
     #Criando Listas com posições
@@ -480,8 +476,7 @@ def fase3(window,lifes):
     all_players = pg.sprite.Group()
     blocks = pg.sprite.Group()
 
-    #Criando Class Game
-    game = Game()
+
     # criando o jogador
     player = Player(assets, all_sprites, all_balas, bala_img,all_balas_player, 12, 2, blocks,shoot_sound)
     all_players.add(player)
@@ -489,8 +484,11 @@ def fase3(window,lifes):
     #Criando Mostrador de Corações
     coracao =  Coracoes(assets["stat_vida"], all_sprites)
     all_sprites.add(coracao)
-    #Criando Class Game
-    game = Game()   
+    #Criando Barra de Vida Chefão
+    barravida = Barravida(assets["barra_vida"], all_sprites)
+    all_sprites.add(barravida)
+    
+  
 
     for row in range(len(MAP3)):
         #Definindo Coluna
@@ -513,6 +511,7 @@ def fase3(window,lifes):
 
     #Definindo Score
     score = 0
+    Kn_lives = 15
     #Definindo estado Mobs
     mobs_state = "mobs"
     #Acrescentando Loop Música
@@ -627,13 +626,23 @@ def fase3(window,lifes):
         all_sprites.update()
 
         #Verifica se houve colisão entre tiro e o soldado inimigo
-        hits = pg.sprite.groupcollide(all_mobs,all_balas_player,False,True, pg.sprite.collide_mask)
-        #Se Houve colisões, o Jogador matou um Inimigo = Adiciona 1 Score
-        for hit in hits:
-            # mudar de estado o inimigo
-            hit.death()
-        if len(hits) > 0:
-            score += 1
+        if mobs_state == "mobs":
+            hits = pg.sprite.groupcollide(all_mobs,all_balas_player,False,True, pg.sprite.collide_mask)
+            #Se Houve colisões, o Jogador matou um Inimigo = Adiciona 1 Score
+            for hit in hits:
+                # mudar de estado o inimigo
+                hit.death()
+            if len(hits) > 0:
+                score += 1
+        if mobs_state == "kn":
+            hits = pg.sprite.groupcollide(all_mobs,all_balas_player,False,True, pg.sprite.collide_mask)
+            #Se Houve colisões, o Jogador matou um Inimigo = Adiciona 1 Score
+            for hit in hits:
+                # mudar de estado o inimigo
+                Kn_lives-=1
+                barravida.vidas()
+            if len(hits) > 0:
+                score += 1
 
         #Verifica se houve colisão entre Tiro dos solados e Player
         hits = pg.sprite.spritecollide(player,all_balas_mob,True, pg.sprite.collide_mask)
@@ -666,6 +675,9 @@ def fase3(window,lifes):
             fase3 = False
             #Reforça Estado de Death
             state = DEATH
+        # ----- Barra de Vida
+        if Kn_lives <=0:
+            boss.death()
         # ----- Gera saídas
         window.fill((0, 0, 0))  # Preenche com a cor branca
         window.blit(assets["background3"][i%160], (0,0))

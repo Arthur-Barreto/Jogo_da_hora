@@ -240,7 +240,7 @@ for kta in range (0,18):
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTA.append(img)
 assets["kt_atirando"] = KTA
-#Movendo
+    #Movendo
 KTM = []
 for ktm in range (0,7):
     nome_arquivo =  "Inimigos/kt-21/Movendo/Movendo-{}.png".format(ktm)
@@ -248,7 +248,7 @@ for ktm in range (0,7):
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTM.append(img)
 assets["kt_movendo"] = KTM
-#Morrendo
+    #Morrendo
 KTMM = []
 for ktmm in range (0,10):
     nome_arquivo =  "Inimigos/kt-21/Morrendo/Morrendo-{}.png".format(ktmm)
@@ -257,5 +257,13 @@ for ktmm in range (0,10):
     KTMM.append(img)
     KTMM.append(img)
     KTMM.append(img)
-    assets["kt_morrendo"] = KTMM
-
+assets["kt_morrendo"] = KTMM
+    #Barra de Vida
+BRA = []
+for barra in range(1,16):
+    nome_arquivo = "Barra de Vida/{}.png".format(barra)
+    img = pg.image.load(nome_arquivo).convert_alpha()
+    img = pg.transform.scale(img,(1100,120))
+    BRA.append(img)
+assets["barra_vida"] = BRA
+print(assets["barra_vida"])

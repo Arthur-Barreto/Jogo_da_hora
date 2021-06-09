@@ -619,9 +619,9 @@ class SoldadoD(pg.sprite.Sprite):
         self.current_anim = "morrendo"
 
 class Kn(pg.sprite.Sprite):
-    def _init_(self,assets,sound,centerx,bottom,all_balas_kn,all_sprites):
+    def __init__(self,assets,sound,centerx,bottom,all_balas_kn,all_sprites,bala_img):
         #Construtor da classe mãe (Sprite)
-        pg.sprite.Sprite._init_(self)
+        pg.sprite.Sprite.__init__(self)
         #Variavel para o Som
         self.shoot_sound = sound
         #Carregando Assets de animação
@@ -634,6 +634,7 @@ class Kn(pg.sprite.Sprite):
         self.all_balas_kn = all_balas_kn
         #Definindo Imagem
         self.image = img
+        self.bala_img = bala_img
         self.rect = self.image.get_rect()
         #Definindo posicionamento
         self.rect.centerx = centerx
@@ -709,9 +710,9 @@ class Kn(pg.sprite.Sprite):
 
 
 class Shoot_kn(pg.sprite.Sprite):
-    def _init_(self,assets,img,bottom,centerx):
+    def __init__(self,assets,img,bottom,centerx):
         #Construtor da classe mãe (Sprite)
-        pg.sprite.Sprite._init_(self)
+        pg.sprite.Sprite.__init__(self)
         #Carregndo Assets de animação
         self.shoot = assets[""]
         #Definindo imagem

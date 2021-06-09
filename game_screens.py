@@ -16,6 +16,8 @@ def fase1(window,lifes):
     all_balas = pg.sprite.Group()
     all_balas_mob = pg.sprite.Group()
     all_balas_player = pg.sprite.Group()
+    # balas do kn
+    #all_balas_Kn = pg.sprite.Group()
     all_mobs = pg.sprite.Group()
     all_players = pg.sprite.Group()
     blocks = pg.sprite.Group()
@@ -135,6 +137,11 @@ def fase1(window,lifes):
         # --------- Atualiza estado do jogo-------------
         # atualizando a posição do jogador
         all_sprites.update()
+
+## teste
+        # boss = Kn(assets,shoot_sound,800,300,all_balas_Kn,all_sprites,bala_img)
+        # all_sprites.add(boss)
+        # all_mobs.add(boss)
 
         #Verifica se houve colisão entre tiro e o soldado inimigo
         hits = pg.sprite.groupcollide(all_mobs,all_balas_player,False,True, pg.sprite.collide_mask)
@@ -404,6 +411,8 @@ def fase3(window,lifes):
     all_balas = pg.sprite.Group()
     all_balas_mob = pg.sprite.Group()
     all_balas_player = pg.sprite.Group()
+    # # balas do kn
+    all_balas_Kn = pg.sprite.Group()
     all_mobs = pg.sprite.Group()
     all_players = pg.sprite.Group()
     blocks = pg.sprite.Group()
@@ -488,6 +497,12 @@ def fase3(window,lifes):
                     #Player pula
                     player.speedy+=5
 
+        ## chamando o boss fianl
+        # boss final entra
+        boss = Kn(assets,shoot_sound,100,100,all_balas_Kn,all_sprites)
+        all_sprites.add(boss)
+        all_mobs.add(boss)
+        
         #For para definir mobs dentro do Group Mobs
         for s in all_mobs:
             #Definindo Tick (No Agora)
@@ -549,8 +564,8 @@ def fase3(window,lifes):
         all_sprites.draw(window)
         # ----- Atualiza estado do jogo
         pg.display.update()  # Mostra o novo frame para o jogador
-        #Se Score = 5 e Jogador está posicionado em pelo menos X = 1050 esté passa de nivel
-        if score >= 5 and player.rect.x >= 1050:
+        #Se Score = 3 e Jogador está posicionado em pelo menos X = 1050 esté passa de nivel
+        if score >= 3 and player.rect.x >= 1050:
             #Defini estado de Fase2 como False
             fase3 = False
             #Defini State como END, NOSSA FASE FINAL

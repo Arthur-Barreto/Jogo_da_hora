@@ -389,7 +389,7 @@ class BalaE(pg.sprite.Sprite):
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class Soldado(pg.sprite.Sprite):                             
-    def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,ini,bottom,sound):
+    def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,ini,bottom,sound,andar,speedx):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #variavel para o som
@@ -405,8 +405,9 @@ class Soldado(pg.sprite.Sprite):
         #Definindo posicionamento
         self.rect.centerx = ini
         self.rect.bottom = bottom
+        self.andar = andar
         #Definindo Velocidades
-        self.speedx = -0.05
+        self.speedx = speedx
         #Definindo Frame
         self.frame = 0
         #Chamando Groups necessarios
@@ -433,7 +434,7 @@ class Soldado(pg.sprite.Sprite):
             #Andando em X
             self.rect.x += self.speedx
             # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
-            if self.rect.x <= (self.refe_pos_ini - 80):
+            if self.rect.x <= (self.refe_pos_ini - self.andar):
                 self.speedx = 0
             #Checando estado
             if self.speedx < 0:

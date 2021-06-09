@@ -123,6 +123,11 @@ def fase1(window,lifes):
                     else:
                         pg.mixer.music.unpause()
                         jogo = RODANDO
+                if event.key == pg.K_x:
+                    if jogo == PAUSADO:
+                        fase1 = False
+                        state = QUIT
+                        break
                     
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:
@@ -339,7 +344,11 @@ def fase2(window,lifes):
                     else:
                         pg.mixer.music.unpause()
                         jogo = RODANDO
-
+                if event.key == pg.K_x:
+                    if jogo == PAUSADO:
+                        fase2 = False
+                        state = QUIT
+                        break
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:
                 if event.key == pg.K_d:
@@ -551,6 +560,11 @@ def fase3(window,lifes):
                     else:
                         pg.mixer.music.unpause()
                         jogo = RODANDO
+                if event.key == pg.K_x:
+                    if jogo == PAUSADO:
+                        fase3 = False
+                        state = QUIT
+                        break
 
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:
@@ -649,7 +663,7 @@ def fase3(window,lifes):
             state = DEATH
         #Se Não existirem jogadores no Group All_Players
         if len(all_players) == 0:
-            fase2 = False
+            fase3 = False
             #Reforça Estado de Death
             state = DEATH
         # ----- Gera saídas

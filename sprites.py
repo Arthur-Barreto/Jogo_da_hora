@@ -620,7 +620,7 @@ class SoldadoD(pg.sprite.Sprite):
         self.current_anim = "morrendo"
 
 class Kn(pg.sprite.Sprite):
-    def __init__(self,assets,sound,centerx,bottom,all_balas_kn,all_sprites,bala_img):
+    def __init__(self,assets,sound,centerx,bottom,all_balas_kn,all_sprites,bala_img,x):
         #Construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #Variavel para o Som
@@ -636,12 +636,13 @@ class Kn(pg.sprite.Sprite):
         #Definindo Imagem
         self.image = img
         self.bala_img = bala_img
+        self.refe_pos_ini = x
         self.rect = self.image.get_rect()
         #Definindo posicionamento
         self.rect.centerx = centerx
         self.rect.bottom = bottom
         #Definindo velocidades
-        self.speedx = 1
+        self.speedx = -1
         #Definindo Frame
         self.frame = 0
         #Estado de animação - Idle
@@ -655,9 +656,39 @@ class Kn(pg.sprite.Sprite):
     
     def update(self):
         #Atualizando posição do Robo
-        self.speedx += self.speedx
-        if self.speedx == 0:
-            self
+        if self.estado != "death":
+            #Atualizando posição do Soldado
+            #Andando em X
+            self.rect.x += self.speedx
+            # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
+            if self.rect.x <= (self.refe_pos_ini - 300): 
+                self.speedx = 0
+            #Checando estado
+            if self.speedx < 0:
+                self.walk()
+            if self.speedx == 0:
+                self.atirando()
+        if self.estado == "death":
+            self.morrendo()
+
+    def walk(self):
+        if self.current_anim != "walk":
+            self.last_update = pg.time.get_ticks()
+            self.frame = 0
+        self.current_anim = "walk"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.movimento_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.movimento_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
     
     def atirando(self):
         if self.current_anim != "atirando":
@@ -722,7 +753,7 @@ class Shoot_kn(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         #Definindo Posicionamento
         self.rect.centerx = centerx
-        self.rect.bottom = bottom
+        self.rect.bottom = bottom - 5
         #Definindo velocidade
         self.speedx =-5
         #Definindo frame

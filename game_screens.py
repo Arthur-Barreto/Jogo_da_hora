@@ -87,7 +87,8 @@ def fase1(window,lifes):
     window = pg.display.set_mode((WIDTH, HEIGHT))
     #Definindo estado da fase 1
     fase1 = True
-    
+    # variavel para pause
+    pause = False
     #While Fase 1
     while fase1:
         #Definindo Tick Speed
@@ -98,6 +99,10 @@ def fase1(window,lifes):
             if event.type == pg.QUIT:
                 fase1 = False
                 state = QUIT
+            # ----- Verifica se apertou esc
+            # if event.type == pg.K_ESCAPE:
+            #     pause 
+
             # Verifica se apertou alguma tecla
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_d:

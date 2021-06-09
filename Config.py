@@ -35,6 +35,9 @@ KT_HEIGHT = 96
 #Dimensões Elefante
 ELE_WIDTH = 100
 ELE_HEIGHT =50
+#Dimensões Bala KT
+BALA_WIDTH_KT = 30
+BALA_HEIGHT_KT = 15
 #Defini tamanho da Tile
 TILE_SIZE = 12.5
 #Defini Aceleração gravitacional

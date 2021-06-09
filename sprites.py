@@ -624,7 +624,7 @@ class Kn(pg.sprite.Sprite):
         #Construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #Variavel para o Som
-        self.shoot_sound = sound
+        self.shoot_m_sound = sound
         #Carregando Assets de animação
         self.tiro_anim = assets["kt_atirando"]
         self.movimento_anim = assets["kt_movendo"]
@@ -715,7 +715,7 @@ class Shoot_kn(pg.sprite.Sprite):
         #Construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #Carregndo Assets de animação
-        self.shoot = assets[""]
+        self.shoot = assets["tiro_esquerda"]
         #Definindo imagem
         self.image = img
         #Definindo Retangulo

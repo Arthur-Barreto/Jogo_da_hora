@@ -459,18 +459,17 @@ def fase3(window,lifes):
                 all_sprites.add(tile)
                 blocks.add(tile)
     
-    #Criando Mobs
-    #Lista para Mobs do Solo
-    grupo1_sol = [[600,280],[800,280],[1000,280]]
+    grupo1_sol = [[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)]]
     #For para criar Soldados no Chão
     for i in range(0,3):
-        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound)
+        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound,grupo1_sol[i][2],-grupo1_sol[i][3])
         all_sprites.add(mob)
         all_mobs.add(mob)
 
     #Definindo Score
     score = 0
-
+    #Definindo estado Mobs
+    mobs_state = "mobs"
     #Acrescentando Loop Música
     pg.mixer.music.play(loops=-1)
     #Definindo last_Update
@@ -520,20 +519,33 @@ def fase3(window,lifes):
 
         ## chamando o boss fianl
         # boss final entra
-        boss = Kn(assets,shoot_sound,100,100,all_balas_Kn,all_sprites)
-        all_sprites.add(boss)
-        all_mobs.add(boss)
+        if len(all_mobs) <=0 and score >=3:
+            boss = Kn(assets,shoot_sound,800,280,all_balas_Kn,all_sprites,bala_kn)
+            all_sprites.add(boss)
+            all_mobs.add(boss)
+            mobs_state = "kn"
         
         #For para definir mobs dentro do Group Mobs
-        for s in all_mobs:
-            #Definindo Tick (No Agora)
-            now = pg.time.get_ticks()
-            #Adicionando variaveis para os Mobs atirarem, como Tempo, Posicionamento em X e estado do Player
-            if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400 and player.estado != "death":
-                #Chama função dentro da Sprite Soldado
-                s.shoot_m()
-                #Atualiza last_update
-                last_update = pg.time.get_ticks()
+        if mobs_state == "mobs":
+            for s in all_mobs:
+                #Definindo Tick (No Agora)
+                now = pg.time.get_ticks()
+                #Adicionando variaveis para os Mobs atirarem, como Tempo, Posicionamento em X e estado do Player
+                if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400 and player.estado != "death":
+                    #Chama função dentro da Sprite Soldado
+                    s.shoot_m()
+                    #Atualiza last_update
+                    last_update = pg.time.get_ticks()
+        if mobs_state == "kn":
+            for s in all_mobs:
+                #Definindo Tick (No Agora)
+                now = pg.time.get_ticks()
+                #Adicionando variaveis para os Mobs atirarem, como Tempo, Posicionamento em X e estado do Player
+                if now - s.last_shoot > 800 and player.estado != "death":
+                    #Chama função dentro da Sprite Soldado
+                    s.shoot_m()
+                    #Atualiza last_update
+                    last_update = pg.time.get_ticks()
         # --------- Atualiza estado do jogo-------------
         # atualizando a posição do jogador
         all_sprites.update()

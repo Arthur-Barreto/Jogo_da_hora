@@ -7,6 +7,7 @@ from Config import SC_HEIGHT,SC_HEIGHT,WIDTH,HEIGHT
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
 bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
+bala_kn = pg.transform.scale(bala_img,(BALA_WIDTH_KT,BALA_HEIGHT_KT)
 sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/0.png").convert_alpha()
 sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
 
@@ -245,13 +246,3 @@ for ktmm in range (0,18):
     KTMM.append(img)
 assets["kt_morrendo"] = KTMM
 
-
-#==== Mobs Passivos =====
-    #Elefante
-ELE = []
-for ele in range (1,25):
-    nome_arquivo = "Animais/Elefante/{}.png".format(ele)
-    img = pg.image.load(nome_arquivo).convert_alpha()
-    img = pg.transform.scale(img,(ELE_WIDTH,ELE_HEIGHT))
-    ELE.append(img)
-assets["elefante"] = ELE

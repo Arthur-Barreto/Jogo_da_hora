@@ -339,7 +339,7 @@ def fase2(window,lifes):
                 if event.key == pg.K_p:
                     if jogo != PAUSADO:
                         pg.mixer.music.pause()
-                        window.blit(pause_img, (400,0))
+                        window.blit(pause_img, (150,0))
                         jogo = PAUSADO
                     else:
                         pg.mixer.music.unpause()
@@ -503,7 +503,7 @@ def fase3(window,lifes):
                 all_sprites.add(tile)
                 blocks.add(tile)
     
-    grupo3_sol = [[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)]]
+    grupo3_sol = [[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)],[1125,285,randint(200, 800),(randint(2,20)/10)],[1275,285,randint(350, 800),(randint(2,20)/10)],[1475,285,randint(500, 800),(randint(2,20)/10)],[1150,285,randint(200, 800),(randint(2,20)/10)],[1300,285,randint(350, 800),(randint(2,20)/10)],[1500,285,randint(500, 800),(randint(2,20)/10)],[1175,285,randint(200, 800),(randint(2,20)/10)],[1325,285,randint(350, 800),(randint(2,20)/10)],[1525,285,randint(500, 800),(randint(2,20)/10)]]
     grupo1_sol = [[1100,285,randint(200, 800),(randint(2,20)/10)],[1250,285,randint(350, 800),(randint(2,20)/10)],[1450,285,randint(500, 800),(randint(2,20)/10)]]
     #For para criar Soldados no Chão
     for i in range(0,3):
@@ -555,7 +555,7 @@ def fase3(window,lifes):
                 if event.key == pg.K_p:
                     if jogo != PAUSADO:
                         pg.mixer.music.pause()
-                        window.blit(pause_img, (0,0))
+                        window.blit(pause_img, (150,0))
                         jogo = PAUSADO
                     else:
                         pg.mixer.music.unpause()
@@ -597,7 +597,7 @@ def fase3(window,lifes):
                 #Definindo Tick (No Agora)
                 now = pg.time.get_ticks()
                 #Adicionando variaveis para os Mobs atirarem, como Tempo, Posicionamento em X e estado do Player
-                if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 400 and player.estado != "death":
+                if now - s.last_shoot > 2000 and s.rect.x - player.rect.x > 0 and s.rect.x - player.rect.x < 600 and player.estado != "death":
                     #Chama função dentro da Sprite Soldado
                     s.shoot_m()
                     #Atualiza last_update
@@ -793,7 +793,7 @@ def death_screen(window):
         #Atualiza Variavel I
         i+=1
         #Se I maior que 5 (Diz que se passaram 5 Frames) = Atualiza estado de Morte + State Universal
-        if i > 5:
+        if i >= 5:
             morte = False
             state = INIT
     return state

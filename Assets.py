@@ -7,6 +7,7 @@ from Config import SC_HEIGHT,SC_HEIGHT,WIDTH,HEIGHT
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
 bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
+bala_kn = pg.transform.scale(bala_img,(BALA_WIDTH_KT,BALA_HEIGHT_KT))
 sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/0.png").convert_alpha()
 sniper_img = pg.transform.scale(sniper_img,(SNIPER_WIDTH,SNIPER_HEIGHT))
 
@@ -230,28 +231,20 @@ for kta in range (0,18):
 assets["kt_atirando"] = KTA
 #Movendo
 KTM = []
-for ktm in range (0,18):
-    nome_arquivo =  "Inimigos/kt-21/Atirando/Atirando-{}.png".format(ktm)
+for ktm in range (0,7):
+    nome_arquivo =  "Inimigos/kt-21/Movendo/Movendo-{}.png".format(ktm)
     img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTM.append(img)
 assets["kt_movendo"] = KTM
-    #Morrendo
+#Morrendo
 KTMM = []
-for ktmm in range (0,18):
-    nome_arquivo =  "Inimigos/kt-21/Atirando/Atirando-{}.png".format(ktmm)
+for ktmm in range (0,10):
+    nome_arquivo =  "Inimigos/kt-21/Morrendo/Morrendo-{}.png".format(ktmm)
     img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTMM.append(img)
+    KTMM.append(img)
+    KTMM.append(img)
 assets["kt_morrendo"] = KTMM
 
-
-#==== Mobs Passivos =====
-    #Elefante
-ELE = []
-for ele in range (1,25):
-    nome_arquivo = "Animais/Elefante/{}.png".format(ele)
-    img = pg.image.load(nome_arquivo).convert_alpha()
-    img = pg.transform.scale(img,(ELE_WIDTH,ELE_HEIGHT))
-    ELE.append(img)
-assets["elefante"] = ELE

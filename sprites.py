@@ -389,7 +389,7 @@ class BalaE(pg.sprite.Sprite):
 
 #SE TIVER ERRADO ISSO AQUI EM BAIXO É SO APAGA
 class Soldado(pg.sprite.Sprite):                             
-    def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,ini,bottom,sound):
+    def __init__(self,assets,blocks, img, all_sprites, all_balas_mob, bala_img,all_players,x,ini,bottom,sound,andar,speedx):
          # construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #variavel para o som
@@ -405,8 +405,9 @@ class Soldado(pg.sprite.Sprite):
         #Definindo posicionamento
         self.rect.centerx = ini
         self.rect.bottom = bottom
+        self.andar = andar
         #Definindo Velocidades
-        self.speedx = -0.05
+        self.speedx = speedx
         #Definindo Frame
         self.frame = 0
         #Chamando Groups necessarios
@@ -433,7 +434,7 @@ class Soldado(pg.sprite.Sprite):
             #Andando em X
             self.rect.x += self.speedx
             # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
-            if self.rect.x <= (self.refe_pos_ini - 80):
+            if self.rect.x <= (self.refe_pos_ini - self.andar):
                 self.speedx = 0
             #Checando estado
             if self.speedx < 0:
@@ -619,11 +620,11 @@ class SoldadoD(pg.sprite.Sprite):
         self.current_anim = "morrendo"
 
 class Kn(pg.sprite.Sprite):
-    def _init_(self,assets,sound,centerx,bottom,all_balas_kn,all_sprites):
+    def __init__(self,assets,sound,centerx,bottom,all_balas_mob,all_sprites,bala_img,x):
         #Construtor da classe mãe (Sprite)
-        pg.sprite.Sprite._init_(self)
+        pg.sprite.Sprite.__init__(self)
         #Variavel para o Som
-        self.shoot_sound = sound
+        self.shoot_m_sound = sound
         #Carregando Assets de animação
         self.tiro_anim = assets["kt_atirando"]
         self.movimento_anim = assets["kt_movendo"]
@@ -631,15 +632,17 @@ class Kn(pg.sprite.Sprite):
         self.parado_anim = assets["kt_parado"]
         #Definindo Groups
         self.all_sprites = all_sprites
-        self.all_balas_kn = all_balas_kn
+        self.all_balas_mob = all_balas_mob
         #Definindo Imagem
         self.image = img
+        self.bala_img = bala_img
+        self.refe_pos_ini = x
         self.rect = self.image.get_rect()
         #Definindo posicionamento
         self.rect.centerx = centerx
         self.rect.bottom = bottom
         #Definindo velocidades
-        self.speedx = 1
+        self.speedx = -1
         #Definindo Frame
         self.frame = 0
         #Estado de animação - Idle
@@ -650,12 +653,44 @@ class Kn(pg.sprite.Sprite):
         #Atualizar Ticks
         self.last_update = pg.time.get_ticks()
         self.last_shoot = pg.time.get_ticks()
+        # tratando a vida do boos
+        self.lives = 15
     
     def update(self):
         #Atualizando posição do Robo
-        self.speedx += self.speedx
-        if self.speedx == 0:
-            self
+        if self.estado != "death":
+            #Atualizando posição do Soldado
+            #Andando em X
+            self.rect.x += self.speedx
+            # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
+            if self.rect.x <= (self.refe_pos_ini - 300): 
+                self.speedx = 0
+            #Checando estado
+            if self.speedx < 0:
+                self.walk()
+            if self.speedx == 0:
+                self.atirando()
+        if self.estado == "death":
+            self.morrendo()
+
+    def walk(self):
+        if self.current_anim != "walk":
+            self.last_update = pg.time.get_ticks()
+            self.frame = 0
+        self.current_anim = "walk"
+        now = pg.time.get_ticks()
+        elapsed_ticks = now - self.last_update
+        if elapsed_ticks > self.frame_ticks:
+            #Marca o tick da imagem
+            self.last_update = now
+            self.frame +=1
+            if self.frame == len(self.movimento_anim):
+                self.frame = 0
+            else:
+                center = self.rect.center
+                self.image = self.movimento_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
     
     def atirando(self):
         if self.current_anim != "atirando":
@@ -699,28 +734,30 @@ class Kn(pg.sprite.Sprite):
         if self.current_anim != "walk" and self.current_anim != "morrendo":
             nova_bala = Shoot_kn(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
             self.all_sprites.add(nova_bala)
-            self.all_balas_kn.add(nova_bala)
+            self.all_balas_mob.add(nova_bala)
             self.shoot_m_sound.play()
             self.last_shoot = pg.time.get_ticks()
 
     def death (self):
-        self.estado = "death"
-        self.current_anim = "morrendo"
+        if self.lives <=0:
+            self.estado = "death"
+            self.current_anim = "morrendo"
+        self.lives -= 1
 
 
 class Shoot_kn(pg.sprite.Sprite):
-    def _init_(self,assets,img,bottom,centerx):
+    def __init__(self,assets,img,bottom,centerx):
         #Construtor da classe mãe (Sprite)
-        pg.sprite.Sprite._init_(self)
+        pg.sprite.Sprite.__init__(self)
         #Carregndo Assets de animação
-        self.shoot = assets[""]
+        self.shoot = assets["tiro_esquerda"]
         #Definindo imagem
         self.image = img
         #Definindo Retangulo
         self.rect = self.image.get_rect()
         #Definindo Posicionamento
         self.rect.centerx = centerx
-        self.rect.bottom = bottom
+        self.rect.bottom = bottom - 5
         #Definindo velocidade
         self.speedx =-5
         #Definindo frame

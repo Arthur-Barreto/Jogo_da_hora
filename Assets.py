@@ -231,16 +231,16 @@ for kta in range (0,18):
 assets["kt_atirando"] = KTA
 #Movendo
 KTM = []
-for ktm in range (0,18):
-    nome_arquivo =  "Inimigos/kt-21/Atirando/Atirando-{}.png".format(ktm)
+for ktm in range (0,7):
+    nome_arquivo =  "Inimigos/kt-21/Movendo/Movendo-{}.png".format(ktm)
     img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTM.append(img)
 assets["kt_movendo"] = KTM
     #Morrendo
 KTMM = []
-for ktmm in range (0,18):
-    nome_arquivo =  "Inimigos/kt-21/Atirando/Atirando-{}.png".format(ktmm)
+for ktmm in range (0,10):
+    nome_arquivo =  "Inimigos/kt-21/Morrendo/Morrendo-{}.png".format(ktmm)
     img = pg.image.load(nome_arquivo).convert()
     img = pg.transform.scale(img,(KT_WIDTH,KT_HEIGHT))
     KTMM.append(img)

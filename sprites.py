@@ -620,7 +620,7 @@ class SoldadoD(pg.sprite.Sprite):
         self.current_anim = "morrendo"
 
 class Kn(pg.sprite.Sprite):
-    def __init__(self,assets,sound,centerx,bottom,all_balas_kn,all_sprites,bala_img,x):
+    def __init__(self,assets,sound,centerx,bottom,all_balas_mob,all_sprites,bala_img,x):
         #Construtor da classe mãe (Sprite)
         pg.sprite.Sprite.__init__(self)
         #Variavel para o Som
@@ -632,7 +632,7 @@ class Kn(pg.sprite.Sprite):
         self.parado_anim = assets["kt_parado"]
         #Definindo Groups
         self.all_sprites = all_sprites
-        self.all_balas_kn = all_balas_kn
+        self.all_balas_mob = all_balas_mob
         #Definindo Imagem
         self.image = img
         self.bala_img = bala_img
@@ -732,7 +732,7 @@ class Kn(pg.sprite.Sprite):
         if self.current_anim != "walk" and self.current_anim != "morrendo":
             nova_bala = Shoot_kn(assets,self.bala_img,self.rect.bottom,self.rect.centerx)
             self.all_sprites.add(nova_bala)
-            self.all_balas_kn.add(nova_bala)
+            self.all_balas_mob.add(nova_bala)
             self.shoot_m_sound.play()
             self.last_shoot = pg.time.get_ticks()
 

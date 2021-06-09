@@ -519,11 +519,12 @@ def fase3(window,lifes):
 
         ## chamando o boss fianl
         # boss final entra
-        if len(all_mobs) <=0 and score >=3:
-            boss = Kn(assets,shoot_sound,WIDTH,280,all_balas_Kn,all_sprites,bala_kn,WIDTH)
+        if len(all_mobs) <=0 and score >=3 and score <4:
+            boss = Kn(assets,shoot_sound,WIDTH,280,all_balas_mob,all_sprites,bala_kn,WIDTH)
             all_sprites.add(boss)
             all_mobs.add(boss)
             mobs_state = "kn"
+            
         
         #For para definir mobs dentro do Group Mobs
         if mobs_state == "mobs":

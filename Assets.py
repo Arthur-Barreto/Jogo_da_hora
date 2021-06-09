@@ -6,6 +6,9 @@ from Config import SC_HEIGHT,SC_HEIGHT,WIDTH,HEIGHT
 
 font = pg.font.SysFont(None,48)
 background = pg.image.load('Cenario/Montanha Clean 1100x300.png').convert()
+#imagem de pause
+pause_img = pg.image.load("Tela de Pause/PAUSADO.png").convert_alpha()
+pause_img = pg.transform.scale(pause_img,(800,300))
 bala_img = pg.image.load("Disparos_Direita/2.png").convert_alpha()
 bala_kn = pg.transform.scale(bala_img,(BALA_WIDTH_KT,BALA_HEIGHT_KT))
 sniper_img = pg.image.load("Inimigos/Soldado_inimigo/Atirando Esquerda/0.png").convert_alpha()

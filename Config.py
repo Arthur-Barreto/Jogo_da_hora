@@ -14,6 +14,8 @@ LOAD = 3
 DEATH = 4
 QUIT = 5
 END = 6
+PAUSADO = 7
+RODANDO = 8
 #Dimensões Jogador
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 38

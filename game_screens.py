@@ -9,6 +9,10 @@ from random import randint
 #===== Fase 1
     #Função para Chamar Primeira Fase
 def fase1(window,lifes):
+
+    # estado do jogo é rodando
+    jogo = RODANDO
+
     # chamando a fuunção clock
     clock = pg.time.Clock()
 
@@ -87,8 +91,6 @@ def fase1(window,lifes):
     window = pg.display.set_mode((WIDTH, HEIGHT))
     #Definindo estado da fase 1
     fase1 = True
-    # variavel para pause
-    pause = False
     #While Fase 1
     while fase1:
         #Definindo Tick Speed
@@ -99,10 +101,6 @@ def fase1(window,lifes):
             if event.type == pg.QUIT:
                 fase1 = False
                 state = QUIT
-            # ----- Verifica se apertou esc
-            # if event.type == pg.K_ESCAPE:
-            #     pause 
-
             # Verifica se apertou alguma tecla
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_d:
@@ -117,7 +115,15 @@ def fase1(window,lifes):
                     last_shoot = player.last_shoot
                     if now - last_shoot > 1000:
                         player.shoot()
-
+                if event.key == pg.K_p:
+                    if jogo != PAUSADO:
+                        pg.mixer.music.pause()
+                        window.blit(pause_img, (0,0))
+                        jogo = PAUSADO
+                    else:
+                        pg.mixer.music.unpause()
+                        jogo = RODANDO
+                    
             #Verifica se Soltou alguma tecla
             if event.type == pg.KEYUP:
                 if event.key == pg.K_d:
@@ -129,6 +135,12 @@ def fase1(window,lifes):
                 if event.key == pg.K_w:
                     #Faz Jogador Pular
                     player.speedy+=5
+
+        if jogo == PAUSADO:
+            pg.display.flip()
+            continue
+
+
         #For para Chamar todos os inimigos dentro do Group Mobs
         for s in all_mobs:
             #Definindo Estado de Tick (No Agora)
@@ -143,11 +155,6 @@ def fase1(window,lifes):
         # --------- Atualiza estado do jogo-------------
         # atualizando a posição do jogador
         all_sprites.update()
-
-## teste
-        # boss = Kn(assets,shoot_sound,800,300,all_balas_Kn,all_sprites,bala_img)
-        # all_sprites.add(boss)
-        # all_mobs.add(boss)
 
         #Verifica se houve colisão entre tiro e o soldado inimigo
         hits = pg.sprite.groupcollide(all_mobs,all_balas_player,False,True, pg.sprite.collide_mask)

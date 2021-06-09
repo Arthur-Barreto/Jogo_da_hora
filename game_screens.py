@@ -636,7 +636,6 @@ def fase3(window,lifes):
                 # mudar de estado o inimigo
                 Kn_lives-=1
                 barravida.vidas()
-            if len(hits) > 0:
                 score += 1
 
         #Verifica se houve colisão entre Tiro dos solados e Player
@@ -681,7 +680,7 @@ def fase3(window,lifes):
         # ----- Atualiza estado do jogo
         pg.display.update()  # Mostra o novo frame para o jogador
         #Se Score = 3 e Jogador está posicionado em pelo menos X = 1050 esté passa de nivel
-        if score >= 3 and player.rect.x >= 1050:
+        if score >=34  and player.rect.x >= 1050:
             #Defini estado de Fase2 como False
             fase3 = False
             #Defini State como END, NOSSA FASE FINAL

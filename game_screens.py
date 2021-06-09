@@ -680,7 +680,7 @@ def fase3(window,lifes):
         # ----- Atualiza estado do jogo
         pg.display.update()  # Mostra o novo frame para o jogador
         #Se Score = 3 e Jogador está posicionado em pelo menos X = 1050 esté passa de nivel
-        if score >=34  and player.rect.x >= 1050:
+        if score >=20  and player.rect.x >= 1050 and len(all_mobs) ==  0:
             #Defini estado de Fase2 como False
             fase3 = False
             #Defini State como END, NOSSA FASE FINAL

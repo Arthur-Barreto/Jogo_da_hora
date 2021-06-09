@@ -662,7 +662,6 @@ class Kn(pg.sprite.Sprite):
             #Andando em X
             self.rect.x += self.speedx
             # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
-            print (self.rect.x)
             if self.rect.x < 800:
                 self.speedx = 0
             #Checando estado

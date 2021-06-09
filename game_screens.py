@@ -118,7 +118,7 @@ def fase1(window,lifes):
                 if event.key == pg.K_p:
                     if jogo != PAUSADO:
                         pg.mixer.music.pause()
-                        window.blit(pause_img, (0,0))
+                        window.blit(pause_img, (150,0))
                         jogo = PAUSADO
                     else:
                         pg.mixer.music.unpause()
@@ -339,7 +339,7 @@ def fase2(window,lifes):
                 if event.key == pg.K_p:
                     if jogo != PAUSADO:
                         pg.mixer.music.pause()
-                        window.blit(pause_img, (0,0))
+                        window.blit(pause_img, (400,0))
                         jogo = PAUSADO
                     else:
                         pg.mixer.music.unpause()

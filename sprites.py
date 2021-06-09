@@ -653,6 +653,8 @@ class Kn(pg.sprite.Sprite):
         #Atualizar Ticks
         self.last_update = pg.time.get_ticks()
         self.last_shoot = pg.time.get_ticks()
+        # tratando a vida do boos
+        self.lives = 15
     
     def update(self):
         #Atualizando posição do Robo
@@ -737,8 +739,10 @@ class Kn(pg.sprite.Sprite):
             self.last_shoot = pg.time.get_ticks()
 
     def death (self):
-        self.estado = "death"
-        self.current_anim = "morrendo"
+        if self.lives <=0:
+            self.estado = "death"
+            self.current_anim = "morrendo"
+        self.lives -= 1
 
 
 class Shoot_kn(pg.sprite.Sprite):

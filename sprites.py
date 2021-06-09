@@ -653,8 +653,6 @@ class Kn(pg.sprite.Sprite):
         #Atualizar Ticks
         self.last_update = pg.time.get_ticks()
         self.last_shoot = pg.time.get_ticks()
-        # tratando a vida do boos
-        self.lives = 15
     
     def update(self):
         #Atualizando posição do Robo
@@ -663,7 +661,7 @@ class Kn(pg.sprite.Sprite):
             #Andando em X
             self.rect.x += self.speedx
             # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
-            if self.rect.x <= (self.refe_pos_ini - 300): 
+            if self.rect.x <= (self.refe_pos_ini - 500): 
                 self.speedx = 0
             #Checando estado
             if self.speedx < 0:
@@ -739,10 +737,9 @@ class Kn(pg.sprite.Sprite):
             self.last_shoot = pg.time.get_ticks()
 
     def death (self):
-        if self.lives <=0:
             self.estado = "death"
             self.current_anim = "morrendo"
-        self.lives -= 1
+    
 
 
 class Shoot_kn(pg.sprite.Sprite):
@@ -929,8 +926,59 @@ class Plataforma(pg.sprite.Sprite):
     def remover(self):
         self.kill()
         
-
-class Game(pg.sprite.Sprite):
-    def __init__ (self):
+class Barravida(pg.sprite.Sprite):
+    def __init__ (self, stat_vida, all_sprites):
         #Construtor da classe mãe(Sprite)
-        self.state = "fase 1"
+        pg.sprite.Sprite.__init__(self)
+        self.quinze= stat_vida[0]
+        self.quatorze = stat_vida[1]
+        self.treze = stat_vida[2]
+        self.doze= stat_vida[3]
+        self.onze = stat_vida[4]
+        self.dez = stat_vida[5]
+        self.nove= stat_vida[6]
+        self.oito = stat_vida[7]
+        self.sete = stat_vida[8]
+        self.seis= stat_vida[9]
+        self.cinto = stat_vida[10]
+        self.quatro = stat_vida[12]
+        self.tres= stat_vida[13]
+        self.dois= stat_vida[14]
+        self.image = self.quinze
+        self.rect = self.image.get_rect()
+        self.rect.centerx = 500
+        self.rect.bottom = 75
+        self.all_sprites = all_sprites
+        self.current_anim = "quinze"
+        self.lifes = 15
+    
+    def vidas(self):
+        self.lifes -=1
+
+    def update(self):
+        if self.lifes == 14:
+            self.image = self.quatorze
+        if self.lifes == 13:
+            self.image = self.treze
+        if self.lifes == 12:
+            self.image = self.doze
+        if self.lifes == 11:
+            self.image = self.onze
+        if self.lifes == 10:
+            self.image = self.dez
+        if self.lifes == 9:
+            self.image = self.nove
+        if self.lifes == 8:
+            self.image = self.oito
+        if self.lifes == 7:
+            self.image = self.sete
+        if self.lifes == 6:
+            self.image = self.seis
+        if self.lifes == 5:
+            self.image = self.cinto
+        if self.lifes == 4:
+            self.image = self.quatro
+        if self.lifes == 3:
+            self.image = self.tres
+        if self.lifes == 2:
+            self.image = self.dois

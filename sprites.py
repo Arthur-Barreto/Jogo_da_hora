@@ -639,8 +639,9 @@ class Kn(pg.sprite.Sprite):
         self.refe_pos_ini = x
         self.rect = self.image.get_rect()
         #Definindo posicionamento
-        self.rect.centerx = centerx
-        self.rect.bottom = bottom
+        self.rect.centerx = 1100
+        self.rect.bottom = 280
+        self.rect.x = 1100
         #Definindo velocidades
         self.speedx = -1
         #Definindo Frame
@@ -661,7 +662,8 @@ class Kn(pg.sprite.Sprite):
             #Andando em X
             self.rect.x += self.speedx
             # self.rect.x trata a posição no eixo x, com ele podemos fazer o soldado parar de andar
-            if self.rect.x <= (self.refe_pos_ini - 500): 
+            print (self.rect.x)
+            if self.rect.x < 500:
                 self.speedx = 0
             #Checando estado
             if self.speedx < 0:

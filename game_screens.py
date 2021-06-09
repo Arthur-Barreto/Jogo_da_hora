@@ -288,11 +288,6 @@ def fase2(window,lifes):
         mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound,grupo1_sol[i][2],-grupo1_sol[i][3])
         all_sprites.add(mob)
         all_mobs.add(mob)
-    """#For para criar Soldados encima da montanha
-    for i in range(0,1):
-        mob = Soldado(assets,blocks,sniper_img, all_sprites, all_balas_mob, bala_img, all_players,grupo1_sol[i][0],WIDTH,grupo1_sol[i][1],shoot_sound,grupo1_sol[i][2],grupo1_sol[i][3])
-        all_sprites.add(mob)
-        all_mobs.add(mob)"""
 
     #Definindo Score
     score = 0

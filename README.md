@@ -18,3 +18,5 @@ Antonio e Arthur trabalharam apenas no código
 O nosso jogo é uma versão nossa do jogo Metal Slug
 
 Divirta-se :)
+
+Link Vídeo Youtube: https://youtu.be/tav2HvbImqc

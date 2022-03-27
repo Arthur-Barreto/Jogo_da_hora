@@ -107,7 +107,33 @@ class Player(pg.sprite.Sprite):
                     self.jump()
         if self.estado == "death":
             self.morrendo()
-                
+    def control(self,event,estado):
+        # Verifica se apertou alguma tecla
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_d:
+                self.speedx+=2
+            if event.key == pg.K_a:
+                self.speedx-=2
+            if event.key == pg.K_w:
+                if self.speedy <= 1:
+                    self.speedy -= 15
+            if event.key == pg.K_SPACE and estado == RODANDO:
+                    now = pg.time.get_ticks()
+                    last_shoot = self.last_shoot
+                    if now - last_shoot > 1000:
+                        self.shoot()
+        #Verifica se Soltou alguma tecla
+        if event.type == pg.KEYUP:
+            if event.key == pg.K_d:
+                #Faz Jogador andar a direita
+                self.speedx-=2
+            if event.key == pg.K_a:
+                #Faz Jogador andar a esquerda
+                self.speedx+=2
+            if event.key == pg.K_w:
+                #Faz Jogador Pular
+                self.speedy+=5
+            
     def idle (self):
         if self.current_anim != "idle":
                 self.last_update = pg.time.get_ticks()

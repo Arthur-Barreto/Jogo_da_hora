@@ -4,6 +4,30 @@ from Assets import *
 import time
 
 # ----- Inicia estruturas de dados
+# definindo função geradora de animação
+
+def animacao(self, current_anim, anim_file):
+    if self.current_anim != "{current_anim}":
+        self.last_update = pg.time.get_ticks()
+        self.frame = 0
+    self.current_anim = "{current_anim}"
+    now = pg.time.get_ticks()
+    elapsed_ticks = now - self.last_update
+    if elapsed_ticks > self.frame_ticks:
+        #Marca o tick da imagem
+        self.last_update = now
+        self.frame +=1
+        if current_anim == "morrendo":
+            if self.frame >= len(anim_file):
+                self.kill()
+        if self.frame >= len(anim_file):
+            self.frame = 0
+        else:
+            center = self.rect.center
+            self.image = anim_file[self.frame]
+            self.rect = self.image.get_rect()
+            self.rect.center = center   
+
 # definindo a classe 
 class Player(pg.sprite.Sprite):
     def __init__(self, assets, all_sprites, all_balas, bala_img,all_balas_player,row,column,blocks,sound):
@@ -105,103 +129,48 @@ class Player(pg.sprite.Sprite):
                     self.speedy -=JUMP_SIZE
                     self.state = JUMPING
                     self.jump()
-        if self.estado == "death":
-            self.morrendo()
-                
+
+    def control(self,event,estado):
+        # Verifica se apertou alguma tecla
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_d:
+                self.speedx+=2
+            if event.key == pg.K_a:
+                self.speedx-=2
+            if event.key == pg.K_w:
+                if self.speedy <= 1:
+                    self.speedy -= 15
+            if event.key == pg.K_SPACE and estado == RODANDO:
+                    now = pg.time.get_ticks()
+                    last_shoot = self.last_shoot
+                    if now - last_shoot > 1000:
+                        self.shoot()
+        #Verifica se Soltou alguma tecla
+        if event.type == pg.KEYUP:
+            if event.key == pg.K_d:
+                #Faz Jogador andar a direita
+                self.speedx-=2
+            if event.key == pg.K_a:
+                #Faz Jogador andar a esquerda
+                self.speedx+=2
+            if event.key == pg.K_w:
+                #Faz Jogador Pular
+                self.speedy+=5
+            
     def idle (self):
-        if self.current_anim != "idle":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "idle"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.idle_anim):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.idle_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "idle", self.idle_anim)
 
     def walk (self):
-        if self.current_anim != "walk":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "walk"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.walk_anim):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.walk_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "walk", self.walk_anim)
 
     def walke (self):
-        if self.current_anim != "walke":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "walke"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.walke_anim):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.walke_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "walke", self.walke_anim)
 
     def jump (self):
-        if self.current_anim != "jump":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "jump"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.jump_anim):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.jump_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "jump", self.jump_anim)
 
     def atirando_direita(self):
-        if self.current_anim != "shoot_d":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "shoot_d"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.shoot_anim):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.shoot_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "shoot_d", self.shoot_anim)
 
     def shoot(self):
         #Gera Bala para direita
@@ -221,29 +190,11 @@ class Player(pg.sprite.Sprite):
                 self.all_balas_player.add(nova_bala)
                 self.shoot_sound.play()
                 self.last_shoot = pg.time.get_ticks()
-    
-    def morrendo(self):
-        if self.current_anim != "morrendo":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "morrendo"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.death_anim):
-                self.kill()
-            else:
-                center = self.rect.center
-                self.image = self.death_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+
 
     def death (self):
+        animacao(self,"morrendo", self.death_anim)
         self.estado = "death"
-        self.current_anim = "morrendo"
        
 
 
@@ -300,23 +251,7 @@ class Bala(pg.sprite.Sprite):
 
     
     def tiro_direita(self):
-        if self.current_anim != "tiro_direita":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "tiro_direita"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.shootd_anim):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.shootd_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "tiro_direita", self.shootd_anim)
     
     def update(self):
         #Atualiza movimento bala
@@ -360,23 +295,7 @@ class BalaE(pg.sprite.Sprite):
         self.last_update = pg.time.get_ticks()
 
     def tiro_esquerda(self):
-        if self.current_anim != "tiro_esquerda":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "tiro_esquerda"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.shoote_anim):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.shoote_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "tiro_esquerda", self.shoote_anim)
     
     def update(self):
         #Atualiza movimento bala
@@ -445,43 +364,10 @@ class Soldado(pg.sprite.Sprite):
             self.morrendo()
 
     def walk(self):
-        if self.current_anim != "walk":
-            self.last_update = pg.time.get_ticks()
-            self.frame = 0
-        self.current_anim = "walk"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.corre_esque):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.corre_esque[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "walk", self.corre_esque)
     
     def atirando(self):
-        
-        if self.current_anim != "atirando":
-            self.last_update = pg.time.get_ticks()
-            self.frame = 0
-        self.current_anim = "atirando"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.atirE):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.atirE[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "atirando", self.atirE)
 
     def shoot_m(self):
         if self.current_anim != "walk" and self.current_anim != "morrendo":
@@ -492,23 +378,7 @@ class Soldado(pg.sprite.Sprite):
             self.last_shoot = pg.time.get_ticks()
 
     def morrendo(self):
-        if self.current_anim != "morrendo":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "morrendo"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.death_anim):
-                self.kill()
-            else:
-                center = self.rect.center
-                self.image = self.death_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "morrendo", self.death_anim)
 
     def death (self):
         self.estado = "death"
@@ -569,43 +439,10 @@ class SoldadoD(pg.sprite.Sprite):
             self.morrendo()
     
     def atirando(self):
-        
-        if self.current_anim != "atirando":
-            self.last_update = pg.time.get_ticks()
-            self.frame = 0
-        self.current_anim = "atirando"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.atirD):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.atirD[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "atirando", self.atirD)
 
     def morrendo(self):
-        if self.current_anim != "morrendo":
-            self.last_update = pg.time.get_ticks()
-            self.frame = 0
-        self.current_anim = "morrendo"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.death_anim):
-                self.kill()
-            else:
-                center = self.rect.center
-                self.image = self.death_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "morrendo", self.death_anim)
     
     def shoot_m(self):
         if self.current_anim != "walk" and self.current_anim != "morrendo":
@@ -673,61 +510,13 @@ class Kn(pg.sprite.Sprite):
             self.morrendo()
 
     def walk(self):
-        if self.current_anim != "walk":
-            self.last_update = pg.time.get_ticks()
-            self.frame = 0
-        self.current_anim = "walk"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.movimento_anim):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.movimento_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "walk", self.movimento_anim)
     
     def atirando(self):
-        if self.current_anim != "atirando":
-            self.last_update = pg.time.get_ticks()
-            self.frame = 0
-        self.current_anim = "atirando"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.tiro_anim):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.tiro_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "atirando", self.tiro_anim)
 
     def morrendo(self):
-        if self.current_anim != "morrendo":
-            self.last_update = pg.time.get_ticks()
-            self.frame = 0
-        self.current_anim = "morrendo"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.morrendo_anim):
-                self.kill()
-            else:
-                center = self.rect.center
-                self.image = self.morrendo_anim[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "morrendo", self.morrendo_anim)
     
     def shoot_m(self):
         if self.current_anim != "walk" and self.current_anim != "morrendo":
@@ -768,23 +557,7 @@ class Shoot_kn(pg.sprite.Sprite):
         self.last_update = pg.time.get_ticks()
     
     def tiro(self):
-        if self.current_anim != "tiro":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "tiro"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.shoot):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.shoot[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "tiro", self.shoot)
 
     def update(self):
         self.rect.x += self.speedx
@@ -817,23 +590,7 @@ class Shoot_m(pg.sprite.Sprite):
         self.last_update = pg.time.get_ticks()
 
     def tiro(self):
-        if self.current_anim != "tiro":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "tiro"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.shoot):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.shoot[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "tiro", self.shoot)
 
     def update(self):
         # a bala só se move no eixo x, no sentido negativo
@@ -867,23 +624,7 @@ class Shoot_mD(pg.sprite.Sprite):
         self.last_update = pg.time.get_ticks()
 
     def tiro(self):
-        if self.current_anim != "tiro":
-                self.last_update = pg.time.get_ticks()
-                self.frame = 0
-        self.current_anim = "tiro"
-        now = pg.time.get_ticks()
-        elapsed_ticks = now - self.last_update
-        if elapsed_ticks > self.frame_ticks:
-            #Marca o tick da imagem
-            self.last_update = now
-            self.frame +=1
-            if self.frame == len(self.shoot):
-                self.frame = 0
-            else:
-                center = self.rect.center
-                self.image = self.shoot[self.frame]
-                self.rect = self.image.get_rect()
-                self.rect.center = center
+        animacao(self, "tiro", self.shoot)
 
     def update(self):
         # a bala só se move no eixo x, no sentido negativo

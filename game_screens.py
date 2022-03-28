@@ -100,19 +100,8 @@ def fase1(window,lifes):
                 fase1 = False
                 state = QUIT
             # Verifica se apertou alguma tecla
+            player.control(event,jogo)
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_d:
-                    player.speedx+=2
-                if event.key == pg.K_a:
-                    player.speedx-=2
-                if event.key == pg.K_w:
-                    if player.speedy <= 1:
-                        player.speedy -= 15
-                if event.key == pg.K_SPACE and jogo == RODANDO:
-                    now = pg.time.get_ticks()
-                    last_shoot = player.last_shoot
-                    if now - last_shoot > 1000:
-                        player.shoot()
                 if event.key == pg.K_p:
                     if jogo != PAUSADO:
                         pg.mixer.music.pause()
@@ -127,17 +116,6 @@ def fase1(window,lifes):
                         state = QUIT
                         break
                     
-            #Verifica se Soltou alguma tecla
-            if event.type == pg.KEYUP:
-                if event.key == pg.K_d:
-                    #Faz Jogador andar a direita
-                    player.speedx-=2
-                if event.key == pg.K_a:
-                    #Faz Jogador andar a esquerda
-                    player.speedx+=2
-                if event.key == pg.K_w:
-                    #Faz Jogador Pular
-                    player.speedy+=5
 
         if jogo == PAUSADO:
             pg.display.flip()
@@ -313,20 +291,8 @@ def fase2(window,lifes):
                 fase2 = False
                 state = QUIT
             # Verifica se apertou alguma tecla
+            player.control(event,jogo)
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_d:
-                    player.speedx+=2
-                if event.key == pg.K_a:
-                    player.speedx-=2
-                if event.key == pg.K_w:
-                    if player.speedy <= 1:
-                        player.speedy -= 15
-                # PRECISA COLOCAR JOGO RODANDO SE NÃO SAI SOM DO TIRO NO MODO PAUSADO
-                if event.key == pg.K_SPACE and jogo == RODANDO:
-                    now = pg.time.get_ticks()
-                    last_shoot = player.last_shoot
-                    if now - last_shoot > 1000:
-                        player.shoot()
                 if event.key == pg.K_p:
                     if jogo != PAUSADO:
                         pg.mixer.music.pause()
@@ -340,18 +306,7 @@ def fase2(window,lifes):
                         fase2 = False
                         state = QUIT
                         break
-            #Verifica se Soltou alguma tecla
-            if event.type == pg.KEYUP:
-                if event.key == pg.K_d:
-                    player.speedx-=2
-                    #Player anda para direita
-                if event.key == pg.K_a:
-                    player.speedx+=2
-                    #Player anda para esquerda
-                if event.key == pg.K_w:
-                    #Player pula
-                    player.speedy+=5
-
+           
         if jogo == PAUSADO:
             pg.display.flip()
             continue
@@ -529,23 +484,8 @@ def fase3(window,lifes):
             if event.type == pg.QUIT:
                 fase3 = False
                 state = QUIT
-            # Verifica se apertou alguma tecla
+            player.control(event,jogo)
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_d:
-                    player.speedx+=2
-                if event.key == pg.K_a:
-                    player.speedx-=2
-                if event.key == pg.K_w:
-                    if player.speedy <= 1:
-                        player.speedy -= 15
-                
-                # JOGO PRECISA ESTAR RODANDO, SE NÃO SAI SOM QUANDO PAUSADO
-                if event.key == pg.K_SPACE and jogo == RODANDO:
-                    now = pg.time.get_ticks()
-                    last_shoot = player.last_shoot
-                    if now - last_shoot > 1000:
-                        player.shoot()
-                
                 if event.key == pg.K_p:
                     if jogo != PAUSADO:
                         pg.mixer.music.pause()
@@ -559,18 +499,6 @@ def fase3(window,lifes):
                         fase3 = False
                         state = QUIT
                         break
-
-            #Verifica se Soltou alguma tecla
-            if event.type == pg.KEYUP:
-                if event.key == pg.K_d:
-                    player.speedx-=2
-                    #Player anda para direita
-                if event.key == pg.K_a:
-                    player.speedx+=2
-                    #Player anda para esquerda
-                if event.key == pg.K_w:
-                    #Player pula
-                    player.speedy+=5
 
         if jogo == PAUSADO:
             pg.display.flip()
